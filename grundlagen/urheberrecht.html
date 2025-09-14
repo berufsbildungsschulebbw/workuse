@@ -1,1 +1,698 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Was ist Urheberrecht? - Grundlagen</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
+        :root {
+            --zh-blue: #0050a0;
+            --zh-blue-dark: #003d7a;
+            --zh-red: #dc0018;
+            --zh-green: #00994d;
+            --zh-gold: #ffd700;
+            --zh-gray-light: #f5f5f5;
+            --zh-gray: #e5e5e5;
+            --zh-text: #1a1a1a;
+            --zh-border: #d4d4d4;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.8;
+            color: var(--zh-text);
+            background: white;
+        }
+
+        /* Header */
+        .header {
+            background: var(--zh-blue);
+            color: white;
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .breadcrumb {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .breadcrumb a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .lesson-progress {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .progress-indicator {
+            font-size: 14px;
+        }
+
+        .points-indicator {
+            background: var(--zh-gold);
+            color: var(--zh-text);
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Lesson Navigation */
+        .lesson-nav {
+            background: var(--zh-gray-light);
+            border: 1px solid var(--zh-border);
+            border-radius: 2px;
+            padding: 15px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .lesson-tabs {
+            display: flex;
+            gap: 10px;
+        }
+
+        .lesson-tab {
+            padding: 6px 12px;
+            background: white;
+            border: 1px solid var(--zh-border);
+            border-radius: 2px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            color: var(--zh-text);
+        }
+
+        .lesson-tab:hover {
+            background: var(--zh-blue);
+            color: white;
+        }
+
+        .lesson-tab.active {
+            background: var(--zh-blue);
+            color: white;
+        }
+
+        .lesson-tab.completed {
+            border-color: var(--zh-green);
+            position: relative;
+        }
+
+        .lesson-tab.completed::after {
+            content: '✓';
+            color: var(--zh-green);
+            margin-left: 5px;
+        }
+
+        /* Content Sections */
+        h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            color: var(--zh-blue);
+        }
+
+        .intro-text {
+            font-size: 18px;
+            color: var(--zh-text);
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .content-section {
+            margin-bottom: 40px;
+        }
+
+        h2 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: var(--zh-text);
+            border-bottom: 2px solid var(--zh-blue);
+            padding-bottom: 8px;
+        }
+
+        h3 {
+            font-size: 18px;
+            margin: 20px 0 10px 0;
+            color: var(--zh-blue);
+        }
+
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        /* Info Boxes */
+        .info-box {
+            background: var(--zh-gray-light);
+            border-left: 4px solid var(--zh-blue);
+            padding: 20px;
+            margin: 25px 0;
+            border-radius: 0 2px 2px 0;
+        }
+
+        .info-box-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--zh-blue);
+        }
+
+        .warning-box {
+            background: #fff9e6;
+            border-left: 4px solid #ff9800;
+            padding: 20px;
+            margin: 25px 0;
+            border-radius: 0 2px 2px 0;
+        }
+
+        .warning-box-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #ff9800;
+        }
+
+        /* Examples */
+        .example-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .example-card {
+            background: white;
+            border: 1px solid var(--zh-border);
+            border-radius: 2px;
+            padding: 15px;
+        }
+
+        .example-card.protected {
+            background: #e6f7e6;
+            border-color: var(--zh-green);
+        }
+
+        .example-card.not-protected {
+            background: #ffe6e6;
+            border-color: var(--zh-red);
+        }
+
+        .example-label {
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .example-label.protected {
+            color: var(--zh-green);
+        }
+
+        .example-label.not-protected {
+            color: var(--zh-red);
+        }
+
+        /* Interactive Quiz */
+        .quiz-section {
+            background: var(--zh-gray-light);
+            padding: 25px;
+            border-radius: 2px;
+            margin: 30px 0;
+        }
+
+        .quiz-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--zh-blue);
+        }
+
+        .quiz-question {
+            margin-bottom: 20px;
+        }
+
+        .quiz-question p {
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .quiz-option {
+            background: white;
+            padding: 12px;
+            border: 2px solid var(--zh-border);
+            border-radius: 2px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .quiz-option:hover {
+            border-color: var(--zh-blue);
+            background: #f0f8ff;
+        }
+
+        .quiz-option.selected {
+            border-color: var(--zh-blue);
+            background: #e8f2ff;
+        }
+
+        .quiz-option.correct {
+            border-color: var(--zh-green);
+            background: #e6f7e6;
+        }
+
+        .quiz-option.incorrect {
+            border-color: var(--zh-red);
+            background: #ffe6e6;
+        }
+
+        .quiz-feedback {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 2px;
+            display: none;
+        }
+
+        .quiz-feedback.show {
+            display: block;
+        }
+
+        .quiz-feedback.correct {
+            background: #e6f7e6;
+            color: var(--zh-green);
+            border: 1px solid var(--zh-green);
+        }
+
+        .quiz-feedback.incorrect {
+            background: #ffe6e6;
+            color: var(--zh-red);
+            border: 1px solid var(--zh-red);
+        }
+
+        /* Action Buttons */
+        .action-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 1px solid var(--zh-border);
+        }
+
+        .nav-button {
+            padding: 10px 20px;
+            background: white;
+            border: 1px solid var(--zh-border);
+            border-radius: 2px;
+            font-size: 14px;
+            cursor: pointer;
+            text-decoration: none;
+            color: var(--zh-text);
+            transition: all 0.3s;
+        }
+
+        .nav-button:hover {
+            background: var(--zh-gray-light);
+        }
+
+        .complete-button {
+            background: var(--zh-green);
+            color: white;
+            border-color: var(--zh-green);
+            padding: 12px 30px;
+            font-weight: 600;
+        }
+
+        .complete-button:hover {
+            background: #007a3d;
+        }
+
+        .complete-button:disabled {
+            background: var(--zh-gray);
+            border-color: var(--zh-gray);
+            cursor: not-allowed;
+        }
+
+        /* Progress Tracker */
+        .progress-tracker {
+            position: fixed;
+            right: 20px;
+            top: 100px;
+            width: 200px;
+            background: white;
+            border: 1px solid var(--zh-border);
+            border-radius: 2px;
+            padding: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .tracker-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .tracker-item {
+            font-size: 12px;
+            padding: 5px 0;
+            color: var(--zh-gray-dark);
+        }
+
+        .tracker-item.completed {
+            color: var(--zh-green);
+        }
+
+        .tracker-item.completed::before {
+            content: '✓ ';
+        }
+
+        @media (max-width: 1200px) {
+            .progress-tracker {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .lesson-tabs {
+                flex-wrap: wrap;
+            }
+            
+            .example-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="breadcrumb">
+                <a href="/index.html">Dashboard</a> / 
+                <a href="/grundlagen/">Grundlagen</a> / 
+                <span>Was ist Urheberrecht?</span>
+            </div>
+            <div class="lesson-progress">
+                <span class="progress-indicator">Lektion 1 von 5</span>
+                <span class="points-indicator">+20 Punkte</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Lesson Navigation -->
+        <nav class="lesson-nav">
+            <div class="lesson-tabs">
+                <a href="#" class="lesson-tab active">1. Was ist Urheberrecht?</a>
+                <a href="/grundlagen/geschuetzte-werke.html" class="lesson-tab">2. Geschützte Werke</a>
+                <a href="/grundlagen/ausnahmen.html" class="lesson-tab">3. Ausnahmen</a>
+                <a href="/grundlagen/lizenzen.html" class="lesson-tab">4. Lizenzen</a>
+                <a href="/grundlagen/verletzungen.html" class="lesson-tab">5. Verletzungen</a>
+            </div>
+        </nav>
+
+        <!-- Content -->
+        <h1>Was ist Urheberrecht?</h1>
+        <p class="intro-text">
+            Das Urheberrecht schützt geistige Schöpfungen und gibt dem Urheber das Recht zu bestimmen, 
+            wie sein Werk verwendet wird. In dieser Lektion lernen Sie die Grundlagen kennen.
+        </p>
+
+        <div class="content-section">
+            <h2>Definition und Zweck</h2>
+            <p>
+                Das Urheberrecht ist ein Rechtsgebiet, das die rechtlichen Beziehungen zwischen dem Schöpfer 
+                eines Werkes (Urheber) und der Gesellschaft regelt. Es entsteht automatisch mit der Schöpfung 
+                des Werkes - eine Registrierung ist nicht erforderlich.
+            </p>
+
+            <div class="info-box">
+                <div class="info-box-title">📘 Wichtig zu wissen</div>
+                <p>
+                    In der Schweiz ist das Urheberrecht im Bundesgesetz über das Urheberrecht und verwandte 
+                    Schutzrechte (URG) geregelt. Der Schutz gilt bis 70 Jahre nach dem Tod des Urhebers.
+                </p>
+            </div>
+
+            <h3>Die wichtigsten Prinzipien</h3>
+            <ul>
+                <li><strong>Automatischer Schutz:</strong> Entsteht mit der Werkschöpfung</li>
+                <li><strong>Persönlichkeitsrecht:</strong> Der Urheber hat das Recht auf Namensnennung</li>
+                <li><strong>Verwertungsrecht:</strong> Nur der Urheber darf über die Nutzung entscheiden</li>
+                <li><strong>Zeitliche Begrenzung:</strong> 70 Jahre nach Tod des Urhebers</li>
+            </ul>
+        </div>
+
+        <div class="content-section">
+            <h2>Was ist geschützt?</h2>
+            <p>
+                Nicht alles kann urheberrechtlich geschützt werden. Es müssen bestimmte Voraussetzungen 
+                erfüllt sein:
+            </p>
+
+            <div class="example-grid">
+                <div class="example-card protected">
+                    <div class="example-label protected">✓ Geschützt</div>
+                    <h4>Roman</h4>
+                    <p>Ein selbst geschriebener Roman ist eine geistige Schöpfung mit individuellem Charakter.</p>
+                </div>
+                <div class="example-card protected">
+                    <div class="example-label protected">✓ Geschützt</div>
+                    <h4>Fotografie</h4>
+                    <p>Ein künstlerisches Foto zeigt die individuelle Perspektive des Fotografen.</p>
+                </div>
+                <div class="example-card not-protected">
+                    <div class="example-label not-protected">✗ Nicht geschützt</div>
+                    <h4>Idee</h4>
+                    <p>Eine blosse Idee ohne konkrete Ausgestaltung ist nicht schutzfähig.</p>
+                </div>
+                <div class="example-card not-protected">
+                    <div class="example-label not-protected">✗ Nicht geschützt</div>
+                    <h4>Faktenliste</h4>
+                    <p>Reine Fakten oder Daten ohne kreative Anordnung sind nicht geschützt.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Rechte des Urhebers</h2>
+            <p>
+                Als Urheber haben Sie verschiedene Rechte an Ihrem Werk:
+            </p>
+
+            <h3>Urheberpersönlichkeitsrechte</h3>
+            <ul>
+                <li>Recht auf Erstveröffentlichung</li>
+                <li>Recht auf Anerkennung der Urheberschaft</li>
+                <li>Recht auf Werkintegrität</li>
+            </ul>
+
+            <h3>Verwertungsrechte</h3>
+            <ul>
+                <li>Vervielfältigungsrecht</li>
+                <li>Verbreitungsrecht</li>
+                <li>Recht auf öffentliche Wiedergabe</li>
+                <li>Bearbeitungsrecht</li>
+            </ul>
+
+            <div class="warning-box">
+                <div class="warning-box-title">⚠️ Achtung</div>
+                <p>
+                    Auch wenn Sie ein Werk käuflich erwerben (z.B. ein Buch), erhalten Sie damit nicht 
+                    automatisch die Urheberrechte. Sie dürfen das Werk nur im Rahmen der gesetzlichen 
+                    Schranken nutzen.
+                </p>
+            </div>
+        </div>
+
+        <!-- Interactive Quiz -->
+        <div class="quiz-section">
+            <h3 class="quiz-title">✏️ Überprüfen Sie Ihr Wissen</h3>
+            
+            <div class="quiz-question">
+                <p>Welche Aussage zum Urheberrecht ist korrekt?</p>
+                <div class="quiz-options">
+                    <div class="quiz-option" onclick="checkAnswer(this, false)">
+                        Das Urheberrecht muss beim Amt registriert werden
+                    </div>
+                    <div class="quiz-option" onclick="checkAnswer(this, true)">
+                        Das Urheberrecht entsteht automatisch mit der Werkschöpfung
+                    </div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false)">
+                        Das Urheberrecht gilt nur für professionelle Künstler
+                    </div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false)">
+                        Das Urheberrecht endet nach 10 Jahren
+                    </div>
+                </div>
+                <div class="quiz-feedback" id="feedback"></div>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="action-section">
+            <a href="/index.html" class="nav-button">← Zurück zum Dashboard</a>
+            <button class="complete-button" id="completeBtn" onclick="completeLesson()">
+                Lektion abschliessen & weiter →
+            </button>
+        </div>
+    </div>
+
+    <!-- Progress Tracker (Desktop only) -->
+    <div class="progress-tracker">
+        <div class="tracker-title">Ihr Fortschritt</div>
+        <div class="tracker-item completed">Definition gelesen</div>
+        <div class="tracker-item completed">Beispiele angesehen</div>
+        <div class="tracker-item completed">Rechte verstanden</div>
+        <div class="tracker-item" id="quizTracker">Quiz beantwortet</div>
+        <div class="tracker-item" id="completionTracker">Lektion abgeschlossen</div>
+    </div>
+
+    <script>
+        let quizAnswered = false;
+
+        function checkAnswer(element, isCorrect) {
+            // Clear previous selections
+            const options = document.querySelectorAll('.quiz-option');
+            options.forEach(opt => {
+                opt.classList.remove('selected', 'correct', 'incorrect');
+                opt.onclick = null;
+            });
+            
+            const feedback = document.getElementById('feedback');
+            
+            if (isCorrect) {
+                element.classList.add('correct');
+                feedback.className = 'quiz-feedback show correct';
+                feedback.innerHTML = '<strong>Richtig!</strong> Das Urheberrecht entsteht automatisch, sobald ein Werk mit individuellem Charakter geschaffen wird.';
+                
+                // Mark quiz as completed
+                quizAnswered = true;
+                document.getElementById('quizTracker').classList.add('completed');
+                
+                // Award points
+                showPointsNotification(5);
+                
+                // Enable complete button
+                document.getElementById('completeBtn').disabled = false;
+            } else {
+                element.classList.add('incorrect');
+                feedback.className = 'quiz-feedback show incorrect';
+                feedback.innerHTML = '<strong>Nicht ganz.</strong> Versuchen Sie es nochmal!';
+                
+                // Re-enable clicking after wrong answer
+                setTimeout(() => {
+                    options.forEach(opt => {
+                        opt.classList.remove('incorrect');
+                        opt.onclick = function() {
+                            checkAnswer(this, this.textContent.includes('automatisch'));
+                        };
+                    });
+                }, 2000);
+            }
+        }
+
+        function showPointsNotification(points) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 80px;
+                right: 20px;
+                background: var(--zh-gold);
+                color: var(--zh-text);
+                padding: 10px 20px;
+                border-radius: 20px;
+                font-weight: 600;
+                z-index: 1000;
+                animation: slideIn 0.3s ease;
+            `;
+            notification.textContent = `+${points} Punkte!`;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => notification.remove(), 2000);
+        }
+
+        function completeLesson() {
+            if (!quizAnswered) {
+                alert('Bitte beantworten Sie zuerst das Quiz!');
+                return;
+            }
+            
+            // Mark lesson as completed
+            document.getElementById('completionTracker').classList.add('completed');
+            
+            // Update progress in parent window (if in iframe) or localStorage
+            if (window.parent && window.parent.updateProgress) {
+                window.parent.updateProgress('grundlagen', 1);
+            } else {
+                // Standalone version - update localStorage
+                let currentProgress = parseInt(localStorage.getItem('progress_grundlagen') || '0');
+                localStorage.setItem('progress_grundlagen', Math.min(currentProgress + 1, 5));
+            }
+            
+            // Award completion points
+            showPointsNotification(20);
+            
+            // Navigate to next lesson after delay
+            setTimeout(() => {
+                window.location.href = '/grundlagen/geschuetzte-werke.html';
+            }, 1500);
+        }
+
+        // Track reading progress
+        window.addEventListener('scroll', () => {
+            const scrollPercentage = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+            
+            if (scrollPercentage > 25) {
+                document.querySelector('.tracker-item:nth-child(2)').classList.add('completed');
+            }
+            if (scrollPercentage > 50) {
+                document.querySelector('.tracker-item:nth-child(3)').classList.add('completed');
+            }
+            if (scrollPercentage > 75) {
+                document.querySelector('.tracker-item:nth-child(4)').classList.add('completed');
+            }
+        });
+    </script>
+</body>
+</html>
