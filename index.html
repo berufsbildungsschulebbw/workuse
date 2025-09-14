@@ -1,1 +1,270 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Urheberrecht Schweiz</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .status-icon {
+            transition: all 0.3s ease-in-out;
+        }
+        .completed .status-icon {
+            color: #22c55e; /* green-500 */
+            transform: scale(1.2);
+        }
+        .completed .card-content {
+            opacity: 0.7;
+        }
+         .completed .card-title {
+            text-decoration: line-through;
+         }
+         /* Stile für die neue Fortschrittsübersicht */
+        .progress-bar-bg {
+            background-color: #e5e7eb; /* gray-200 */
+        }
+        .progress-bar-fill {
+            background-color: #22c55e; /* green-500 */
+            transition: width 0.5s ease-in-out;
+        }
+         #progress-overview li.completed {
+            background-color: #f0fdf4; /* green-50 */
+         }
+    </style>
+</head>
+<body class="bg-gray-100">
+
+    <div class="container mx-auto px-4 py-8 md:py-12">
+        <header class="text-center mb-10">
+            <h1 class="text-4xl font-bold text-gray-800">Lern-Dashboard</h1>
+            <p class="text-lg text-gray-600 mt-2">Willkommen auf der Lernplattform zum Schweizer Urheberrecht.</p>
+        </header>
+
+        <!-- Gesamtüberblick Button -->
+        <div class="mb-12 text-center">
+            <a href="/admin/statistik-gesamt.html" 
+               class="bg-indigo-600 text-white font-bold px-8 py-4 rounded-xl hover:bg-indigo-700 transition-transform transform hover:scale-105 inline-block shadow-lg">
+               Gesamtüberblick der Resultate (Admin)
+            </a>
+            <p class="text-sm text-gray-500 mt-2">Hier gelangen Sie zur globalen Auswertung aller Nutzer.</p>
+        </div>
+
+        <main class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+            <!-- Grundlagen -->
+            <div id="card-grundlagen" class="bg-white rounded-xl shadow-lg overflow-hidden transform hover:-translate-y-2 transition-transform duration-300">
+                <div class="p-6">
+                    <div class="flex justify-between items-start">
+                         <div class="card-content">
+                            <h2 class="card-title text-2xl font-bold text-gray-800">Grundlagen</h2>
+                            <p class="text-gray-600 mt-2">Die theoretische Basis des Urheberrechts verstehen.</p>
+                        </div>
+                        <div class="status-icon text-gray-300">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                        </div>
+                    </div>
+                    <div class="mt-6 flex items-center justify-between">
+                        <a href="/grundlagen/urheberrecht.html" class="inline-block bg-blue-600 text-white font-semibold px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors">Starten</a>
+                        <a href="/admin/statistik-grundlagen.html" class="text-sm font-medium text-gray-600 hover:text-indigo-600">Statistik</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Praxisbeispiele -->
+            <div id="card-praxis" class="bg-white rounded-xl shadow-lg overflow-hidden transform hover:-translate-y-2 transition-transform duration-300">
+                <div class="p-6">
+                     <div class="flex justify-between items-start">
+                         <div class="card-content">
+                            <h2 class="card-title text-2xl font-bold text-gray-800">Praxisbeispiele</h2>
+                            <p class="text-gray-600 mt-2">Konkrete Fälle und Checklisten für den Alltag.</p>
+                        </div>
+                         <div class="status-icon text-gray-300">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                        </div>
+                    </div>
+                    <div class="mt-6 flex items-center justify-between">
+                        <a href="/praxisbeispiele/grundlagen.html" class="inline-block bg-blue-600 text-white font-semibold px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors">Starten</a>
+                        <a href="/admin/statistik-praxis.html" class="text-sm font-medium text-gray-600 hover:text-indigo-600">Statistik</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quiz -->
+            <div id="card-quiz" class="bg-white rounded-xl shadow-lg overflow-hidden transform hover:-translate-y-2 transition-transform duration-300">
+                <div class="p-6">
+                     <div class="flex justify-between items-start">
+                         <div class="card-content">
+                            <h2 class="card-title text-2xl font-bold text-gray-800">Quiz</h2>
+                            <p class="text-gray-600 mt-2">Teste dein Wissen mit interaktiven Aufgaben.</p>
+                        </div>
+                         <div class="status-icon text-gray-300">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                        </div>
+                    </div>
+                    <div class="mt-6 flex items-center justify-between">
+                        <a href="/quiz/urheberrecht.html" class="inline-block bg-green-600 text-white font-semibold px-6 py-2 rounded-lg hover:bg-green-700 transition-colors">Starten</a>
+                        <a href="/admin/statistik-quiz.html" class="text-sm font-medium text-gray-600 hover:text-indigo-600">Statistik</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Schulumgebung -->
+            <div id="card-schulumgebung" class="bg-white rounded-xl shadow-lg overflow-hidden transform hover:-translate-y-2 transition-transform duration-300">
+                <div class="p-6">
+                     <div class="flex justify-between items-start">
+                         <div class="card-content">
+                            <h2 class="card-title text-2xl font-bold text-gray-800">Schulumgebung</h2>
+                            <p class="text-gray-600 mt-2">Spezifische Regeln und Ausnahmen für den Unterricht.</p>
+                        </div>
+                         <div class="status-icon text-gray-300">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                        </div>
+                    </div>
+                    <div class="mt-6 flex items-center justify-between">
+                        <a href="/schulumgebung/grundlagen.html" class="inline-block bg-blue-600 text-white font-semibold px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors">Starten</a>
+                        <a href="/admin/statistik-schulumgebung.html" class="text-sm font-medium text-gray-600 hover:text-indigo-600">Statistik</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Lizenzen -->
+            <div id="card-lizenzen" class="bg-white rounded-xl shadow-lg overflow-hidden transform hover:-translate-y-2 transition-transform duration-300">
+                <div class="p-6">
+                     <div class="flex justify-between items-start">
+                         <div class="card-content">
+                            <h2 class="card-title text-2xl font-bold text-gray-800">Lizenzen</h2>
+                            <p class="text-gray-600 mt-2">Creative Commons und andere Lizenzmodelle verstehen.</p>
+                        </div>
+                         <div class="status-icon text-gray-300">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                        </div>
+                    </div>
+                    <div class="mt-6 flex items-center justify-between">
+                        <a href="/lizenzen/grundlagen.html" class="inline-block bg-blue-600 text-white font-semibold px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors">Starten</a>
+                        <a href="/admin/statistik-lizenzen.html" class="text-sm font-medium text-gray-600 hover:text-indigo-600">Statistik</a>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- NEU: Fortschrittsüberblick für Teilnehmer mit Balken -->
+        <section class="mt-16 bg-white rounded-xl shadow-lg p-6 md:p-8">
+            <h2 class="text-2xl md:text-3xl font-bold text-gray-800 text-center mb-8">Dein Fortschritt im Überblick</h2>
+            <div id="progress-overview" class="space-y-6 max-w-3xl mx-auto">
+                <!-- Dynamischer Inhalt wird hier per JS eingefügt -->
+            </div>
+        </section>
+
+        <footer class="text-center mt-12">
+            <button id="reset-progress" class="text-gray-500 hover:text-red-600 underline">Fortschritt zurücksetzen</button>
+        </footer>
+    </div>
+
+    <script>
+        // Konfiguration der Module: id, Anzeigename und Gesamtzahl der Lektionen
+        const modules = [
+            { id: 'grundlagen', name: 'Grundlagen', total: 5 },
+            { id: 'praxis', name: 'Praxisbeispiele', total: 4 },
+            { id: 'quiz', name: 'Quiz', total: 10 },
+            { id: 'schulumgebung', name: 'Schulumgebung', total: 3 },
+            { id: 'lizenzen', name: 'Lizenzen', total: 3 }
+        ];
+
+        const progressOverviewContainer = document.getElementById('progress-overview');
+
+        // Diese Funktion zeichnet die Fortschrittsanzeige basierend auf der Konfiguration
+        function renderProgressBars() {
+            progressOverviewContainer.innerHTML = ''; // Leert den Container
+            modules.forEach(module => {
+                const li = document.createElement('div');
+                li.id = `overview-${module.id}`;
+                li.innerHTML = `
+                    <div class="flex justify-between items-center mb-1">
+                        <span class="font-semibold text-gray-700">${module.name}</span>
+                        <span id="progress-text-${module.id}" class="text-sm font-medium text-gray-500">0 / ${module.total}</span>
+                    </div>
+                    <div class="w-full progress-bar-bg rounded-full h-2.5">
+                        <div id="progress-bar-${module.id}" class="progress-bar-fill h-2.5 rounded-full" style="width: 0%"></div>
+                    </div>
+                `;
+                progressOverviewContainer.appendChild(li);
+            });
+        }
+
+
+        // Diese Funktion liest den Fortschritt aus dem Speicher und aktualisiert die UI
+        function checkCompletionStatus() {
+            modules.forEach(module => {
+                // Lese den gespeicherten Wert (oder 0, falls nichts gespeichert ist)
+                const storedProgress = localStorage.getItem(`progress_${module.id}`);
+                const completedCount = storedProgress ? parseInt(storedProgress, 10) : 0;
+                
+                const percentage = module.total > 0 ? (completedCount / module.total) * 100 : 0;
+
+                // UI Elemente finden
+                const card = document.getElementById(`card-${module.id}`);
+                const overviewItem = document.getElementById(`overview-${module.id}`);
+                const progressBar = document.getElementById(`progress-bar-${module.id}`);
+                const progressText = document.getElementById(`progress-text-${module.id}`);
+                
+                // UI aktualisieren
+                if (progressText) progressText.textContent = `${completedCount} / ${module.total} abgeschlossen`;
+                if (progressBar) progressBar.style.width = `${percentage}%`;
+
+                if (percentage >= 100) {
+                    if (card) card.classList.add('completed');
+                    if (overviewItem) overviewItem.classList.add('completed');
+                } else {
+                    if (card) card.classList.remove('completed');
+                    if (overviewItem) overviewItem.classList.remove('completed');
+                }
+            });
+        }
+        
+        /**
+         * Diese Funktion ist die neue Art, den Fortschritt zu speichern.
+         * Rufe sie von deinen Inhaltsseiten auf.
+         * Beispiel: Nach Abschluss der 3. Lektion im Bereich "Grundlagen":
+         * window.parent.updateProgress('grundlagen', 3);
+         * WICHTIG: Wenn die Inhaltsseiten in einem iFrame laufen, brauchst du window.parent.
+         * Ansonsten reicht: updateProgress('grundlagen', 3);
+         * @param {string} moduleId - Die ID des Moduls (z.B. 'quiz')
+         * @param {number} completedCount - Die Anzahl der abgeschlossenen Lektionen
+         */
+        function updateProgress(moduleId, completedCount) {
+            const module = modules.find(m => m.id === moduleId);
+            if (!module) {
+                console.error(`Modul mit ID "${moduleId}" nicht gefunden.`);
+                return;
+            }
+            // Stelle sicher, dass der Wert nicht größer als das Maximum ist
+            const countToStore = Math.min(completedCount, module.total);
+            localStorage.setItem(`progress_${moduleId}`, countToStore.toString());
+            checkCompletionStatus(); // UI sofort aktualisieren
+        }
+
+        // Funktion zum Zurücksetzen des Fortschritts
+        document.getElementById('reset-progress').addEventListener('click', () => {
+            if (confirm('Möchtest du wirklich deinen gesamten Lernfortschritt zurücksetzen?')) {
+                modules.forEach(module => {
+                    localStorage.removeItem(`progress_${module.id}`);
+                });
+                checkCompletionStatus();
+                alert('Dein Fortschritt wurde zurückgesetzt.');
+            }
+        });
+
+        // Beim Laden der Seite...
+        document.addEventListener('DOMContentLoaded', () => {
+            renderProgressBars();   // Zuerst die HTML-Struktur aufbauen
+            checkCompletionStatus(); // Dann den gespeicherten Status laden und anzeigen
+        });
+    </script>
+</body>
+</html>
+
 
