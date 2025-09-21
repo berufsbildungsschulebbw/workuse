@@ -54,44 +54,6 @@
             font-weight: 400;
         }
 
-        /* Navigation */
-        .nav {
-            background: #f5f5f5;
-            border-bottom: 1px solid #ddd;
-            padding: 0;
-        }
-
-        .nav-list {
-            list-style: none;
-            display: flex;
-            gap: 0;
-        }
-
-        .nav-item {
-            flex: 1;
-            text-align: center;
-        }
-
-        .nav-link {
-            display: block;
-            padding: 15px;
-            color: #333;
-            text-decoration: none;
-            border-bottom: 3px solid transparent;
-            transition: all 0.2s;
-        }
-
-        .nav-link:hover {
-            background: white;
-            border-bottom-color: #0050a0;
-        }
-
-        .nav-link.active {
-            background: white;
-            border-bottom-color: #dc0018;
-            font-weight: 600;
-        }
-
         /* Main Content */
         .main {
             padding: 40px 0;
@@ -123,10 +85,45 @@
             padding: 20px;
             background: white;
             transition: box-shadow 0.2s;
+            position: relative;
         }
 
         .module:hover {
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .module.completed {
+            background: #f0f8ff;
+            border-color: #00994d;
+        }
+
+        .module-status {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .module-status.not-started {
+            background: #e5e5e5;
+            color: #999;
+        }
+
+        .module-status.in-progress {
+            background: #ffd700;
+            color: #333;
+        }
+
+        .module-status.completed {
+            background: #00994d;
+            color: white;
         }
 
         .module-icon {
@@ -146,6 +143,26 @@
             font-size: 14px;
         }
 
+        .module-progress {
+            background: #e5e5e5;
+            height: 6px;
+            border-radius: 3px;
+            margin: 15px 0;
+            overflow: hidden;
+        }
+
+        .module-progress-bar {
+            height: 100%;
+            background: #0050a0;
+            transition: width 0.3s ease;
+        }
+
+        .module-progress-text {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 15px;
+        }
+
         .module-link {
             display: inline-block;
             background: #0050a0;
@@ -158,6 +175,14 @@
 
         .module-link:hover {
             background: #003d7a;
+        }
+
+        .module.completed .module-link {
+            background: #00994d;
+        }
+
+        .module.completed .module-link:hover {
+            background: #007a3d;
         }
 
         /* Info Box */
@@ -222,18 +247,43 @@
             color: #999;
         }
 
+        /* Legend */
+        .legend {
+            background: #f5f5f5;
+            padding: 15px;
+            margin-bottom: 30px;
+            border-radius: 2px;
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+            font-size: 14px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .legend-indicator {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
-            .nav-list {
-                flex-direction: column;
-            }
-
             .modules {
                 grid-template-columns: 1fr;
             }
 
             .footer-content {
                 grid-template-columns: 1fr;
+            }
+
+            .legend {
+                flex-direction: column;
+                gap: 10px;
             }
         }
     </style>
@@ -249,26 +299,6 @@
         </div>
     </header>
 
-    <!-- Navigation -->
-    <nav class="nav">
-        <div class="container">
-            <ul class="nav-list">
-                <li class="nav-item">
-                    <a href="#" class="nav-link active">Übersicht</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">Lernmodule</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">Rechtliche Grundlagen</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">Hilfe</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
-
     <!-- Main Content -->
     <main class="main">
         <div class="container">
@@ -278,47 +308,93 @@
                 <p>Diese Plattform bietet Lehrpersonen und Mitarbeitenden der Zürcher Schulen eine praxisnahe Einführung in das Urheberrecht im Bildungskontext. Lernen Sie, wie Sie Materialien rechtssicher im Unterricht einsetzen können.</p>
             </div>
 
+            <!-- Legend -->
+            <div class="legend">
+                <div class="legend-item">
+                    <div class="legend-indicator" style="background: #e5e5e5;"></div>
+                    <span>Nicht begonnen</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-indicator" style="background: #ffd700;"></div>
+                    <span>In Bearbeitung</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-indicator" style="background: #00994d;"></div>
+                    <span>Abgeschlossen</span>
+                </div>
+            </div>
+
             <!-- Modules -->
             <div class="modules">
-                <div class="module">
+                <div class="module" data-module="grundlagen">
+                    <div class="module-status not-started">○</div>
                     <div class="module-icon">📚</div>
                     <h3>Grundlagen</h3>
                     <p>Verstehen Sie die wichtigsten Konzepte des Urheberrechts und dessen Bedeutung für den Schulalltag.</p>
+                    <div class="module-progress">
+                        <div class="module-progress-bar" style="width: 0%"></div>
+                    </div>
+                    <div class="module-progress-text">0% abgeschlossen</div>
                     <a href="grundlagen/urheberrecht.html" class="module-link">Modul starten</a>
                 </div>
 
-                <div class="module">
+                <div class="module" data-module="schule">
+                    <div class="module-status not-started">○</div>
                     <div class="module-icon">🏫</div>
                     <h3>Anwendung in der Schule</h3>
                     <p>Spezifische Regelungen und Ausnahmen für den Unterricht gemäss Art. 19 URG.</p>
+                    <div class="module-progress">
+                        <div class="module-progress-bar" style="width: 0%"></div>
+                    </div>
+                    <div class="module-progress-text">0% abgeschlossen</div>
                     <a href="schulumgebung/index.html" class="module-link">Modul starten</a>
                 </div>
 
-                <div class="module">
+                <div class="module" data-module="lizenzen">
+                    <div class="module-status not-started">○</div>
                     <div class="module-icon">📄</div>
                     <h3>Lizenzen verstehen</h3>
                     <p>Creative Commons und andere Lizenzmodelle für Unterrichtsmaterialien.</p>
+                    <div class="module-progress">
+                        <div class="module-progress-bar" style="width: 0%"></div>
+                    </div>
+                    <div class="module-progress-text">0% abgeschlossen</div>
                     <a href="lizenzen/creativecommons.html" class="module-link">Modul starten</a>
                 </div>
 
-                <div class="module">
+                <div class="module" data-module="praxis">
+                    <div class="module-status not-started">○</div>
                     <div class="module-icon">💼</div>
                     <h3>Praxisbeispiele</h3>
                     <p>Konkrete Fallbeispiele aus dem Schulalltag mit Lösungsansätzen.</p>
+                    <div class="module-progress">
+                        <div class="module-progress-bar" style="width: 0%"></div>
+                    </div>
+                    <div class="module-progress-text">0% abgeschlossen</div>
                     <a href="praxisbeispiele/grundlagen.html" class="module-link">Modul starten</a>
                 </div>
 
-                <div class="module">
+                <div class="module" data-module="quiz">
+                    <div class="module-status not-started">○</div>
                     <div class="module-icon">✅</div>
                     <h3>Wissenstest</h3>
                     <p>Überprüfen Sie Ihr Wissen mit interaktiven Übungen und Fallstudien.</p>
+                    <div class="module-progress">
+                        <div class="module-progress-bar" style="width: 0%"></div>
+                    </div>
+                    <div class="module-progress-text">0% abgeschlossen</div>
                     <a href="quiz/anwendungschule.html" class="module-link">Test starten</a>
                 </div>
 
-                <div class="module">
+                <div class="module" data-module="admin">
+                    <div class="module-status not-started">○</div>
                     <div class="module-icon">👥</div>
                     <h3>Administration</h3>
                     <p>Verwaltungsbereich für Kursleitende und Administratoren.</p>
+                    <div class="module-progress">
+                        <div class="module-progress-bar" style="width: 0%"></div>
+                    </div>
+                    <div class="module-progress-text">Administrationsbereich</div>
                     <a href="admin/dashboard.html" class="module-link">Zum Admin-Bereich</a>
                 </div>
             </div>
@@ -330,7 +406,7 @@
                     <li>Diese Plattform ersetzt keine Rechtsberatung im Einzelfall</li>
                     <li>Die Inhalte beziehen sich auf das Schweizer Urheberrechtsgesetz (URG)</li>
                     <li>Bei Unsicherheiten wenden Sie sich an die Rechtsabteilung der Bildungsdirektion</li>
-                    <li>Letzte Aktualisierung: Januar 2024</li>
+                    <li>Ihr Fortschritt wird automatisch lokal gespeichert</li>
                 </ul>
             </div>
         </div>
@@ -364,5 +440,87 @@
             </div>
         </div>
     </footer>
+
+    <script>
+        // Module configuration
+        const moduleConfig = {
+            grundlagen: { totalLessons: 5, name: 'Grundlagen' },
+            schule: { totalLessons: 3, name: 'Anwendung in der Schule' },
+            lizenzen: { totalLessons: 3, name: 'Lizenzen verstehen' },
+            praxis: { totalLessons: 4, name: 'Praxisbeispiele' },
+            quiz: { totalLessons: 10, name: 'Wissenstest' },
+            admin: { totalLessons: 0, name: 'Administration' }
+        };
+
+        // Load progress from localStorage
+        function loadProgress() {
+            Object.keys(moduleConfig).forEach(moduleId => {
+                const savedProgress = localStorage.getItem(`module_${moduleId}_progress`);
+                if (savedProgress) {
+                    const progress = JSON.parse(savedProgress);
+                    updateModuleDisplay(moduleId, progress.completed, progress.total);
+                }
+            });
+        }
+
+        // Update module display
+        function updateModuleDisplay(moduleId, completed, total) {
+            const module = document.querySelector(`[data-module="${moduleId}"]`);
+            if (!module) return;
+
+            const status = module.querySelector('.module-status');
+            const progressBar = module.querySelector('.module-progress-bar');
+            const progressText = module.querySelector('.module-progress-text');
+            const moduleLink = module.querySelector('.module-link');
+
+            const percentage = total > 0 ? (completed / total) * 100 : 0;
+
+            // Update progress bar
+            progressBar.style.width = `${percentage}%`;
+
+            // Update progress text
+            if (moduleId === 'admin') {
+                progressText.textContent = 'Administrationsbereich';
+            } else {
+                progressText.textContent = `${Math.round(percentage)}% abgeschlossen`;
+            }
+
+            // Update status indicator and module appearance
+            if (percentage === 0) {
+                status.className = 'module-status not-started';
+                status.textContent = '○';
+                module.classList.remove('completed');
+                moduleLink.textContent = 'Modul starten';
+            } else if (percentage === 100) {
+                status.className = 'module-status completed';
+                status.textContent = '✓';
+                module.classList.add('completed');
+                moduleLink.textContent = 'Modul wiederholen';
+            } else {
+                status.className = 'module-status in-progress';
+                status.textContent = `${Math.round(percentage)}%`;
+                module.classList.remove('completed');
+                moduleLink.textContent = 'Modul fortsetzen';
+            }
+        }
+
+        // Save progress (to be called from module pages)
+        function saveModuleProgress(moduleId, completed, total) {
+            localStorage.setItem(`module_${moduleId}_progress`, JSON.stringify({
+                completed: completed,
+                total: total,
+                lastUpdated: new Date().toISOString()
+            }));
+            updateModuleDisplay(moduleId, completed, total);
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            loadProgress();
+        });
+
+        // Make saveModuleProgress available globally for module pages
+        window.saveModuleProgress = saveModuleProgress;
+    </script>
 </body>
 </html>
