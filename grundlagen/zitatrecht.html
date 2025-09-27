@@ -1,1 +1,1281 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zitatrecht - Schweizer Urheberrecht</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
+        :root {
+            --zh-blue: #0050a0;
+            --zh-blue-dark: #003d7a;
+            --zh-red: #dc0018;
+            --zh-green: #00994d;
+            --zh-gold: #ffd700;
+            --zh-gray-light: #f5f5f5;
+            --zh-gray: #e5e5e5;
+            --zh-text: #1a1a1a;
+            --zh-border: #d4d4d4;
+            --accent-teal: #17a2b8;
+            --accent-orange: #ff9800;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.8;
+            color: var(--zh-text);
+            background: white;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--zh-blue) 0%, var(--accent-teal) 100%);
+            color: white;
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .breadcrumb {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .breadcrumb a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .progress-indicator {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .progress-bar-mini {
+            width: 100px;
+            height: 6px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: var(--zh-gold);
+            transition: width 0.3s ease;
+        }
+
+        /* Container */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        h1 {
+            font-size: 36px;
+            color: var(--zh-blue);
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 20px;
+            color: var(--zh-text);
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        /* Module Navigation */
+        .module-nav {
+            background: var(--zh-gray-light);
+            border: 1px solid var(--zh-border);
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+        }
+
+        .module-tabs {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+        }
+
+        .module-tab {
+            padding: 10px;
+            background: white;
+            border: 1px solid var(--zh-border);
+            text-align: center;
+            cursor: pointer;
+            text-decoration: none;
+            color: var(--zh-text);
+            transition: all 0.3s;
+            border-radius: 4px;
+        }
+
+        .module-tab:hover {
+            background: var(--zh-blue);
+            color: white;
+        }
+
+        .module-tab.active {
+            background: var(--zh-blue);
+            color: white;
+        }
+
+        /* Info Card */
+        .info-card {
+            background: linear-gradient(135deg, #e8f2ff 0%, #e0f7fa 100%);
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            border: 2px solid var(--accent-teal);
+        }
+
+        .info-card h2 {
+            color: var(--zh-blue);
+            margin-bottom: 15px;
+            font-size: 24px;
+        }
+
+        /* Media Types Banner */
+        .media-banner {
+            background: white;
+            border: 2px solid var(--zh-border);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .media-badges {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .media-badge {
+            background: var(--zh-gray-light);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            border: 1px solid var(--zh-border);
+        }
+
+        /* Three Pillars */
+        .three-pillars {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .pillar-card {
+            background: white;
+            border: 2px solid var(--zh-border);
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .pillar-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            border-color: var(--accent-teal);
+        }
+
+        .pillar-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .pillar-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--zh-blue);
+            margin-bottom: 10px;
+        }
+
+        .pillar-details {
+            display: none;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid var(--zh-border);
+            text-align: left;
+        }
+
+        .pillar-card.active .pillar-details {
+            display: block;
+        }
+
+        /* Interactive Quote Checker */
+        .quote-checker {
+            background: white;
+            border: 2px solid var(--accent-teal);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 40px 0;
+        }
+
+        .checker-header {
+            text-align: center;
+            color: var(--zh-blue);
+            margin-bottom: 30px;
+        }
+
+        /* Accordion Styles */
+        .accordion {
+            border: 1px solid var(--zh-border);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .accordion-item {
+            border-bottom: 1px solid var(--zh-border);
+        }
+
+        .accordion-item:last-child {
+            border-bottom: none;
+        }
+
+        .accordion-header {
+            background: var(--zh-gray-light);
+            padding: 15px 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s;
+            user-select: none;
+        }
+
+        .accordion-header:hover {
+            background: #e8f2ff;
+        }
+
+        .accordion-header.active {
+            background: var(--zh-blue);
+            color: white;
+        }
+
+        .accordion-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            font-size: 18px;
+        }
+
+        .accordion-arrow {
+            transition: transform 0.3s;
+            font-size: 20px;
+        }
+
+        .accordion-header.active .accordion-arrow {
+            transform: rotate(90deg);
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            background: white;
+        }
+
+        .accordion-content.active {
+            max-height: 2000px;
+            transition: max-height 0.5s ease-in;
+        }
+
+        .accordion-inner {
+            padding: 20px;
+        }
+
+        /* Scenario Styles */
+        .scenario-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .scenario-card {
+            background: var(--zh-gray-light);
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .scenario-title {
+            font-weight: 600;
+            color: var(--zh-blue);
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        .scenario-content {
+            background: white;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            border-left: 4px solid var(--accent-teal);
+        }
+
+        .check-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .check-btn {
+            padding: 12px;
+            background: white;
+            border: 2px solid var(--zh-border);
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+
+        .check-btn:hover {
+            background: #e8f2ff;
+            border-color: var(--accent-teal);
+            transform: translateY(-2px);
+        }
+
+        .check-btn.selected-correct {
+            background: var(--zh-green);
+            color: white;
+            border-color: var(--zh-green);
+        }
+
+        .check-btn.selected-incorrect {
+            background: var(--zh-red);
+            color: white;
+            border-color: var(--zh-red);
+        }
+
+        .check-result {
+            display: none;
+            padding: 15px;
+            border-radius: 4px;
+            margin-top: 15px;
+        }
+
+        .check-result.show {
+            display: block;
+        }
+
+        /* Citation Builder */
+        .citation-builder {
+            background: linear-gradient(135deg, #fff9e6 0%, #ffecb3 100%);
+            padding: 30px;
+            border-radius: 12px;
+            margin: 40px 0;
+            border: 2px solid var(--accent-orange);
+        }
+
+        .builder-header {
+            color: var(--accent-orange);
+            margin-bottom: 20px;
+        }
+
+        .builder-form {
+            display: grid;
+            gap: 15px;
+        }
+
+        .form-group {
+            display: grid;
+            gap: 8px;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: var(--zh-text);
+        }
+
+        .form-input, .form-select, .form-textarea {
+            padding: 10px;
+            border: 2px solid var(--zh-border);
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            outline: none;
+            border-color: var(--accent-orange);
+        }
+
+        .builder-result {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .builder-result.show {
+            display: block;
+        }
+
+        .citation-preview {
+            background: var(--zh-gray-light);
+            padding: 15px;
+            border-radius: 4px;
+            font-style: italic;
+            border-left: 4px solid var(--accent-orange);
+        }
+
+        /* Warning Box */
+        .warning-box {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 30px 0;
+        }
+
+        .success-box {
+            background: #e6f7e6;
+            border-left: 4px solid var(--zh-green);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 30px 0;
+        }
+
+        .error-box {
+            background: #fee2e2;
+            border-left: 4px solid var(--zh-red);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 30px 0;
+        }
+
+        /* Progress Section */
+        .progress-section {
+            background: white;
+            border: 2px solid var(--zh-border);
+            border-radius: 12px;
+            padding: 25px;
+            margin: 40px 0;
+        }
+
+        .progress-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 15px;
+            background: var(--zh-gray-light);
+            border-radius: 8px;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--zh-blue);
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        /* Navigation Footer */
+        .nav-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 2px solid var(--zh-border);
+        }
+
+        .nav-btn {
+            padding: 12px 24px;
+            background: white;
+            border: 2px solid var(--zh-border);
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            color: var(--zh-text);
+            transition: all 0.3s;
+        }
+
+        .nav-btn:hover {
+            background: var(--zh-blue);
+            color: white;
+            border-color: var(--zh-blue);
+        }
+
+        .nav-btn.primary {
+            background: var(--zh-green);
+            color: white;
+            border-color: var(--zh-green);
+        }
+
+        @media (max-width: 768px) {
+            .three-pillars,
+            .check-options {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="breadcrumb">
+                <a href="#">Dashboard</a> / 
+                <span>Zitatrecht</span>
+            </div>
+            <div class="progress-indicator">
+                <div class="progress-bar-mini">
+                    <div class="progress-bar-fill" id="progressBar" style="width: 0%"></div>
+                </div>
+                <span id="progressText">0%</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Module Navigation -->
+        <div class="module-nav">
+            <div class="module-tabs">
+                <a href="#" class="module-tab">Grundlagen</a>
+                <a href="#" class="module-tab">Fair Use</a>
+                <a href="#" class="module-tab">Ausnahmen</a>
+                <a href="#" class="module-tab active">Zitatrecht</a>
+                <a href="#" class="module-tab">Freie Nutzung</a>
+            </div>
+        </div>
+
+        <h1>📝 Zitatrecht nach Art. 25 URG</h1>
+        <p class="subtitle">Richtig zitieren im Schweizer Urheberrecht - für ALLE Medientypen</p>
+
+        <!-- Media Types Banner -->
+        <div class="media-banner">
+            <strong>Das Zitatrecht gilt für ALLE audiovisuellen und Textmedien:</strong>
+            <div class="media-badges">
+                <span class="media-badge">📝 Text</span>
+                <span class="media-badge">📸 Bild</span>
+                <span class="media-badge">🎵 Audio</span>
+                <span class="media-badge">🎬 Video</span>
+                <span class="media-badge">💻 Code</span>
+                <span class="media-badge">📱 Social Media</span>
+                <span class="media-badge">🎮 Games</span>
+            </div>
+        </div>
+
+        <!-- Definition Card -->
+        <div class="info-card">
+            <h2>§ Gesetzliche Grundlage</h2>
+            <p>
+                <strong>Art. 25 URG:</strong> Veröffentlichte Werke dürfen zitiert werden, wenn das Zitat zur 
+                <strong>Erläuterung, als Hinweis oder zur Veranschaulichung</strong> dient und der Umfang durch 
+                diesen Zweck gerechtfertigt ist.
+            </p>
+            <div style="margin-top: 20px; padding: 15px; background: white; border-radius: 8px;">
+                <strong style="color: var(--accent-teal);">✅ Ohne Zustimmung & ohne Vergütung erlaubt</strong><br>
+                <strong style="color: var(--zh-red);">⚠️ Aber: Strenge Voraussetzungen müssen erfüllt sein!</strong>
+            </div>
+        </div>
+
+        <!-- Three Pillars -->
+        <h2 style="text-align: center; margin: 40px 0 20px; color: var(--zh-blue);">Die 3 Säulen des Zitatrechts</h2>
+        <div class="three-pillars">
+            <div class="pillar-card" onclick="togglePillar(this)">
+                <div class="pillar-icon">🎯</div>
+                <div class="pillar-title">Zweck</div>
+                <p>Erläuterung, Hinweis oder Veranschaulichung</p>
+                <div class="pillar-details">
+                    <strong>Erlaubte Zwecke:</strong>
+                    <ul style="margin: 10px 0 0 20px;">
+                        <li>Wissenschaftliche Auseinandersetzung</li>
+                        <li>Kritische Diskussion</li>
+                        <li>Beleg einer Aussage</li>
+                        <li>Illustration eines Arguments</li>
+                    </ul>
+                    <strong style="color: var(--zh-red); display: block; margin-top: 10px;">Nicht erlaubt:</strong>
+                    <ul style="margin: 10px 0 0 20px;">
+                        <li>Reine Dekoration</li>
+                        <li>Unterhaltungszweck ohne Bezug</li>
+                        <li>Ersatz für eigene Leistung</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="pillar-card" onclick="togglePillar(this)">
+                <div class="pillar-icon">📏</div>
+                <div class="pillar-title">Umfang</div>
+                <p>Nur so viel wie nötig</p>
+                <div class="pillar-details">
+                    <strong>Grundsatz:</strong>
+                    <p style="margin: 10px 0;">Der Umfang muss durch den Zweck gerechtfertigt sein.</p>
+                    <strong>Faustregeln pro Medium:</strong>
+                    <ul style="margin: 10px 0 0 20px;">
+                        <li><strong>Text:</strong> Einzelne Absätze, selten ganze Kapitel</li>
+                        <li><strong>Musik:</strong> 10-30 Sekunden, nicht ganze Songs</li>
+                        <li><strong>Film:</strong> Kurze Sequenzen, max. 30-60 Sekunden</li>
+                        <li><strong>Bilder:</strong> Meist vollständig möglich (bei Analyse)</li>
+                        <li><strong>Code:</strong> Relevante Funktionen/Snippets</li>
+                        <li><strong>Social Media:</strong> Einzelne Posts, nicht ganze Threads</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="pillar-card" onclick="togglePillar(this)">
+                <div class="pillar-icon">🏷️</div>
+                <div class="pillar-title">Quellenangabe</div>
+                <p>Pflicht zur korrekten Kennzeichnung</p>
+                <div class="pillar-details">
+                    <strong>Pflichtangaben:</strong>
+                    <ul style="margin: 10px 0 0 20px;">
+                        <li>Name des Urhebers (falls bekannt)</li>
+                        <li>Titel des Werks</li>
+                        <li>Fundstelle/Quelle</li>
+                        <li>Bei Bearbeitungen: Hinweis darauf</li>
+                    </ul>
+                    <strong style="color: var(--zh-red); display: block; margin-top: 10px;">Achtung:</strong>
+                    <p>Verstösse können mit Busse geahndet werden (Art. 68 URG)!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Interactive Quote Checker -->
+        <div class="quote-checker">
+            <h2 class="checker-header">🎯 Interaktiver Zitat-Check</h2>
+            <p style="text-align: center; margin-bottom: 20px;">Testen Sie Ihr Wissen mit realen Beispielen aus verschiedenen Medien!</p>
+            
+            <div class="accordion">
+                <!-- Text Section -->
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <div class="accordion-title">
+                            <span>📝</span>
+                            <span>Text-Zitate</span>
+                        </div>
+                        <span class="accordion-arrow">▶</span>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="accordion-inner">
+                            <div class="scenario-list">
+                                <div class="scenario-card">
+                                    <div class="scenario-title">Blogpost über Klimawandel</div>
+                                    <div class="scenario-content">
+                                        Sie übernehmen 3 Sätze aus einem IPCC-Bericht über globale Erwärmung, 
+                                        fügen danach 2 eigene Absätze Analyse hinzu und geben die Quelle korrekt an.
+                                    </div>
+                                    <div class="check-options">
+                                        <button class="check-btn" onclick="checkQuote('text1', 'yes')">✅ Erlaubt</button>
+                                        <button class="check-btn" onclick="checkQuote('text1', 'maybe')">⚠️ Grenzfall</button>
+                                        <button class="check-btn" onclick="checkQuote('text1', 'no')">❌ Verboten</button>
+                                    </div>
+                                    <div class="check-result" id="result-text1"></div>
+                                </div>
+
+                                <div class="scenario-card">
+                                    <div class="scenario-title">Wissenschaftliche Arbeit</div>
+                                    <div class="scenario-content">
+                                        Ein Student kopiert 5 komplette Seiten aus einem 200-seitigen Fachbuch 
+                                        als "theoretische Grundlage" ohne eigene Erläuterung.
+                                    </div>
+                                    <div class="check-options">
+                                        <button class="check-btn" onclick="checkQuote('text2', 'yes')">✅ Erlaubt</button>
+                                        <button class="check-btn" onclick="checkQuote('text2', 'maybe')">⚠️ Grenzfall</button>
+                                        <button class="check-btn" onclick="checkQuote('text2', 'no')">❌ Verboten</button>
+                                    </div>
+                                    <div class="check-result" id="result-text2"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Image Section -->
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <div class="accordion-title">
+                            <span>📸</span>
+                            <span>Bild-Zitate</span>
+                        </div>
+                        <span class="accordion-arrow">▶</span>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="accordion-inner">
+                            <div class="scenario-list">
+                                <div class="scenario-card">
+                                    <div class="scenario-title">Kunstkritik mit Werkabbildung</div>
+                                    <div class="scenario-content">
+                                        Online-Rezension einer Fotoausstellung: 8 Fotos (verkleinert), 
+                                        zu jedem 3-4 Sätze Analyse, insgesamt 2000 Wörter Text.
+                                    </div>
+                                    <div class="check-options">
+                                        <button class="check-btn" onclick="checkQuote('img1', 'yes')">✅ Erlaubt</button>
+                                        <button class="check-btn" onclick="checkQuote('img1', 'maybe')">⚠️ Grenzfall</button>
+                                        <button class="check-btn" onclick="checkQuote('img1', 'no')">❌ Verboten</button>
+                                    </div>
+                                    <div class="check-result" id="result-img1"></div>
+                                </div>
+
+                                <div class="scenario-card">
+                                    <div class="scenario-title">Blog-Header ohne Bezug</div>
+                                    <div class="scenario-content">
+                                        Ein berühmtes Kunstwerk als dekoratives Header-Bild, 
+                                        im Text wird das Bild nicht besprochen oder analysiert.
+                                    </div>
+                                    <div class="check-options">
+                                        <button class="check-btn" onclick="checkQuote('img2', 'yes')">✅ Erlaubt</button>
+                                        <button class="check-btn" onclick="checkQuote('img2', 'maybe')">⚠️ Grenzfall</button>
+                                        <button class="check-btn" onclick="checkQuote('img2', 'no')">❌ Verboten</button>
+                                    </div>
+                                    <div class="check-result" id="result-img2"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Video Section -->
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <div class="accordion-title">
+                            <span>🎬</span>
+                            <span>Video-Zitate</span>
+                        </div>
+                        <span class="accordion-arrow">▶</span>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="accordion-inner">
+                            <div class="scenario-list">
+                                <div class="scenario-card">
+                                    <div class="scenario-title">YouTube Filmkritik</div>
+                                    <div class="scenario-content">
+                                        15-minütige Analyse mit 8 Szenen à 20-30 Sekunden, 
+                                        nach jeder Szene 1-2 Minuten eigene Erläuterung.
+                                    </div>
+                                    <div class="check-options">
+                                        <button class="check-btn" onclick="checkQuote('vid1', 'yes')">✅ Erlaubt</button>
+                                        <button class="check-btn" onclick="checkQuote('vid1', 'maybe')">⚠️ Grenzfall</button>
+                                        <button class="check-btn" onclick="checkQuote('vid1', 'no')">❌ Verboten</button>
+                                    </div>
+                                    <div class="check-result" id="result-vid1"></div>
+                                </div>
+
+                                <div class="scenario-card">
+                                    <div class="scenario-title">TikTok "Beste Szenen"</div>
+                                    <div class="scenario-content">
+                                        5 Action-Szenen je 30 Sekunden, nur mit Musik unterlegt, 
+                                        keine Analyse oder Kommentar.
+                                    </div>
+                                    <div class="check-options">
+                                        <button class="check-btn" onclick="checkQuote('vid2', 'yes')">✅ Erlaubt</button>
+                                        <button class="check-btn" onclick="checkQuote('vid2', 'maybe')">⚠️ Grenzfall</button>
+                                        <button class="check-btn" onclick="checkQuote('vid2', 'no')">❌ Verboten</button>
+                                    </div>
+                                    <div class="check-result" id="result-vid2"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Audio Section -->
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <div class="accordion-title">
+                            <span>🎵</span>
+                            <span>Audio-Zitate</span>
+                        </div>
+                        <span class="accordion-arrow">▶</span>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="accordion-inner">
+                            <div class="scenario-list">
+                                <div class="scenario-card">
+                                    <div class="scenario-title">Musik-Podcast Analyse</div>
+                                    <div class="scenario-content">
+                                        10 Sekunden Miles Davis zur Demonstration einer Spieltechnik, 
+                                        danach 5 Minuten Analyse der Harmoniefolge.
+                                    </div>
+                                    <div class="check-options">
+                                        <button class="check-btn" onclick="checkQuote('aud1', 'yes')">✅ Erlaubt</button>
+                                        <button class="check-btn" onclick="checkQuote('aud1', 'maybe')">⚠️ Grenzfall</button>
+                                        <button class="check-btn" onclick="checkQuote('aud1', 'no')">❌ Verboten</button>
+                                    </div>
+                                    <div class="check-result" id="result-aud1"></div>
+                                </div>
+
+                                <div class="scenario-card">
+                                    <div class="scenario-title">DJ-Mix auf SoundCloud</div>
+                                    <div class="scenario-content">
+                                        20 Songs, je 2-3 Minuten, als "Study Mix" zusammengemischt, 
+                                        nur Tracklist in der Beschreibung.
+                                    </div>
+                                    <div class="check-options">
+                                        <button class="check-btn" onclick="checkQuote('aud2', 'yes')">✅ Erlaubt</button>
+                                        <button class="check-btn" onclick="checkQuote('aud2', 'maybe')">⚠️ Grenzfall</button>
+                                        <button class="check-btn" onclick="checkQuote('aud2', 'no')">❌ Verboten</button>
+                                    </div>
+                                    <div class="check-result" id="result-aud2"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Social Media Section -->
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <div class="accordion-title">
+                            <span>📱</span>
+                            <span>Social Media Zitate</span>
+                        </div>
+                        <span class="accordion-arrow">▶</span>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="accordion-inner">
+                            <div class="scenario-list">
+                                <div class="scenario-card">
+                                    <div class="scenario-title">Twitter-Faktcheck</div>
+                                    <div class="scenario-content">
+                                        Screenshot eines Politiker-Tweets mit 5-Tweet-Thread zur Widerlegung, 
+                                        Links zu Quellen und Gegendarstellung.
+                                    </div>
+                                    <div class="check-options">
+                                        <button class="check-btn" onclick="checkQuote('soc1', 'yes')">✅ Erlaubt</button>
+                                        <button class="check-btn" onclick="checkQuote('soc1', 'maybe')">⚠️ Grenzfall</button>
+                                        <button class="check-btn" onclick="checkQuote('soc1', 'no')">❌ Verboten</button>
+                                    </div>
+                                    <div class="check-result" id="result-soc1"></div>
+                                </div>
+
+                                <div class="scenario-card">
+                                    <div class="scenario-title">Instagram Repost</div>
+                                    <div class="scenario-content">
+                                        Virales TikTok als Instagram-Post mit Caption "This 😂", 
+                                        nur Erwähnung des Creators.
+                                    </div>
+                                    <div class="check-options">
+                                        <button class="check-btn" onclick="checkQuote('soc2', 'yes')">✅ Erlaubt</button>
+                                        <button class="check-btn" onclick="checkQuote('soc2', 'maybe')">⚠️ Grenzfall</button>
+                                        <button class="check-btn" onclick="checkQuote('soc2', 'no')">❌ Verboten</button>
+                                    </div>
+                                    <div class="check-result" id="result-soc2"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Code Section -->
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <div class="accordion-title">
+                            <span>💻</span>
+                            <span>Code-Zitate</span>
+                        </div>
+                        <span class="accordion-arrow">▶</span>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="accordion-inner">
+                            <div class="scenario-list">
+                                <div class="scenario-card">
+                                    <div class="scenario-title">Programming Tutorial</div>
+                                    <div class="scenario-content">
+                                        20 Zeilen React-Code aus Dokumentation, Zeile für Zeile erklärt, 
+                                        eigene Verbesserungen hinzugefügt, Quelle und Lizenz genannt.
+                                    </div>
+                                    <div class="check-options">
+                                        <button class="check-btn" onclick="checkQuote('code1', 'yes')">✅ Erlaubt</button>
+                                        <button class="check-btn" onclick="checkQuote('code1', 'maybe')">⚠️ Grenzfall</button>
+                                        <button class="check-btn" onclick="checkQuote('code1', 'no')">❌ Verboten</button>
+                                    </div>
+                                    <div class="check-result" id="result-code1"></div>
+                                </div>
+
+                                <div class="scenario-card">
+                                    <div class="scenario-title">GitHub Code-Sammlung</div>
+                                    <div class="scenario-content">
+                                        50 Code-Snippets verschiedener Komponenten kopiert, 
+                                        nur kurze Titel ohne Erklärung oder Analyse.
+                                    </div>
+                                    <div class="check-options">
+                                        <button class="check-btn" onclick="checkQuote('code2', 'yes')">✅ Erlaubt</button>
+                                        <button class="check-btn" onclick="checkQuote('code2', 'maybe')">⚠️ Grenzfall</button>
+                                        <button class="check-btn" onclick="checkQuote('code2', 'no')">❌ Verboten</button>
+                                    </div>
+                                    <div class="check-result" id="result-code2"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Progress Section -->
+        <div class="progress-section">
+            <h3 style="text-align: center; color: var(--zh-blue);">Ihr Fortschritt</h3>
+            <div class="progress-stats">
+                <div class="stat-card">
+                    <div class="stat-value" id="totalAnswered">0</div>
+                    <div class="stat-label">Beantwortet</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="correctAnswers">0</div>
+                    <div class="stat-label">Korrekt</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="percentage">0%</div>
+                    <div class="stat-label">Erfolgsrate</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Citation Builder -->
+        <div class="citation-builder">
+            <h2 class="builder-header">🛠️ Interaktiver Zitat-Generator</h2>
+            <p style="margin-bottom: 20px;">Erstellen Sie eine korrekte Quellenangabe nach Schweizer Standard:</p>
+            
+            <div class="builder-form">
+                <div class="form-group">
+                    <label class="form-label">Werktyp:</label>
+                    <select class="form-select" id="werktyp" onchange="updateCitationForm()">
+                        <option value="">Bitte wählen...</option>
+                        <option value="buch">Buch</option>
+                        <option value="artikel">Zeitschriftenartikel</option>
+                        <option value="online">Online-Quelle</option>
+                        <option value="film">Film/Video</option>
+                        <option value="musik">Musik</option>
+                        <option value="social">Social Media</option>
+                        <option value="code">Code/Software</option>
+                    </select>
+                </div>
+
+                <div class="form-group" id="authorGroup" style="display: none;">
+                    <label class="form-label">Autor/Urheber:</label>
+                    <input type="text" class="form-input" id="author" placeholder="z.B. Müller, Hans">
+                </div>
+
+                <div class="form-group" id="titleGroup" style="display: none;">
+                    <label class="form-label">Titel:</label>
+                    <input type="text" class="form-input" id="title" placeholder="Titel des Werks">
+                </div>
+
+                <div class="form-group" id="yearGroup" style="display: none;">
+                    <label class="form-label">Jahr:</label>
+                    <input type="text" class="form-input" id="year" placeholder="z.B. 2024">
+                </div>
+
+                <div class="form-group" id="sourceGroup" style="display: none;">
+                    <label class="form-label">Quelle/Verlag:</label>
+                    <input type="text" class="form-input" id="source" placeholder="z.B. Verlag XY, Zürich">
+                </div>
+
+                <button class="nav-btn primary" style="margin-top: 15px;" onclick="generateCitation()">
+                    Quellenangabe generieren
+                </button>
+            </div>
+
+            <div class="builder-result" id="citationResult">
+                <h3 style="color: var(--zh-blue); margin-bottom: 15px;">Ihre Quellenangabe:</h3>
+                <div class="citation-preview" id="citationPreview"></div>
+                <div style="margin-top: 15px; padding: 15px; background: #e8f2ff; border-radius: 4px;">
+                    <strong>✅ Diese Angabe erfüllt die Anforderungen von Art. 25 URG</strong>
+                </div>
+            </div>
+        </div>
+
+        <!-- Important Notes -->
+        <div class="warning-box">
+            <h3 style="color: #92400e; margin-bottom: 10px;">⚠️ Wichtige Einschränkungen</h3>
+            <ul style="line-height: 2;">
+                <li>Nur bereits <strong>veröffentlichte</strong> Werke dürfen zitiert werden</li>
+                <li>Das Zitat darf <strong>nie Selbstzweck</strong> sein</li>
+                <li>Die <strong>normale Verwertung</strong> des Originals darf nicht beeinträchtigt werden</li>
+                <li>Fehlende Quellenangabe kann mit <strong>Busse</strong> geahndet werden (Art. 68 URG)</li>
+                <li>Änderungen am Zitat sind grundsätzlich <strong>nicht erlaubt</strong></li>
+            </ul>
+        </div>
+
+        <!-- Navigation Footer -->
+        <div class="nav-footer">
+            <a href="#" class="nav-btn">← Zurück zu Ausnahmen</a>
+            <button class="nav-btn primary" onclick="completeModule()">
+                Weiter zu Freie Nutzung →
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Progress tracking
+        let completedActivities = new Set();
+        let quizStats = {
+            total: 0,
+            correct: 0
+        };
+        
+        // Correct answers database
+        const correctAnswers = {
+            'text1': 'yes',
+            'text2': 'no',
+            'img1': 'yes',
+            'img2': 'no',
+            'vid1': 'yes',
+            'vid2': 'no',
+            'aud1': 'yes',
+            'aud2': 'no',
+            'soc1': 'yes',
+            'soc2': 'no',
+            'code1': 'yes',
+            'code2': 'no'
+        };
+        
+        const explanations = {
+            'text1': {
+                correct: '✅ Korrekt! Kurzes Zitat mit klarem Zweck und eigener Analyse.',
+                wrong: '❌ Falsch. Dies ist ein klassisches erlaubtes Zitat.'
+            },
+            'text2': {
+                correct: '❌ Richtig! Zu umfangreich ohne eigene Leistung.',
+                wrong: '❌ Falsch. 5 Seiten ohne Analyse sind kein Zitat.'
+            },
+            'img1': {
+                correct: '✅ Richtig! Bilder dienen der Kunstkritik mit Analyse.',
+                wrong: '❌ Falsch. Mit Analyse ist dies erlaubt.'
+            },
+            'img2': {
+                correct: '❌ Korrekt! Reine Dekoration ist kein Zitatzweck.',
+                wrong: '❌ Falsch. Ohne Bezug zum Text nicht erlaubt.'
+            },
+            'vid1': {
+                correct: '✅ Perfekt! Kurze Clips mit ausführlicher Analyse.',
+                wrong: '❌ Falsch. Dies ist ein Musterzitat.'
+            },
+            'vid2': {
+                correct: '❌ Richtig! Reine Unterhaltung ohne Analyse.',
+                wrong: '❌ Falsch. Ohne Kommentar kein Zitat.'
+            },
+            'aud1': {
+                correct: '✅ Korrekt! Kurzer Ausschnitt zu Lehrzwecken.',
+                wrong: '❌ Falsch. Perfektes Beispiel für erlaubtes Zitat.'
+            },
+            'aud2': {
+                correct: '❌ Richtig! DJ-Mix ist kein Zitat, braucht Lizenz.',
+                wrong: '❌ Falsch. Das ist kein Zitat sondern eine Bearbeitung.'
+            },
+            'soc1': {
+                correct: '✅ Richtig! Faktcheck ist klassischer Zitatzweck.',
+                wrong: '❌ Falsch. Kritische Auseinandersetzung ist erlaubt.'
+            },
+            'soc2': {
+                correct: '❌ Korrekt! Repost ohne Mehrwert ist kein Zitat.',
+                wrong: '❌ Falsch. Ohne eigene Leistung kein Zitat.'
+            },
+            'code1': {
+                correct: '✅ Perfekt! Code wird erklärt und verbessert.',
+                wrong: '❌ Falsch. Mit Erklärung ist dies erlaubt.'
+            },
+            'code2': {
+                correct: '❌ Richtig! Sammlung ohne Analyse ist kein Zitat.',
+                wrong: '❌ Falsch. Ohne Erklärung keine Zitatnutzung.'
+            }
+        };
+        
+        // Toggle pillar details
+        function togglePillar(element) {
+            element.classList.toggle('active');
+            completedActivities.add('pillar');
+            updateProgress();
+        }
+        
+        // Toggle accordion
+        function toggleAccordion(header) {
+            const content = header.nextElementSibling;
+            const wasActive = header.classList.contains('active');
+            
+            // Close all accordions
+            document.querySelectorAll('.accordion-header').forEach(h => {
+                h.classList.remove('active');
+                h.nextElementSibling.classList.remove('active');
+            });
+            
+            // Open clicked accordion if it wasn't active
+            if (!wasActive) {
+                header.classList.add('active');
+                content.classList.add('active');
+            }
+        }
+        
+        // Check quote answer
+        function checkQuote(scenario, answer) {
+            const correct = correctAnswers[scenario];
+            const isCorrect = answer === correct;
+            
+            // Update stats
+            quizStats.total++;
+            if (isCorrect) quizStats.correct++;
+            updateQuizStats();
+            
+            // Disable buttons
+            const buttons = event.target.parentElement.querySelectorAll('.check-btn');
+            buttons.forEach(btn => btn.disabled = true);
+            
+            // Show result
+            const resultDiv = document.getElementById('result-' + scenario);
+            resultDiv.classList.add('show');
+            
+            if (isCorrect) {
+                resultDiv.className = 'check-result show success-box';
+                resultDiv.innerHTML = explanations[scenario].correct;
+                event.target.classList.add('selected-correct');
+            } else {
+                resultDiv.className = 'check-result show error-box';
+                resultDiv.innerHTML = explanations[scenario].wrong;
+                event.target.classList.add('selected-incorrect');
+            }
+            
+            completedActivities.add('quiz_' + scenario);
+            updateProgress();
+        }
+        
+        // Update quiz statistics
+        function updateQuizStats() {
+            document.getElementById('totalAnswered').textContent = quizStats.total;
+            document.getElementById('correctAnswers').textContent = quizStats.correct;
+            const percentage = quizStats.total > 0 ? 
+                Math.round((quizStats.correct / quizStats.total) * 100) : 0;
+            document.getElementById('percentage').textContent = percentage + '%';
+        }
+        
+        // Update citation form
+        function updateCitationForm() {
+            const werktyp = document.getElementById('werktyp').value;
+            
+            if (werktyp) {
+                document.getElementById('authorGroup').style.display = 'block';
+                document.getElementById('titleGroup').style.display = 'block';
+                document.getElementById('yearGroup').style.display = 'block';
+                document.getElementById('sourceGroup').style.display = 'block';
+                
+                // Adjust labels based on type
+                const labels = {
+                    buch: { author: 'Autor:', source: 'Verlag, Ort:' },
+                    artikel: { author: 'Autor:', source: 'Zeitschrift, Band/Nr.:' },
+                    online: { author: 'Autor/Website:', source: 'URL:' },
+                    film: { author: 'Regisseur:', source: 'Produktionsfirma:' },
+                    musik: { author: 'Komponist/Interpret:', source: 'Album/Label:' },
+                    social: { author: 'Account/User:', source: 'Platform/URL:' },
+                    code: { author: 'Entwickler:', source: 'Repository/URL:' }
+                };
+                
+                if (labels[werktyp]) {
+                    document.querySelector('#authorGroup .form-label').textContent = labels[werktyp].author;
+                    document.querySelector('#sourceGroup .form-label').textContent = labels[werktyp].source;
+                }
+            }
+        }
+        
+        // Generate citation
+        function generateCitation() {
+            const werktyp = document.getElementById('werktyp').value;
+            const author = document.getElementById('author').value;
+            const title = document.getElementById('title').value;
+            const year = document.getElementById('year').value;
+            const source = document.getElementById('source').value;
+            
+            if (!werktyp || !title) {
+                alert('Bitte füllen Sie mindestens Werktyp und Titel aus.');
+                return;
+            }
+            
+            let citation = '';
+            const date = new Date().toLocaleDateString('de-CH');
+            
+            switch(werktyp) {
+                case 'buch':
+                    citation = `${author || 'o.V.'}: ${title}, ${source || 'o.O.'} ${year || 'o.J.'}.`;
+                    break;
+                case 'artikel':
+                    citation = `${author || 'o.V.'}: "${title}", in: ${source || 'o.A.'}, ${year || 'o.J.'}.`;
+                    break;
+                case 'online':
+                    citation = `${author || 'o.V.'}: ${title}, ${year || 'o.J.'}, ${source || '[URL fehlt]'} (abgerufen am ${date}).`;
+                    break;
+                case 'film':
+                    citation = `${title} (${author || 'o.R.'}, ${source || 'o.P.'} ${year || 'o.J.'}).`;
+                    break;
+                case 'musik':
+                    citation = `${author || 'o.K.'}: "${title}", ${source || 'o.A.'} ${year || 'o.J.'}.`;
+                    break;
+                case 'social':
+                    citation = `${author || '@username'}: "${title}", ${source || 'Platform'}, ${year || date}.`;
+                    break;
+                case 'code':
+                    citation = `${author || 'o.V.'}: ${title}, ${year || 'o.J.'}, ${source || 'Repository'} (MIT Lizenz).`;
+                    break;
+            }
+            
+            document.getElementById('citationPreview').textContent = citation;
+            document.getElementById('citationResult').classList.add('show');
+            
+            completedActivities.add('citation');
+            updateProgress();
+        }
+        
+        // Update progress
+        function updateProgress() {
+            const totalActivities = 20; // 3 pillars + 12 quiz + citation + etc
+            const progress = Math.round((completedActivities.size / totalActivities) * 100);
+            document.getElementById('progressBar').style.width = progress + '%';
+            document.getElementById('progressText').textContent = progress + '%';
+        }
+        
+        // Complete module
+        function completeModule() {
+            if (completedActivities.size < 10) {
+                alert('Bitte erkunden Sie noch mehr Inhalte, bevor Sie das Modul abschliessen.');
+                return;
+            }
+            alert('🎉 Gratulation! Sie haben das Modul "Zitatrecht" erfolgreich abgeschlossen!');
+        }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            updateProgress();
+            updateQuizStats();
+        });
+    </script>
+</body>
+</html>
