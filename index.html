@@ -522,5 +522,19 @@
         // Make saveModuleProgress available globally for module pages
         window.saveModuleProgress = saveModuleProgress;
     </script>
+        // Ihr JavaScript-Code zum Laden des Fortschritts von LocalStorage
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedProgress = localStorage.getItem('urheberrecht_grundlagen_progress') || 0;
+            const progressBarFill = document.querySelector('.progress-bar-fill');
+            const progressText = document.getElementById('progressText');
+
+            if (progressBarFill && progressText) {
+                progressBarFill.style.width = savedProgress + '%';
+                progressText.textContent = 'Fortschritt: ' + savedProgress + '%';
+            }
+        });
+    </script>
+</body>
+</html>
 </body>
 </html>
