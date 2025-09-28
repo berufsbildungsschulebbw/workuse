@@ -75,7 +75,7 @@
         /* Module Grid */
         .modules {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
             gap: 20px;
             margin-bottom: 40px;
         }
@@ -143,10 +143,95 @@
             font-size: 14px;
         }
 
+        /* Themenbereiche mit individuellen Fortschrittsbalken */
+        .module-sections {
+            margin: 15px 0;
+            padding: 10px;
+            background: #f9f9f9;
+            border-radius: 4px;
+        }
+
+        .module-sections-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #666;
+            font-size: 13px;
+        }
+
+        .section-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+            padding: 5px;
+            background: white;
+            border: 1px solid #e5e5e5;
+            border-radius: 3px;
+            transition: all 0.2s;
+            cursor: pointer;
+            text-decoration: none;
+            color: #333;
+        }
+
+        .section-item:hover {
+            background: #f0f8ff;
+            border-color: #0050a0;
+        }
+
+        .section-item.completed {
+            background: #e6f7e6;
+            border-color: #00994d;
+        }
+
+        .section-icon {
+            font-size: 16px;
+            width: 24px;
+            text-align: center;
+        }
+
+        .section-name {
+            flex: 1;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .section-progress-container {
+            width: 80px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .section-progress {
+            flex: 1;
+            height: 4px;
+            background: #e5e5e5;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .section-progress-bar {
+            height: 100%;
+            background: #0050a0;
+            transition: width 0.3s ease;
+        }
+
+        .section-progress-bar.complete {
+            background: #00994d;
+        }
+
+        .section-percentage {
+            font-size: 10px;
+            color: #666;
+            width: 30px;
+            text-align: right;
+        }
+
+        /* Main module progress */
         .module-progress {
             background: #e5e5e5;
-            height: 6px;
-            border-radius: 3px;
+            height: 8px;
+            border-radius: 4px;
             margin: 15px 0;
             overflow: hidden;
         }
@@ -158,19 +243,21 @@
         }
 
         .module-progress-text {
-            font-size: 12px;
+            font-size: 13px;
             color: #666;
             margin-bottom: 15px;
+            font-weight: 600;
         }
 
         .module-link {
             display: inline-block;
             background: #0050a0;
             color: white;
-            padding: 8px 20px;
+            padding: 10px 24px;
             text-decoration: none;
             font-size: 14px;
             transition: background 0.2s;
+            border-radius: 3px;
         }
 
         .module-link:hover {
@@ -183,6 +270,12 @@
 
         .module.completed .module-link:hover {
             background: #007a3d;
+        }
+
+        /* Special styling for quiz module */
+        .module[data-module="quiz"] .section-item {
+            justify-content: center;
+            font-weight: 600;
         }
 
         /* Info Box */
@@ -271,6 +364,11 @@
             border-radius: 50%;
         }
 
+        /* Admin Module Special */
+        .module[data-module="admin"] .module-sections {
+            display: none;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .modules {
@@ -284,6 +382,15 @@
             .legend {
                 flex-direction: column;
                 gap: 10px;
+            }
+
+            .section-progress-container {
+                width: 70px;
+            }
+
+            .section-percentage {
+                width: 25px;
+                font-size: 9px;
             }
         }
     </style>
@@ -326,11 +433,72 @@
 
             <!-- Modules -->
             <div class="modules">
+                <!-- Modul 1: Grundlagen -->
                 <div class="module" data-module="grundlagen">
                     <div class="module-status not-started">○</div>
                     <div class="module-icon">📚</div>
                     <h3>Grundlagen</h3>
                     <p>Verstehen Sie die wichtigsten Konzepte des Urheberrechts.</p>
+                    
+                    <div class="module-sections">
+                        <div class="module-sections-title">5 Themenbereiche:</div>
+                        
+                        <a href="grundlagen/urheberrecht.html" class="section-item" data-section="grundlagen-1">
+                            <span class="section-icon">📖</span>
+                            <span class="section-name">Urheberrecht verstehen</span>
+                            <div class="section-progress-container">
+                                <div class="section-progress">
+                                    <div class="section-progress-bar" style="width: 0%"></div>
+                                </div>
+                                <span class="section-percentage">0%</span>
+                            </div>
+                        </a>
+                        
+                        <a href="grundlagen/fairuse.html" class="section-item" data-section="grundlagen-2">
+                            <span class="section-icon">⚖️</span>
+                            <span class="section-name">Fair Use</span>
+                            <div class="section-progress-container">
+                                <div class="section-progress">
+                                    <div class="section-progress-bar" style="width: 0%"></div>
+                                </div>
+                                <span class="section-percentage">0%</span>
+                            </div>
+                        </a>
+                        
+                        <a href="grundlagen/ausnahmennutzung.html" class="section-item" data-section="grundlagen-3">
+                            <span class="section-icon">📋</span>
+                            <span class="section-name">Ausnahmennutzung</span>
+                            <div class="section-progress-container">
+                                <div class="section-progress">
+                                    <div class="section-progress-bar" style="width: 0%"></div>
+                                </div>
+                                <span class="section-percentage">0%</span>
+                            </div>
+                        </a>
+                        
+                        <a href="grundlagen/zitatrecht.html" class="section-item" data-section="grundlagen-4">
+                            <span class="section-icon">💬</span>
+                            <span class="section-name">Zitatrecht</span>
+                            <div class="section-progress-container">
+                                <div class="section-progress">
+                                    <div class="section-progress-bar" style="width: 0%"></div>
+                                </div>
+                                <span class="section-percentage">0%</span>
+                            </div>
+                        </a>
+                        
+                        <a href="grundlagen/freiewerke.html" class="section-item" data-section="grundlagen-5">
+                            <span class="section-icon">🆓</span>
+                            <span class="section-name">Freie Werke</span>
+                            <div class="section-progress-container">
+                                <div class="section-progress">
+                                    <div class="section-progress-bar" style="width: 0%"></div>
+                                </div>
+                                <span class="section-percentage">0%</span>
+                            </div>
+                        </a>
+                    </div>
+                    
                     <div class="module-progress">
                         <div class="module-progress-bar" style="width: 0%"></div>
                     </div>
@@ -338,35 +506,174 @@
                     <a href="grundlagen/urheberrecht.html" class="module-link">Modul starten</a>
                 </div>
 
+                <!-- Modul 2: Anwendung in der Schule -->
                 <div class="module" data-module="schule">
                     <div class="module-status not-started">○</div>
                     <div class="module-icon">🏫</div>
                     <h3>Anwendung in der Schule</h3>
                     <p>Spezifische Regelungen und Ausnahmen für den Unterricht gemäss Art. 19 URG.</p>
+                    
+                    <div class="module-sections">
+                        <div class="module-sections-title">4 Themenbereiche:</div>
+                        
+                        <a href="schulumgebung/grundlagen.html" class="section-item" data-section="schule-1">
+                            <span class="section-icon">📝</span>
+                            <span class="section-name">Grundlagen Schulumgebung</span>
+                            <div class="section-progress-container">
+                                <div class="section-progress">
+                                    <div class="section-progress-bar" style="width: 0%"></div>
+                                </div>
+                                <span class="section-percentage">0%</span>
+                            </div>
+                        </a>
+                        
+                        <a href="schulumgebung/gt7.html" class="section-item" data-section="schule-2">
+                            <span class="section-icon">📊</span>
+                            <span class="section-name">GT7 Tarif</span>
+                            <div class="section-progress-container">
+                                <div class="section-progress">
+                                    <div class="section-progress-bar" style="width: 0%"></div>
+                                </div>
+                                <span class="section-percentage">0%</span>
+                            </div>
+                        </a>
+                        
+                        <a href="schulumgebung/lehrmittel.html" class="section-item" data-section="schule-3">
+                            <span class="section-icon">📚</span>
+                            <span class="section-name">Lehrmittel</span>
+                            <div class="section-progress-container">
+                                <div class="section-progress">
+                                    <div class="section-progress-bar" style="width: 0%"></div>
+                                </div>
+                                <span class="section-percentage">0%</span>
+                            </div>
+                        </a>
+                        
+                        <a href="schulumgebung/dokumentation.html" class="section-item" data-section="schule-4">
+                            <span class="section-icon">📄</span>
+                            <span class="section-name">Dokumentation</span>
+                            <div class="section-progress-container">
+                                <div class="section-progress">
+                                    <div class="section-progress-bar" style="width: 0%"></div>
+                                </div>
+                                <span class="section-percentage">0%</span>
+                            </div>
+                        </a>
+                    </div>
+                    
                     <div class="module-progress">
                         <div class="module-progress-bar" style="width: 0%"></div>
                     </div>
                     <div class="module-progress-text">0% abgeschlossen</div>
-                    <a href="schulumgebung/index.html" class="module-link">Modul starten</a>
+                    <a href="schulumgebung/grundlagen.html" class="module-link">Modul starten</a>
                 </div>
 
+                <!-- Modul 3: Lizenzen verstehen -->
                 <div class="module" data-module="lizenzen">
                     <div class="module-status not-started">○</div>
                     <div class="module-icon">📄</div>
                     <h3>Lizenzen verstehen</h3>
                     <p>Creative Commons und andere Lizenzmodelle für Unterrichtsmaterialien.</p>
+                    
+                    <div class="module-sections">
+                        <div class="module-sections-title">2 Themenbereiche:</div>
+                        
+                        <a href="lizenzen/grundlagen.html" class="section-item" data-section="lizenzen-1">
+                            <span class="section-icon">📖</span>
+                            <span class="section-name">Grundlagen Lizenzen</span>
+                            <div class="section-progress-container">
+                                <div class="section-progress">
+                                    <div class="section-progress-bar" style="width: 0%"></div>
+                                </div>
+                                <span class="section-percentage">0%</span>
+                            </div>
+                        </a>
+                        
+                        <a href="lizenzen/creativecommons.html" class="section-item" data-section="lizenzen-2">
+                            <span class="section-icon">🅭🅯</span>
+                            <span class="section-name">Creative Commons</span>
+                            <div class="section-progress-container">
+                                <div class="section-progress">
+                                    <div class="section-progress-bar" style="width: 0%"></div>
+                                </div>
+                                <span class="section-percentage">0%</span>
+                            </div>
+                        </a>
+                    </div>
+                    
                     <div class="module-progress">
                         <div class="module-progress-bar" style="width: 0%"></div>
                     </div>
                     <div class="module-progress-text">0% abgeschlossen</div>
-                    <a href="lizenzen/creativecommons.html" class="module-link">Modul starten</a>
+                    <a href="lizenzen/grundlagen.html" class="module-link">Modul starten</a>
                 </div>
 
+                <!-- Modul 4: Praxisbeispiele -->
                 <div class="module" data-module="praxis">
                     <div class="module-status not-started">○</div>
                     <div class="module-icon">💼</div>
                     <h3>Praxisbeispiele</h3>
                     <p>Konkrete Fallbeispiele aus dem Schulalltag mit Lösungsansätzen.</p>
+                    
+                    <div class="module-sections">
+                        <div class="module-sections-title">5 Themenbereiche:</div>
+                        
+                        <a href="praxisbeispiele/grundlagen.html" class="section-item" data-section="praxis-1">
+                            <span class="section-icon">📖</span>
+                            <span class="section-name">Grundlagen Praxis</span>
+                            <div class="section-progress-container">
+                                <div class="section-progress">
+                                    <div class="section-progress-bar" style="width: 0%"></div>
+                                </div>
+                                <span class="section-percentage">0%</span>
+                            </div>
+                        </a>
+                        
+                        <a href="praxisbeispiele/dokumentation.html" class="section-item" data-section="praxis-2">
+                            <span class="section-icon">📄</span>
+                            <span class="section-name">Dokumentation</span>
+                            <div class="section-progress-container">
+                                <div class="section-progress">
+                                    <div class="section-progress-bar" style="width: 0%"></div>
+                                </div>
+                                <span class="section-percentage">0%</span>
+                            </div>
+                        </a>
+                        
+                        <a href="praxisbeispiele/lizenzen.html" class="section-item" data-section="praxis-3">
+                            <span class="section-icon">⚖️</span>
+                            <span class="section-name">Lizenzen in der Praxis</span>
+                            <div class="section-progress-container">
+                                <div class="section-progress">
+                                    <div class="section-progress-bar" style="width: 0%"></div>
+                                </div>
+                                <span class="section-percentage">0%</span>
+                            </div>
+                        </a>
+                        
+                        <a href="praxisbeispiele/multimedia.html" class="section-item" data-section="praxis-4">
+                            <span class="section-icon">🎬</span>
+                            <span class="section-name">Multimedia</span>
+                            <div class="section-progress-container">
+                                <div class="section-progress">
+                                    <div class="section-progress-bar" style="width: 0%"></div>
+                                </div>
+                                <span class="section-percentage">0%</span>
+                            </div>
+                        </a>
+                        
+                        <a href="praxisbeispiele/socialmedia.html" class="section-item" data-section="praxis-5">
+                            <span class="section-icon">💬</span>
+                            <span class="section-name">Social Media</span>
+                            <div class="section-progress-container">
+                                <div class="section-progress">
+                                    <div class="section-progress-bar" style="width: 0%"></div>
+                                </div>
+                                <span class="section-percentage">0%</span>
+                            </div>
+                        </a>
+                    </div>
+                    
                     <div class="module-progress">
                         <div class="module-progress-bar" style="width: 0%"></div>
                     </div>
@@ -374,23 +681,75 @@
                     <a href="praxisbeispiele/grundlagen.html" class="module-link">Modul starten</a>
                 </div>
 
+                <!-- Modul 5: Wissenstest -->
                 <div class="module" data-module="quiz">
                     <div class="module-status not-started">○</div>
                     <div class="module-icon">✅</div>
                     <h3>Wissenstest</h3>
                     <p>Überprüfen Sie Ihr Wissen mit interaktiven Übungen und Fallstudien.</p>
+                    
+                    <div class="module-sections">
+                        <div class="module-sections-title">4 Thementests:</div>
+                        
+                        <a href="quiz/urheberrecht.html" class="section-item" data-section="quiz-1">
+                            <span class="section-icon">📝</span>
+                            <span class="section-name">Test Urheberrecht</span>
+                            <div class="section-progress-container">
+                                <div class="section-progress">
+                                    <div class="section-progress-bar" style="width: 0%"></div>
+                                </div>
+                                <span class="section-percentage">0%</span>
+                            </div>
+                        </a>
+                        
+                        <a href="quiz/anwendungschule.html" class="section-item" data-section="quiz-2">
+                            <span class="section-icon">🏫</span>
+                            <span class="section-name">Test Schulanwendung</span>
+                            <div class="section-progress-container">
+                                <div class="section-progress">
+                                    <div class="section-progress-bar" style="width: 0%"></div>
+                                </div>
+                                <span class="section-percentage">0%</span>
+                            </div>
+                        </a>
+                        
+                        <a href="quiz/creativecommons.html" class="section-item" data-section="quiz-3">
+                            <span class="section-icon">🅭</span>
+                            <span class="section-name">Test Creative Commons</span>
+                            <div class="section-progress-container">
+                                <div class="section-progress">
+                                    <div class="section-progress-bar" style="width: 0%"></div>
+                                </div>
+                                <span class="section-percentage">0%</span>
+                            </div>
+                        </a>
+                        
+                        <a href="quiz/veroeffentlichung.html" class="section-item" data-section="quiz-4">
+                            <span class="section-icon">📤</span>
+                            <span class="section-name">Test Veröffentlichung</span>
+                            <div class="section-progress-container">
+                                <div class="section-progress">
+                                    <div class="section-progress-bar" style="width: 0%"></div>
+                                </div>
+                                <span class="section-percentage">0%</span>
+                            </div>
+                        </a>
+                    </div>
+                    
                     <div class="module-progress">
                         <div class="module-progress-bar" style="width: 0%"></div>
                     </div>
                     <div class="module-progress-text">0% abgeschlossen</div>
-                    <a href="quiz/anwendungschule.html" class="module-link">Test starten</a>
+                    <a href="quiz/urheberrecht.html" class="module-link">Tests starten</a>
                 </div>
 
+                <!-- Modul 6: Administration -->
                 <div class="module" data-module="admin">
                     <div class="module-status not-started">○</div>
                     <div class="module-icon">👥</div>
                     <h3>Administration</h3>
                     <p>Verwaltungsbereich für Kursleitende und Administratoren.</p>
+                    
                     <div class="module-progress">
                         <div class="module-progress-bar" style="width: 0%"></div>
                     </div>
@@ -441,102 +800,193 @@
         </div>
     </footer>
     
+    <!-- Scripts -->
     <script src="assets/js/progress-tracker.js"></script>
-
     <script>
-        // Module configuration
-        const moduleConfig = {
-            grundlagen: { totalLessons: 5, name: 'Grundlagen' },
-            schule: { totalLessons: 3, name: 'Anwendung in der Schule' },
-            lizenzen: { totalLessons: 3, name: 'Lizenzen verstehen' },
-            praxis: { totalLessons: 4, name: 'Praxisbeispiele' },
-            quiz: { totalLessons: 10, name: 'Wissenstest' },
-            admin: { totalLessons: 0, name: 'Administration' }
+        // Module configuration mit allen Sektionen basierend auf der Dateistruktur
+        const moduleStructure = {
+            grundlagen: {
+                total: 5,
+                sections: [
+                    { id: 'grundlagen-1', file: 'urheberrecht.html', storage: 'urheberrecht_grundlagen_basis_progress' },
+                    { id: 'grundlagen-2', file: 'fairuse.html', storage: 'urheberrecht_fairuse_progress' },
+                    { id: 'grundlagen-3', file: 'ausnahmennutzung.html', storage: 'urheberrecht_ausnahmen_progress' },
+                    { id: 'grundlagen-4', file: 'zitatrecht.html', storage: 'urheberrecht_zitatrecht_progress' },
+                    { id: 'grundlagen-5', file: 'freiewerke.html', storage: 'urheberrecht_freiewerke_progress' }
+                ]
+            },
+            schule: {
+                total: 4,
+                sections: [
+                    { id: 'schule-1', file: 'grundlagen.html', storage: 'schule_grundlagen_progress' },
+                    { id: 'schule-2', file: 'gt7.html', storage: 'schule_gt7_progress' },
+                    { id: 'schule-3', file: 'lehrmittel.html', storage: 'schule_lehrmittel_progress' },
+                    { id: 'schule-4', file: 'dokumentation.html', storage: 'schule_dokumentation_progress' }
+                ]
+            },
+            lizenzen: {
+                total: 2,
+                sections: [
+                    { id: 'lizenzen-1', file: 'grundlagen.html', storage: 'lizenzen_grundlagen_progress' },
+                    { id: 'lizenzen-2', file: 'creativecommons.html', storage: 'lizenzen_cc_progress' }
+                ]
+            },
+            praxis: {
+                total: 5,
+                sections: [
+                    { id: 'praxis-1', file: 'grundlagen.html', storage: 'praxis_grundlagen_progress' },
+                    { id: 'praxis-2', file: 'dokumentation.html', storage: 'praxis_dokumentation_progress' },
+                    { id: 'praxis-3', file: 'lizenzen.html', storage: 'praxis_lizenzen_progress' },
+                    { id: 'praxis-4', file: 'multimedia.html', storage: 'praxis_multimedia_progress' },
+                    { id: 'praxis-5', file: 'socialmedia.html', storage: 'praxis_socialmedia_progress' }
+                ]
+            },
+            quiz: {
+                total: 4,
+                sections: [
+                    { id: 'quiz-1', file: 'urheberrecht.html', storage: 'quiz_urheberrecht_progress' },
+                    { id: 'quiz-2', file: 'anwendungschule.html', storage: 'quiz_anwendung_progress' },
+                    { id: 'quiz-3', file: 'creativecommons.html', storage: 'quiz_cc_progress' },
+                    { id: 'quiz-4', file: 'veroeffentlichung.html', storage: 'quiz_veroeffentlichung_progress' }
+                ]
+            },
+            admin: {
+                total: 0,
+                sections: []
+            }
         };
 
-        // Load progress from localStorage
-        function loadProgress() {
-            Object.keys(moduleConfig).forEach(moduleId => {
-                const savedProgress = localStorage.getItem(`module_${moduleId}_progress`);
-                if (savedProgress) {
-                    const progress = JSON.parse(savedProgress);
-                    updateModuleDisplay(moduleId, progress.completed, progress.total);
-                }
+        // Load and update all progress
+        function loadAllProgress() {
+            Object.keys(moduleStructure).forEach(moduleId => {
+                updateModuleProgress(moduleId);
             });
         }
 
-        // Update module display
-        function updateModuleDisplay(moduleId, completed, total) {
+        // Update progress for a specific module
+        function updateModuleProgress(moduleId) {
+            const config = moduleStructure[moduleId];
             const module = document.querySelector(`[data-module="${moduleId}"]`);
             if (!module) return;
 
+            let totalProgress = 0;
+            let completedSections = 0;
+
+            // Process each section
+            config.sections.forEach(section => {
+                const sectionElement = module.querySelector(`[data-section="${section.id}"]`);
+                if (!sectionElement) return;
+
+                // Get progress from localStorage
+                const sectionProgress = parseInt(localStorage.getItem(section.storage) || 0);
+                
+                // Update section progress bar and percentage
+                const progressBar = sectionElement.querySelector('.section-progress-bar');
+                const percentageText = sectionElement.querySelector('.section-percentage');
+                
+                if (progressBar) {
+                    progressBar.style.width = `${sectionProgress}%`;
+                    if (sectionProgress === 100) {
+                        progressBar.classList.add('complete');
+                        sectionElement.classList.add('completed');
+                        completedSections++;
+                    } else if (sectionProgress > 0) {
+                        sectionElement.classList.add('in-progress');
+                    }
+                }
+                
+                if (percentageText) {
+                    percentageText.textContent = `${sectionProgress}%`;
+                }
+                
+                totalProgress += sectionProgress;
+            });
+
+            // Calculate module overall progress
+            const moduleProgress = config.sections.length > 0 
+                ? Math.round(totalProgress / config.sections.length)
+                : 0;
+
+            // Update module display
+            updateModuleDisplay(module, moduleProgress, completedSections, config.total);
+            
+            // Save module progress for compatibility
+            localStorage.setItem(`module_${moduleId}_progress`, JSON.stringify({
+                completed: completedSections,
+                total: config.total,
+                percentage: moduleProgress,
+                lastUpdated: new Date().toISOString()
+            }));
+        }
+
+        // Update module visual display
+        function updateModuleDisplay(module, percentage, completedSections, totalSections) {
             const status = module.querySelector('.module-status');
             const progressBar = module.querySelector('.module-progress-bar');
             const progressText = module.querySelector('.module-progress-text');
             const moduleLink = module.querySelector('.module-link');
 
-            const percentage = total > 0 ? (completed / total) * 100 : 0;
-
             // Update progress bar
-            progressBar.style.width = `${percentage}%`;
+            if (progressBar) {
+                progressBar.style.width = `${percentage}%`;
+            }
 
             // Update progress text
-            if (moduleId === 'admin') {
-                progressText.textContent = 'Administrationsbereich';
-            } else {
-                progressText.textContent = `${Math.round(percentage)}% abgeschlossen`;
+            if (progressText) {
+                if (module.dataset.module === 'admin') {
+                    progressText.textContent = 'Administrationsbereich';
+                } else {
+                    progressText.textContent = `${percentage}% abgeschlossen (${completedSections}/${totalSections} Bereiche)`;
+                }
             }
 
-            // Update status indicator and module appearance
-            if (percentage === 0) {
-                status.className = 'module-status not-started';
-                status.textContent = '○';
-                module.classList.remove('completed');
-                moduleLink.textContent = 'Modul starten';
-            } else if (percentage === 100) {
-                status.className = 'module-status completed';
-                status.textContent = '✓';
-                module.classList.add('completed');
-                moduleLink.textContent = 'Modul wiederholen';
-            } else {
-                status.className = 'module-status in-progress';
-                status.textContent = `${Math.round(percentage)}%`;
-                module.classList.remove('completed');
-                moduleLink.textContent = 'Modul fortsetzen';
+            // Update status indicator
+            if (status) {
+                if (percentage === 0) {
+                    status.className = 'module-status not-started';
+                    status.textContent = '○';
+                    module.classList.remove('completed');
+                    if (moduleLink && module.dataset.module !== 'admin') {
+                        moduleLink.textContent = module.dataset.module === 'quiz' ? 'Tests starten' : 'Modul starten';
+                    }
+                } else if (percentage === 100) {
+                    status.className = 'module-status completed';
+                    status.textContent = '✓';
+                    module.classList.add('completed');
+                    if (moduleLink && module.dataset.module !== 'admin') {
+                        moduleLink.textContent = module.dataset.module === 'quiz' ? 'Tests wiederholen' : 'Modul wiederholen';
+                    }
+                } else {
+                    status.className = 'module-status in-progress';
+                    status.textContent = `${percentage}%`;
+                    module.classList.remove('completed');
+                    if (moduleLink && module.dataset.module !== 'admin') {
+                        moduleLink.textContent = module.dataset.module === 'quiz' ? 'Tests fortsetzen' : 'Modul fortsetzen';
+                    }
+                }
             }
-        }
-
-        // Save progress (to be called from module pages)
-        function saveModuleProgress(moduleId, completed, total) {
-            localStorage.setItem(`module_${moduleId}_progress`, JSON.stringify({
-                completed: completed,
-                total: total,
-                lastUpdated: new Date().toISOString()
-            }));
-            updateModuleDisplay(moduleId, completed, total);
         }
 
         // Initialize on page load
         document.addEventListener('DOMContentLoaded', () => {
-            loadProgress();
+            loadAllProgress();
+
+            // Auto-refresh when returning to the page
+            window.addEventListener('focus', () => {
+                loadAllProgress();
+            });
+
+            // Listen for storage changes
+            window.addEventListener('storage', (e) => {
+                if (e.key && e.key.includes('progress')) {
+                    loadAllProgress();
+                }
+            });
         });
 
-        // Make saveModuleProgress available globally for module pages
-        window.saveModuleProgress = saveModuleProgress;
+        // Make functions globally available
+        window.moduleStructure = moduleStructure;
+        window.updateModuleProgress = updateModuleProgress;
     </script>
-        // Ihr JavaScript-Code zum Laden des Fortschritts von LocalStorage
-        document.addEventListener('DOMContentLoaded', () => {
-            const savedProgress = localStorage.getItem('urheberrecht_grundlagen_progress') || 0;
-            const progressBarFill = document.querySelector('.progress-bar-fill');
-            const progressText = document.getElementById('progressText');
-
-            if (progressBarFill && progressText) {
-                progressBarFill.style.width = savedProgress + '%';
-                progressText.textContent = 'Fortschritt: ' + savedProgress + '%';
-            }
-        });
-    </script>
-</body>
-</html>
 </body>
 </html>
