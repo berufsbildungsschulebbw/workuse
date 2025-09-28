@@ -330,6 +330,21 @@
             display: block;
         }
 
+        .scenario-result.correct {
+            background: #e8f5e9;
+            border: 1px solid var(--zh-green);
+        }
+
+        .scenario-result.partial {
+            background: #fff3e0;
+            border: 1px solid #ff9800;
+        }
+
+        .scenario-result.incorrect {
+            background: #ffebee;
+            border: 1px solid var(--zh-red);
+        }
+
         /* KI Section */
         .ki-section {
             background: linear-gradient(135deg, #fff9e6 0%, #ffe6f0 100%);
@@ -380,11 +395,35 @@
             border-color: var(--zh-blue);
         }
 
+        .quiz-option.correct {
+            background: #e8f5e9;
+            border-color: var(--zh-green);
+        }
+
+        .quiz-option.incorrect {
+            background: #ffebee;
+            border-color: var(--zh-red);
+        }
+
         .quiz-feedback {
             margin-top: 10px;
             padding: 10px;
             border-radius: 4px;
             display: none;
+        }
+
+        .quiz-feedback.show {
+            display: block;
+        }
+
+        .quiz-feedback.correct {
+            background: #e8f5e9;
+            color: var(--zh-green);
+        }
+
+        .quiz-feedback.incorrect {
+            background: #ffebee;
+            color: var(--zh-red);
         }
 
         /* Navigation Footer */
@@ -675,86 +714,195 @@
 
         <!-- Navigation Footer -->
         <div class="nav-footer">
-            <a href="./urheberrecht.html" class="nav-btn">← Zurück zum Dashboard Grundlagen</a>
-            <button class=""nav-btn primary"" onclick="completeAndNext()">
+            <a href="./urheberrecht.html" class="nav-btn">← Zurück zu Grundlagen</a>
+            <button class="nav-btn primary" onclick="completeAndNext()">
                 Verstanden! Weiter zu Ausnahmen →
             </button>
         </div>
     </div>
-<!-- Progress Tracker einbinden -->
-<script src="../assets/js/progress-tracker.js"></script>
 
-<script>
-    // WICHTIG: Jede Seite hat ihren eigenen Storage-Key!
-    const THEMENBEREICH = 'fairuse';
-    const STORAGE_KEY = 'urheberrecht_fairuse_progress'; // Muss mit index.html übereinstimmen
-    
-    // Tracking-Variablen für diese Seite
-    let pageProgress = 0;
-    let interactedElements = new Set();
-    let totalInteractions = 10; // Anzahl der interaktiven Elemente auf dieser Seite
-    
-    // Funktion zum Aktualisieren des Fortschritts
-    function updatePageProgress() {
-        pageProgress = Math.round((interactedElements.size / totalInteractions) * 100);
-        
-        // Speichere Fortschritt
-        localStorage.setItem(STORAGE_KEY, pageProgress);
-        
-        // Update lokale Anzeige (falls vorhanden)
-        const progressBar = document.querySelector('.progress-bar-fill');
-        const progressText = document.getElementById('progressText');
-        
-        if (progressBar) {
-            progressBar.style.width = pageProgress + '%';
+    <script>
+        // Progress Tracking
+        const STORAGE_KEY = 'urheberrecht_fairuse_progress';
+        let pageProgress = 0;
+        let interactedElements = new Set();
+        let totalInteractions = 10;
+
+        // Load saved progress
+        function loadProgress() {
+            const savedProgress = localStorage.getItem(STORAGE_KEY) || 0;
+            pageProgress = parseInt(savedProgress);
+            updateProgressDisplay();
         }
-        if (progressText) {
-            progressText.textContent = pageProgress + '%';
+
+        // Update progress display
+        function updateProgressDisplay() {
+            const progressBar = document.querySelector('.progress-bar-fill');
+            const progressText = document.getElementById('progressText');
+            
+            if (progressBar) {
+                progressBar.style.width = pageProgress + '%';
+            }
+            if (progressText) {
+                progressText.textContent = pageProgress + '%';
+            }
         }
-    }
-    
-    // Beispiel: Tracking von Button-Klicks
-    document.addEventListener('DOMContentLoaded', function() {
-        // Lade gespeicherten Fortschritt
-        const savedProgress = localStorage.getItem(STORAGE_KEY) || 0;
-        pageProgress = parseInt(savedProgress);
-        
-        // Zeige gespeicherten Fortschritt
-        const progressBar = document.querySelector('.progress-bar-fill');
-        const progressText = document.getElementById('progressText');
-        
-        if (progressBar) {
-            progressBar.style.width = pageProgress + '%';
+
+        // Update page progress
+        function updatePageProgress(elementId) {
+            interactedElements.add(elementId);
+            pageProgress = Math.min(100, Math.round((interactedElements.size / totalInteractions) * 100));
+            localStorage.setItem(STORAGE_KEY, pageProgress);
+            updateProgressDisplay();
         }
-        if (progressText) {
-            progressText.textContent = pageProgress + '%';
+
+        // Toggle factor details
+        function toggleFactor(element) {
+            element.classList.toggle('active');
+            const factorIndex = Array.from(element.parentElement.children).indexOf(element);
+            updatePageProgress('factor-' + factorIndex);
         }
-        
-        // Füge Event-Listener für interaktive Elemente hinzu
-        // Beispiel für Buttons
-        const buttons = document.querySelectorAll('.interactive-button, .quiz-button');
-        buttons.forEach((btn, index) => {
-            btn.addEventListener('click', function() {
-                interactedElements.add('button-' + index);
-                updatePageProgress();
+
+        // Evaluate scenario
+        function evaluateScenario(button, scenarioId, choice) {
+            // Remove all previous selections
+            const buttons = button.parentElement.querySelectorAll('.decision-btn');
+            buttons.forEach(btn => {
+                btn.classList.remove('selected-yes', 'selected-maybe', 'selected-no');
+            });
+
+            // Add selection class
+            if (choice === 'usa') {
+                button.classList.add('selected-yes');
+            } else if (choice === 'maybe') {
+                button.classList.add('selected-maybe');
+            } else {
+                button.classList.add('selected-no');
+            }
+
+            const result = document.getElementById('result' + scenarioId);
+            result.classList.add('show');
+
+            // Scenario evaluations
+            const evaluations = {
+                1: {
+                    'usa': {
+                        class: 'partial',
+                        text: '⚖️ <strong>Möglicherweise Fair Use:</strong> Bildungszweck spricht dafür, aber 3 Kapitel könnten als zu viel gelten. Gerichte würden Faktoren wie Umfang des Werks und Marktersetzung prüfen.'
+                    },
+                    'maybe': {
+                        class: 'correct',
+                        text: '✅ <strong>Richtig!</strong> Dies ist tatsächlich eine Grauzone. Abhängig vom Umfang des Buchs und ob es einen Markt für Kursexemplare gibt.'
+                    },
+                    'ch': {
+                        class: 'partial',
+                        text: '⚖️ <strong>Teilweise erlaubt:</strong> Nach Art. 19 URG für Unterrichtszweck möglich, aber nur "Werkteile". 3 Kapitel könnte zu viel sein.'
+                    }
+                },
+                2: {
+                    'usa': {
+                        class: 'correct',
+                        text: '✅ <strong>Sehr wahrscheinlich Fair Use:</strong> Kritik und Kommentar sind klassische Fair-Use-Fälle. 30 Sekunden sind angemessen für eine Rezension.'
+                    },
+                    'maybe': {
+                        class: 'partial',
+                        text: '⚖️ <strong>Eher nicht Grauzone:</strong> Filmkritik mit kurzen Ausschnitten ist ein etablierter Fair-Use-Fall.'
+                    },
+                    'ch': {
+                        class: 'correct',
+                        text: '✅ <strong>Wahrscheinlich erlaubt:</strong> Nach Art. 25 URG (Zitat) für Kritikzwecke möglich, wenn verhältnismässig.'
+                    }
+                },
+                3: {
+                    'usa': {
+                        class: 'partial',
+                        text: '⚖️ <strong>Umstritten:</strong> Mehrere Gerichtsverfahren laufen. Argumente für transformative Nutzung vs. massive kommerzielle Verwertung.'
+                    },
+                    'maybe': {
+                        class: 'correct',
+                        text: '✅ <strong>Definitiv Grauzone!</strong> Dies ist DIE aktuelle Streitfrage im Urheberrecht. Gerichte haben noch nicht final entschieden.'
+                    },
+                    'ch': {
+                        class: 'incorrect',
+                        text: '❌ <strong>Wahrscheinlich nicht erlaubt:</strong> Keine spezifische Schranke für KI-Training im Schweizer URG. Neue Gesetzgebung wird diskutiert.'
+                    }
+                }
+            };
+
+            const evaluation = evaluations[scenarioId][choice];
+            result.className = 'scenario-result show ' + evaluation.class;
+            result.innerHTML = evaluation.text;
+
+            updatePageProgress('scenario-' + scenarioId);
+        }
+
+        // Check quiz answer
+        function checkAnswer(button, isCorrect, questionId) {
+            // Disable all buttons for this question
+            const buttons = button.parentElement.querySelectorAll('.quiz-option');
+            buttons.forEach(btn => {
+                btn.disabled = true;
+                btn.style.cursor = 'not-allowed';
+            });
+
+            // Mark the button
+            if (isCorrect) {
+                button.classList.add('correct');
+            } else {
+                button.classList.add('incorrect');
+            }
+
+            // Show feedback
+            const feedback = document.getElementById('feedback' + questionId);
+            feedback.classList.add('show');
+            
+            if (isCorrect) {
+                feedback.classList.add('correct');
+                feedback.innerHTML = '✅ Richtig!';
+            } else {
+                feedback.classList.add('incorrect');
+                feedback.innerHTML = '❌ Nicht ganz richtig. Überprüfe dein Verständnis nochmal.';
+            }
+
+            updatePageProgress('quiz-' + questionId);
+        }
+
+        // Complete and navigate to next
+        function completeAndNext() {
+            // Set progress to 100%
+            localStorage.setItem(STORAGE_KEY, '100');
+            
+            // Update dashboard
+            const dashboardProgress = JSON.parse(localStorage.getItem('urheberrecht_progress') || '{}');
+            dashboardProgress.fairuse = 100;
+            localStorage.setItem('urheberrecht_progress', JSON.stringify(dashboardProgress));
+            
+            // Show completion message
+            alert('Fair Use Modul erfolgreich abgeschlossen! 🎉');
+            
+            // Navigate to next module
+            setTimeout(() => {
+                window.location.href = './ausnahmennutzung.html';
+            }, 500);
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadProgress();
+            
+            // Add scroll-based progress
+            window.addEventListener('scroll', () => {
+                const scrollPercentage = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+                if (scrollPercentage > 50 && !interactedElements.has('scroll-50')) {
+                    interactedElements.add('scroll-50');
+                    updatePageProgress('scroll-50');
+                }
+                if (scrollPercentage > 90 && !interactedElements.has('scroll-90')) {
+                    interactedElements.add('scroll-90');
+                    updatePageProgress('scroll-90');
+                }
             });
         });
-        
-        // Beispiel für "Seite abschließen" Button
-        const completeBtn = document.getElementById('complete-section');
-        if (completeBtn) {
-            completeBtn.addEventListener('click', function() {
-                // Setze auf 100%
-                localStorage.setItem(STORAGE_KEY, '100');
-                alert('Fair Use Themenbereich abgeschlossen!');
-                
-                // Weiter zum nächsten Thema
-                setTimeout(function() {
-                    window.location.href = './ausnahmennutzung.html';
-                }, 1500);
-            });
-        }
-    });
-</script>
+    </script>
 </body>
 </html>
