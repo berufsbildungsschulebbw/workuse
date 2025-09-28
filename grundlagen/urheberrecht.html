@@ -893,12 +893,16 @@
             </button>
         </div>
     </div>
-       <script src="../assets/js/progress-tracker.js"></script>
+      <script src="../assets/js/progress-tracker.js"></script>
 <script>
     // Progress Tracker initialisieren
     initModule('grundlagen', 5);
     
-    // Globale Variablen für Progress-Tracking
+    // Tracking für diesen spezifischen Themenbereich (1 von 5)
+    const THEMENBEREICH = 'grundlagen_basis'; // Dies ist der erste von 5 Themenbereichen
+    const THEMENBEREICH_INDEX = 1; // Position im Modul (1 von 5)
+    
+    // Lokale Variablen für diesen Themenbereich
     let interactedElements = new Set();
     let totalInteractions = 13; // 6 examples + 3 scenarios + 4 quick checks
     let quickCheckAnswers = {1: false, 2: false, 3: false, 4: false};
@@ -945,7 +949,6 @@
 
     // Quick check function for final quiz
     function quickCheck(btn, isCorrect, questionNum) {
-        // Disable all buttons in this question
         const questionDiv = btn.parentElement;
         const buttons = questionDiv.querySelectorAll('button');
         buttons.forEach(b => {
@@ -953,7 +956,6 @@
             b.style.cursor = 'default';
         });
         
-        // Mark the selected answer
         if (isCorrect) {
             btn.style.background = 'var(--zh-green)';
             btn.style.color = 'white';
@@ -968,7 +970,6 @@
             btn.style.borderColor = 'var(--zh-red)';
         }
         
-        // Show feedback
         const feedbackDiv = document.getElementById(`quick-feedback-${questionNum}`);
         feedbackDiv.style.display = 'block';
         
@@ -981,11 +982,9 @@
         
         feedbackDiv.innerHTML = `<span style="color: ${isCorrect ? 'var(--zh-green)' : 'var(--zh-red)'}">${feedbackTexts[questionNum]}</span>`;
         
-        // Track interaction
         interactedElements.add(`quick${questionNum}`);
         updateProgress();
         
-        // Show final score if all questions answered
         const allAnswered = Object.keys(quickCheckAnswers).every(key => 
             document.getElementById(`quick-feedback-${key}`).style.display === 'block'
         );
@@ -1025,37 +1024,69 @@
         element.style.color = element.style.color === 'white' ? 'var(--zh-text)' : 'white';
     }
 
-    // Update progress
+    // Update progress - NEUE VERSION
     function updateProgress() {
-        const progress = Math.round((interactedElements.size / totalInteractions) * 100);
-        document.getElementById('progressText').textContent = progress + '%';
-        document.querySelector('.progress-bar-fill').style.width = progress + '%';
+        // Lokaler Fortschritt (nur für diese Seite)
+        const localProgress = Math.round((interactedElements.size / totalInteractions) * 100);
+        document.getElementById('progressText').textContent = localProgress + '%';
+        document.querySelector('.progress-bar-fill').style.width = localProgress + '%';
         
-        // Save progress to localStorage
-        localStorage.setItem('urheberrecht_grundlagen_progress', progress);
+        // Speichere lokalen Fortschritt für diese Seite
+        localStorage.setItem(`urheberrecht_${THEMENBEREICH}_progress`, localProgress);
         
-        // Auch für die Startseite speichern
-        const stepsCompleted = Math.round((progress / 100) * 5);
-        for(let i = 1; i <= stepsCompleted; i++) {
-            markStepComplete('step-' + i);
+        // Lade Status aller 5 Themenbereiche
+        const themenbereiche = [
+            'grundlagen_basis',  // 1. Grundlagen (diese Seite)
+            'fairuse',          // 2. Fair Use
+            'ausnahmen',        // 3. Ausnahmen
+            'zitatrecht',       // 4. Zitatrecht
+            'freiewerke'        // 5. Freie Werke
+        ];
+        
+        let completedThemenbereiche = 0;
+        
+        // Prüfe welche Themenbereiche abgeschlossen sind
+        themenbereiche.forEach(bereich => {
+            const bereichProgress = localStorage.getItem(`urheberrecht_${bereich}_progress`);
+            if (bereichProgress && parseInt(bereichProgress) >= 100) {
+                completedThemenbereiche++;
+            }
+        });
+        
+        // Wenn dieser Themenbereich zu 100% abgeschlossen ist
+        if (localProgress >= 100) {
+            completedThemenbereiche = Math.max(completedThemenbereiche, 1);
+        }
+        
+        // Speichere Gesamtfortschritt für die Startseite
+        localStorage.setItem('module_grundlagen_progress', JSON.stringify({
+            completed: completedThemenbereiche,
+            total: 5,
+            lastUpdated: new Date().toISOString()
+        }));
+        
+        // Markiere Schritte für Startseite
+        for(let i = 1; i <= completedThemenbereiche; i++) {
+            markStepComplete(`themenbereich-${i}`);
         }
     }
 
     // Complete and navigate
     function completeAndNext() {
-        localStorage.setItem('module_grundlagen_completed', 'true');
+        // Markiere diesen Themenbereich als abgeschlossen
+        localStorage.setItem(`urheberrecht_${THEMENBEREICH}_progress`, '100');
+        localStorage.setItem(`${THEMENBEREICH}_completed`, 'true');
         
-        // Alle Schritte als abgeschlossen markieren
-        for(let i = 1; i <= 5; i++) {
-            markStepComplete('step-' + i);
-        }
+        // Aktualisiere Gesamtfortschritt
+        updateProgress();
         
-        window.location.href = '../fairuse.html';
+        // Navigiere zum nächsten Themenbereich
+        window.location.href = './fairuse.html';
     }
 
     // Initialize on load
     document.addEventListener('DOMContentLoaded', () => {
-        const savedProgress = localStorage.getItem('urheberrecht_grundlagen_progress') || 0;
+        const savedProgress = localStorage.getItem(`urheberrecht_${THEMENBEREICH}_progress`) || 0;
         document.getElementById('progressText').textContent = savedProgress + '%';
         document.querySelector('.progress-bar-fill').style.width = savedProgress + '%';
     });
