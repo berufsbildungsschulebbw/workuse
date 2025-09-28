@@ -893,8 +893,15 @@
             </button>
         </div>
     </div>
-
+<script src="../assets/js/progress-tracker.js"></script>
     <script>
+        // NEUE ZEILEN - Progress Tracker initialisieren
+    initModule('grundlagen', 5);
+    
+    // IHR BESTEHENDER CODE BEGINNT HIER
+    // Toggle law article details
+    function toggleLawDetail(element) {
+        // ... Ihr Code bleibt unverändert
         // Track progress
         let interactedElements = new Set();
         let totalInteractions = 13; // 6 examples + 3 scenarios + 4 quick checks
@@ -1030,13 +1037,23 @@
             
             // Save progress to localStorage
             localStorage.setItem('urheberrecht_grundlagen_progress', progress);
+             // NEU: Auch für die Startseite speichern
+    const stepsCompleted = Math.round((progress / 100) * 5);
+    for(let i = 1; i <= stepsCompleted; i++) {
+        markStepComplete('step-' + i);
+    }
         }
 
         // Complete and navigate
         function completeAndNext() {
             localStorage.setItem('module_grundlagen_completed', 'true');
-            window.location.href = '/fairuse.html';
-        }
+          // NEU: Alle Schritte als abgeschlossen markieren
+    for(let i = 1; i <= 5; i++) {
+        markStepComplete('step-' + i);
+    }
+    
+    window.location.href = '/fairuse.html';
+}
 
         // Initialize on load
         document.addEventListener('DOMContentLoaded', () => {
