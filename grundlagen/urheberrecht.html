@@ -893,174 +893,172 @@
             </button>
         </div>
     </div>
-<script src="../assets/js/progress-tracker.js"></script>
-    <script>
-        // NEUE ZEILEN - Progress Tracker initialisieren
+       <script src="../assets/js/progress-tracker.js"></script>
+<script>
+    // Progress Tracker initialisieren
     initModule('grundlagen', 5);
     
-    // IHR BESTEHENDER CODE BEGINNT HIER
+    // Globale Variablen für Progress-Tracking
+    let interactedElements = new Set();
+    let totalInteractions = 13; // 6 examples + 3 scenarios + 4 quick checks
+    let quickCheckAnswers = {1: false, 2: false, 3: false, 4: false};
+    let quickCheckCorrect = 0;
+
+    // Toggle example cards
+    function toggleExample(element, isProtected) {
+        element.classList.toggle('active');
+        if (element.classList.contains('active')) {
+            interactedElements.add(element);
+        }
+        updateProgress();
+    }
+
+    // Check scenario answers
+    function checkScenario(btn, isCorrect, scenarioNum) {
+        const buttons = btn.parentElement.querySelectorAll('.decision-btn');
+        const feedback = document.getElementById(`feedback${scenarioNum}`);
+        
+        buttons.forEach(b => b.disabled = true);
+        btn.classList.add('selected', isCorrect ? 'correct' : 'incorrect');
+        
+        feedback.classList.add('show', isCorrect ? 'correct' : 'incorrect');
+        
+        const feedbackTexts = {
+            1: {
+                correct: '✓ Richtig! Die selbst formulierten Texte haben individuellen Charakter, auch wenn das Layout standard ist.',
+                incorrect: '✗ Nicht ganz. Die selbst formulierten Texte zeigen Individualität und sind geschützt!'
+            },
+            2: {
+                correct: '✓ Richtig! Kurze Slogans fehlt meist der individuelle Charakter für Urheberrechtsschutz.',
+                incorrect: '✗ Falsch. So kurze Phrasen erreichen selten die Schöpfungshöhe für Urheberrechtsschutz.'
+            },
+            3: {
+                correct: '✓ Richtig! Die Beschreibungen und Fotos sind definitiv geschützt. Die reinen Zutatenlisten nicht.',
+                incorrect: '✗ Nicht ganz. Die kreativen Beschreibungen und Fotos sind sehr wohl geschützt!'
+            }
+        };
+        
+        feedback.innerHTML = feedbackTexts[scenarioNum][isCorrect ? 'correct' : 'incorrect'];
+        interactedElements.add(`scenario${scenarioNum}`);
+        updateProgress();
+    }
+
+    // Quick check function for final quiz
+    function quickCheck(btn, isCorrect, questionNum) {
+        // Disable all buttons in this question
+        const questionDiv = btn.parentElement;
+        const buttons = questionDiv.querySelectorAll('button');
+        buttons.forEach(b => {
+            b.disabled = true;
+            b.style.cursor = 'default';
+        });
+        
+        // Mark the selected answer
+        if (isCorrect) {
+            btn.style.background = 'var(--zh-green)';
+            btn.style.color = 'white';
+            btn.style.borderColor = 'var(--zh-green)';
+            if (!quickCheckAnswers[questionNum]) {
+                quickCheckCorrect++;
+                quickCheckAnswers[questionNum] = true;
+            }
+        } else {
+            btn.style.background = 'var(--zh-red)';
+            btn.style.color = 'white';
+            btn.style.borderColor = 'var(--zh-red)';
+        }
+        
+        // Show feedback
+        const feedbackDiv = document.getElementById(`quick-feedback-${questionNum}`);
+        feedbackDiv.style.display = 'block';
+        
+        const feedbackTexts = {
+            1: isCorrect ? '✓ Richtig! Computerprogramme sind nur 50 Jahre nach dem Tod geschützt.' : '✗ Falsch. Computerprogramme haben eine kürzere Schutzfrist: 50 Jahre.',
+            2: isCorrect ? '✓ Richtig! Art. 2 Abs. 3bis URG schützt ALLE Fotografien, auch ohne individuellen Charakter.' : '✗ Falsch. Die Sonderregel schützt alle Fotos, auch Schnappschüsse!',
+            3: isCorrect ? '✓ Richtig! Nur Menschen können geistige Schöpfungen hervorbringen, nicht KI.' : '✗ Falsch. Das Hauptproblem ist, dass keine menschliche Schöpfung vorliegt.',
+            4: isCorrect ? '✓ Richtig! Fotos ohne individuellen Charakter sind 50 Jahre ab Herstellung geschützt.' : '✗ Falsch. Auch einfache Fotos sind 50 Jahre geschützt (ab Herstellung).'
+        };
+        
+        feedbackDiv.innerHTML = `<span style="color: ${isCorrect ? 'var(--zh-green)' : 'var(--zh-red)'}">${feedbackTexts[questionNum]}</span>`;
+        
+        // Track interaction
+        interactedElements.add(`quick${questionNum}`);
+        updateProgress();
+        
+        // Show final score if all questions answered
+        const allAnswered = Object.keys(quickCheckAnswers).every(key => 
+            document.getElementById(`quick-feedback-${key}`).style.display === 'block'
+        );
+        
+        if (allAnswered) {
+            const scoreDiv = document.getElementById('final-score');
+            scoreDiv.style.display = 'block';
+            
+            const scoreText = document.getElementById('score-text');
+            const scoreMessage = document.getElementById('score-message');
+            
+            if (quickCheckCorrect === 4) {
+                scoreDiv.style.background = '#e6f7e6';
+                scoreDiv.style.border = '2px solid var(--zh-green)';
+                scoreText.style.color = 'var(--zh-green)';
+                scoreText.textContent = `Perfekt! ${quickCheckCorrect}/4 richtig`;
+                scoreMessage.textContent = 'Sie haben die Schutzkriterien und -dauern verstanden!';
+            } else if (quickCheckCorrect >= 2) {
+                scoreDiv.style.background = '#fff9e6';
+                scoreDiv.style.border = '2px solid #ff9800';
+                scoreText.style.color = '#ff9800';
+                scoreText.textContent = `Gut! ${quickCheckCorrect}/4 richtig`;
+                scoreMessage.textContent = 'Schauen Sie sich nochmal die Tabelle oben an für die Details.';
+            } else {
+                scoreDiv.style.background = '#ffe6e6';
+                scoreDiv.style.border = '2px solid var(--zh-red)';
+                scoreText.style.color = 'var(--zh-red)';
+                scoreText.textContent = `${quickCheckCorrect}/4 richtig`;
+                scoreMessage.textContent = 'Wiederholen Sie die Grundlagen in der Tabelle oben.';
+            }
+        }
+    }
+
     // Toggle law article details
     function toggleLawDetail(element) {
-        // ... Ihr Code bleibt unverändert
-        // Track progress
-        let interactedElements = new Set();
-        let totalInteractions = 13; // 6 examples + 3 scenarios + 4 quick checks
-        let quickCheckAnswers = {1: false, 2: false, 3: false, 4: false};
-        let quickCheckCorrect = 0;
-
-        // Toggle example cards
-        function toggleExample(element, isProtected) {
-            element.classList.toggle('active');
-            if (element.classList.contains('active')) {
-                interactedElements.add(element);
-            }
-            updateProgress();
-        }
-
-        // Check scenario answers
-        function checkScenario(btn, isCorrect, scenarioNum) {
-            const buttons = btn.parentElement.querySelectorAll('.decision-btn');
-            const feedback = document.getElementById(`feedback${scenarioNum}`);
-            
-            buttons.forEach(b => b.disabled = true);
-            btn.classList.add('selected', isCorrect ? 'correct' : 'incorrect');
-            
-            feedback.classList.add('show', isCorrect ? 'correct' : 'incorrect');
-            
-            const feedbackTexts = {
-                1: {
-                    correct: '✓ Richtig! Die selbst formulierten Texte haben individuellen Charakter, auch wenn das Layout standard ist.',
-                    incorrect: '✗ Nicht ganz. Die selbst formulierten Texte zeigen Individualität und sind geschützt!'
-                },
-                2: {
-                    correct: '✓ Richtig! Kurze Slogans fehlt meist der individuelle Charakter für Urheberrechtsschutz.',
-                    incorrect: '✗ Falsch. So kurze Phrasen erreichen selten die Schöpfungshöhe für Urheberrechtsschutz.'
-                },
-                3: {
-                    correct: '✓ Richtig! Die Beschreibungen und Fotos sind definitiv geschützt. Die reinen Zutatenlisten nicht.',
-                    incorrect: '✗ Nicht ganz. Die kreativen Beschreibungen und Fotos sind sehr wohl geschützt!'
-                }
-            };
-            
-            feedback.innerHTML = feedbackTexts[scenarioNum][isCorrect ? 'correct' : 'incorrect'];
-            interactedElements.add(`scenario${scenarioNum}`);
-            updateProgress();
-        }
-
-        // Quick check function for final quiz
-        function quickCheck(btn, isCorrect, questionNum) {
-            // Disable all buttons in this question
-            const questionDiv = btn.parentElement;
-            const buttons = questionDiv.querySelectorAll('button');
-            buttons.forEach(b => {
-                b.disabled = true;
-                b.style.cursor = 'default';
-            });
-            
-            // Mark the selected answer
-            if (isCorrect) {
-                btn.style.background = 'var(--zh-green)';
-                btn.style.color = 'white';
-                btn.style.borderColor = 'var(--zh-green)';
-                if (!quickCheckAnswers[questionNum]) {
-                    quickCheckCorrect++;
-                    quickCheckAnswers[questionNum] = true;
-                }
-            } else {
-                btn.style.background = 'var(--zh-red)';
-                btn.style.color = 'white';
-                btn.style.borderColor = 'var(--zh-red)';
-            }
-            
-            // Show feedback
-            const feedbackDiv = document.getElementById(`quick-feedback-${questionNum}`);
-            feedbackDiv.style.display = 'block';
-            
-            const feedbackTexts = {
-                1: isCorrect ? '✓ Richtig! Computerprogramme sind nur 50 Jahre nach dem Tod geschützt.' : '✗ Falsch. Computerprogramme haben eine kürzere Schutzfrist: 50 Jahre.',
-                2: isCorrect ? '✓ Richtig! Art. 2 Abs. 3bis URG schützt ALLE Fotografien, auch ohne individuellen Charakter.' : '✗ Falsch. Die Sonderregel schützt alle Fotos, auch Schnappschüsse!',
-                3: isCorrect ? '✓ Richtig! Nur Menschen können geistige Schöpfungen hervorbringen, nicht KI.' : '✗ Falsch. Das Hauptproblem ist, dass keine menschliche Schöpfung vorliegt.',
-                4: isCorrect ? '✓ Richtig! Fotos ohne individuellen Charakter sind 50 Jahre ab Herstellung geschützt.' : '✗ Falsch. Auch einfache Fotos sind 50 Jahre geschützt (ab Herstellung).'
-            };
-            
-            feedbackDiv.innerHTML = `<span style="color: ${isCorrect ? 'var(--zh-green)' : 'var(--zh-red)'}">${feedbackTexts[questionNum]}</span>`;
-            
-            // Track interaction
-            interactedElements.add(`quick${questionNum}`);
-            updateProgress();
-            
-            // Show final score if all questions answered
-            const allAnswered = Object.keys(quickCheckAnswers).every(key => 
-                document.getElementById(`quick-feedback-${key}`).style.display === 'block'
-            );
-            
-            if (allAnswered) {
-                const scoreDiv = document.getElementById('final-score');
-                scoreDiv.style.display = 'block';
-                
-                const scoreText = document.getElementById('score-text');
-                const scoreMessage = document.getElementById('score-message');
-                
-                if (quickCheckCorrect === 4) {
-                    scoreDiv.style.background = '#e6f7e6';
-                    scoreDiv.style.border = '2px solid var(--zh-green)';
-                    scoreText.style.color = 'var(--zh-green)';
-                    scoreText.textContent = `Perfekt! ${quickCheckCorrect}/4 richtig`;
-                    scoreMessage.textContent = 'Sie haben die Schutzkriterien und -dauern verstanden!';
-                } else if (quickCheckCorrect >= 2) {
-                    scoreDiv.style.background = '#fff9e6';
-                    scoreDiv.style.border = '2px solid #ff9800';
-                    scoreText.style.color = '#ff9800';
-                    scoreText.textContent = `Gut! ${quickCheckCorrect}/4 richtig`;
-                    scoreMessage.textContent = 'Schauen Sie sich nochmal die Tabelle oben an für die Details.';
-                } else {
-                    scoreDiv.style.background = '#ffe6e6';
-                    scoreDiv.style.border = '2px solid var(--zh-red)';
-                    scoreText.style.color = 'var(--zh-red)';
-                    scoreText.textContent = `${quickCheckCorrect}/4 richtig`;
-                    scoreMessage.textContent = 'Wiederholen Sie die Grundlagen in der Tabelle oben.';
-                }
-            }
-        }
-
-        // Toggle law article details
-        function toggleLawDetail(element) {
-            element.style.background = element.style.background === 'var(--zh-blue)' ? 'white' : 'var(--zh-blue)';
-            element.style.color = element.style.color === 'white' ? 'var(--zh-text)' : 'white';
-        }
-
-        // Update progress
-        function updateProgress() {
-            const progress = Math.round((interactedElements.size / totalInteractions) * 100);
-            document.getElementById('progressText').textContent = progress + '%';
-            document.querySelector('.progress-bar-fill').style.width = progress + '%';
-            
-            // Save progress to localStorage
-            localStorage.setItem('urheberrecht_grundlagen_progress', progress);
-             // NEU: Auch für die Startseite speichern
-    const stepsCompleted = Math.round((progress / 100) * 5);
-    for(let i = 1; i <= stepsCompleted; i++) {
-        markStepComplete('step-' + i);
+        element.style.background = element.style.background === 'var(--zh-blue)' ? 'white' : 'var(--zh-blue)';
+        element.style.color = element.style.color === 'white' ? 'var(--zh-text)' : 'white';
     }
+
+    // Update progress
+    function updateProgress() {
+        const progress = Math.round((interactedElements.size / totalInteractions) * 100);
+        document.getElementById('progressText').textContent = progress + '%';
+        document.querySelector('.progress-bar-fill').style.width = progress + '%';
+        
+        // Save progress to localStorage
+        localStorage.setItem('urheberrecht_grundlagen_progress', progress);
+        
+        // Auch für die Startseite speichern
+        const stepsCompleted = Math.round((progress / 100) * 5);
+        for(let i = 1; i <= stepsCompleted; i++) {
+            markStepComplete('step-' + i);
         }
-
-        // Complete and navigate
-        function completeAndNext() {
-            localStorage.setItem('module_grundlagen_completed', 'true');
-          // NEU: Alle Schritte als abgeschlossen markieren
-    for(let i = 1; i <= 5; i++) {
-        markStepComplete('step-' + i);
     }
-    
-    window.location.href = '/fairuse.html';
-}
 
-        // Initialize on load
-        document.addEventListener('DOMContentLoaded', () => {
-            const savedProgress = localStorage.getItem('urheberrecht_grundlagen_progress') || 0;
-            document.getElementById('progressText').textContent = savedProgress + '%';
-            document.querySelector('.progress-bar-fill').style.width = savedProgress + '%';
-        });
-    </script>
+    // Complete and navigate
+    function completeAndNext() {
+        localStorage.setItem('module_grundlagen_completed', 'true');
+        
+        // Alle Schritte als abgeschlossen markieren
+        for(let i = 1; i <= 5; i++) {
+            markStepComplete('step-' + i);
+        }
+        
+        window.location.href = '../fairuse.html';
+    }
+
+    // Initialize on load
+    document.addEventListener('DOMContentLoaded', () => {
+        const savedProgress = localStorage.getItem('urheberrecht_grundlagen_progress') || 0;
+        document.getElementById('progressText').textContent = savedProgress + '%';
+        document.querySelector('.progress-bar-fill').style.width = savedProgress + '%';
+    });
+</script>
 </body>
 </html>
