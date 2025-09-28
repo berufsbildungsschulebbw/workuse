@@ -681,104 +681,80 @@
             </button>
         </div>
     </div>
+<!-- Progress Tracker einbinden -->
+<script src="../assets/js/progress-tracker.js"></script>
 
-    <script>
-        let interactedElements = new Set();
-        let totalInteractions = 9; // 4 factors + 3 scenarios + 2 quiz
-
-        // Toggle factor details
-        function toggleFactor(element) {
-            element.classList.toggle('active');
-            interactedElements.add('factor' + element.querySelector('.factor-number').textContent);
-            updateProgress();
+<script>
+    // WICHTIG: Jede Seite hat ihren eigenen Storage-Key!
+    const THEMENBEREICH = 'fairuse';
+    const STORAGE_KEY = 'urheberrecht_fairuse_progress'; // Muss mit index.html übereinstimmen
+    
+    // Tracking-Variablen für diese Seite
+    let pageProgress = 0;
+    let interactedElements = new Set();
+    let totalInteractions = 10; // Anzahl der interaktiven Elemente auf dieser Seite
+    
+    // Funktion zum Aktualisieren des Fortschritts
+    function updatePageProgress() {
+        pageProgress = Math.round((interactedElements.size / totalInteractions) * 100);
+        
+        // Speichere Fortschritt
+        localStorage.setItem(STORAGE_KEY, pageProgress);
+        
+        // Update lokale Anzeige (falls vorhanden)
+        const progressBar = document.querySelector('.progress-bar-fill');
+        const progressText = document.getElementById('progressText');
+        
+        if (progressBar) {
+            progressBar.style.width = pageProgress + '%';
         }
-
-        // Evaluate scenario
-        function evaluateScenario(btn, scenario, choice) {
-            const buttons = btn.parentElement.querySelectorAll('.decision-btn');
-            buttons.forEach(b => b.disabled = true);
-            
-            const resultDiv = document.getElementById('result' + scenario);
-            resultDiv.classList.add('show');
-            
-            const results = {
-                1: {
-                    usa: '🇺🇸 USA: Wahrscheinlich Fair Use für Bildungszwecke, aber Umfang könnte problematisch sein.',
-                    ch: '🇨🇭 CH: Teilweise erlaubt unter Art. 19 URG (Privatgebrauch im Unterricht), aber Umfang beachten!',
-                    maybe: '⚖️ Grauzone: Abhängig vom Umfang und ob Lizenzen verfügbar sind.'
-                },
-                2: {
-                    usa: '🇺🇸 USA: Sehr wahrscheinlich Fair Use - Kritik ist klassischer Fair-Use-Fall.',
-                    ch: '🇨🇭 CH: Erlaubt als Zitat (Art. 25 URG) bei Quellenangabe.',
-                    maybe: '⚖️ Weniger Grauzone - meist erlaubt in beiden Systemen.'
-                },
-                3: {
-                    usa: '🇺🇸 USA: Höchst umstritten! Gerichte sind uneinig.',
-                    ch: '🇨🇭 CH: Rechtslage unklar - keine spezifische Regelung.',
-                    maybe: '⚖️ DIE Grauzone schlechthin - weltweit ungeklärt!'
-                }
-            };
-            
-            if (choice === 'usa') {
-                btn.classList.add('selected-yes');
-                resultDiv.style.background = '#e6f7e6';
-            } else if (choice === 'ch') {
-                btn.classList.add('selected-no');
-                resultDiv.style.background = '#ffe6e6';
-            } else {
-                btn.classList.add('selected-maybe');
-                resultDiv.style.background = '#fff9e6';
-            }
-            
-            resultDiv.innerHTML = results[scenario][choice];
-            interactedElements.add('scenario' + scenario);
-            updateProgress();
+        if (progressText) {
+            progressText.textContent = pageProgress + '%';
         }
-
-        // Check quiz answer
-        function checkAnswer(btn, isCorrect, question) {
-            const buttons = btn.parentElement.querySelectorAll('.quiz-option');
-            buttons.forEach(b => b.disabled = true);
-            
-            const feedbackDiv = document.getElementById('feedback' + question);
-            feedbackDiv.style.display = 'block';
-            
-            if (isCorrect) {
-                btn.style.background = 'var(--zh-green)';
-                btn.style.color = 'white';
-                feedbackDiv.style.background = '#e6f7e6';
-                feedbackDiv.innerHTML = '✓ Richtig!';
-            } else {
-                btn.style.background = 'var(--zh-red)';
-                btn.style.color = 'white';
-                feedbackDiv.style.background = '#ffe6e6';
-                feedbackDiv.innerHTML = '✗ Nicht ganz richtig.';
-            }
-            
-            interactedElements.add('quiz' + question);
-            updateProgress();
+    }
+    
+    // Beispiel: Tracking von Button-Klicks
+    document.addEventListener('DOMContentLoaded', function() {
+        // Lade gespeicherten Fortschritt
+        const savedProgress = localStorage.getItem(STORAGE_KEY) || 0;
+        pageProgress = parseInt(savedProgress);
+        
+        // Zeige gespeicherten Fortschritt
+        const progressBar = document.querySelector('.progress-bar-fill');
+        const progressText = document.getElementById('progressText');
+        
+        if (progressBar) {
+            progressBar.style.width = pageProgress + '%';
         }
-
-        // Update progress
-        function updateProgress() {
-            const progress = Math.round((interactedElements.size / totalInteractions) * 100);
-            document.getElementById('progressText').textContent = progress + '%';
-            document.querySelector('.progress-bar-fill').style.width = progress + '%';
-            localStorage.setItem('fair_use_progress', progress);
+        if (progressText) {
+            progressText.textContent = pageProgress + '%';
         }
-
-        // Complete and navigate
-        function completeAndNext() {
-            localStorage.setItem('module_fairuse_completed', 'true');
-            window.location.href = 'grundlagen/ausnahmennutzung.html';
-        }
-
-        // Initialize
-        document.addEventListener('DOMContentLoaded', () => {
-            const savedProgress = localStorage.getItem('fair_use_progress') || 0;
-            document.getElementById('progressText').textContent = savedProgress + '%';
-            document.querySelector('.progress-bar-fill').style.width = savedProgress + '%';
+        
+        // Füge Event-Listener für interaktive Elemente hinzu
+        // Beispiel für Buttons
+        const buttons = document.querySelectorAll('.interactive-button, .quiz-button');
+        buttons.forEach((btn, index) => {
+            btn.addEventListener('click', function() {
+                interactedElements.add('button-' + index);
+                updatePageProgress();
+            });
         });
-    </script>
+        
+        // Beispiel für "Seite abschließen" Button
+        const completeBtn = document.getElementById('complete-section');
+        if (completeBtn) {
+            completeBtn.addEventListener('click', function() {
+                // Setze auf 100%
+                localStorage.setItem(STORAGE_KEY, '100');
+                alert('Fair Use Themenbereich abgeschlossen!');
+                
+                // Weiter zum nächsten Thema
+                setTimeout(function() {
+                    window.location.href = './ausnahmennutzung.html';
+                }, 1500);
+            });
+        }
+    });
+</script>
 </body>
 </html>
