@@ -1,1 +1,833 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grundlagen Schulumgebung - Urheberrecht für Schulen</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+
+        /* Header */
+        .header {
+            background: #0050a0;
+            color: white;
+            padding: 20px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .canton-logo {
+            width: 40px;
+            height: 40px;
+            background: white;
+            border-radius: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #0050a0;
+        }
+
+        h1 {
+            font-size: 20px;
+            font-weight: 400;
+        }
+
+        .module-info {
+            background: rgba(255,255,255,0.1);
+            padding: 5px 15px;
+            border-radius: 3px;
+            font-size: 14px;
+        }
+
+        /* Main Content */
+        .main {
+            margin-top: 80px;
+            padding: 40px 0;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Breadcrumb */
+        .breadcrumb {
+            background: white;
+            padding: 15px 20px;
+            border-radius: 3px;
+            margin-bottom: 30px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .breadcrumb a {
+            color: #0050a0;
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .breadcrumb span {
+            margin: 0 10px;
+            color: #999;
+        }
+
+        /* Content Card */
+        .content-card {
+            background: white;
+            border-radius: 3px;
+            padding: 40px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .page-title {
+            color: #0050a0;
+            font-size: 28px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .page-icon {
+            font-size: 32px;
+        }
+
+        .intro-text {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 30px;
+            padding-bottom: 30px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        /* Learning Objectives */
+        .learning-objectives {
+            background: #e8f2ff;
+            border-left: 4px solid #0050a0;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .learning-objectives h3 {
+            color: #0050a0;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        .learning-objectives ul {
+            margin-left: 20px;
+        }
+
+        .learning-objectives li {
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        /* Content Sections */
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section h2 {
+            color: #0050a0;
+            font-size: 24px;
+            margin-bottom: 20px;
+            padding-left: 30px;
+            position: relative;
+        }
+
+        .section h2::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+            background: #0050a0;
+            border-radius: 50%;
+        }
+
+        .section h3 {
+            color: #333;
+            font-size: 18px;
+            margin: 20px 0 15px 0;
+        }
+
+        .section p {
+            margin-bottom: 15px;
+            line-height: 1.8;
+        }
+
+        /* Info Boxes */
+        .info-box {
+            background: #f9f9f9;
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 3px;
+        }
+
+        .info-box.important {
+            background: #fff3cd;
+            border-color: #ffc107;
+        }
+
+        .info-box.example {
+            background: #e8f5e9;
+            border-color: #4caf50;
+        }
+
+        .info-box-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .info-box-icon {
+            font-size: 20px;
+        }
+
+        /* Lists */
+        ul, ol {
+            margin: 15px 0 15px 30px;
+        }
+
+        li {
+            margin-bottom: 8px;
+            line-height: 1.8;
+        }
+
+        /* Key Points */
+        .key-points {
+            background: #f0f8ff;
+            border: 2px solid #0050a0;
+            padding: 25px;
+            margin: 30px 0;
+            border-radius: 3px;
+        }
+
+        .key-points h3 {
+            color: #0050a0;
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+
+        .key-points ul {
+            list-style: none;
+            margin-left: 0;
+        }
+
+        .key-points li {
+            padding-left: 30px;
+            position: relative;
+            margin-bottom: 12px;
+        }
+
+        .key-points li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #00994d;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        /* Progress Section */
+        .progress-section {
+            background: white;
+            padding: 30px;
+            border-radius: 3px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .progress-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .progress-percentage {
+            font-size: 24px;
+            font-weight: bold;
+            color: #0050a0;
+        }
+
+        .progress-bar-container {
+            background: #e5e5e5;
+            height: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #0050a0, #0066cc);
+            transition: width 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 10px;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        /* Navigation */
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 2px solid #f0f0f0;
+        }
+
+        .nav-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 24px;
+            background: #0050a0;
+            color: white;
+            text-decoration: none;
+            border-radius: 3px;
+            transition: background 0.2s;
+            font-size: 14px;
+        }
+
+        .nav-button:hover {
+            background: #003d7a;
+        }
+
+        .nav-button.prev {
+            background: #666;
+        }
+
+        .nav-button.prev:hover {
+            background: #555;
+        }
+
+        /* Quiz Section */
+        .quiz-section {
+            background: #f9f9f9;
+            padding: 30px;
+            border-radius: 3px;
+            margin: 30px 0;
+        }
+
+        .quiz-question {
+            margin-bottom: 20px;
+        }
+
+        .quiz-question h4 {
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .quiz-option {
+            padding: 15px;
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .quiz-option:hover {
+            border-color: #0050a0;
+            background: #f0f8ff;
+        }
+
+        .quiz-option.selected {
+            border-color: #0050a0;
+            background: #e8f2ff;
+        }
+
+        .quiz-option.correct {
+            border-color: #00994d;
+            background: #e8f5e9;
+        }
+
+        .quiz-option.incorrect {
+            border-color: #d32f2f;
+            background: #ffebee;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .content-card {
+                padding: 25px;
+            }
+
+            .page-title {
+                font-size: 24px;
+            }
+
+            .navigation {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .nav-button {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="header-left">
+                <div class="canton-logo">ZH</div>
+                <h1>Urheberrecht für Schulen</h1>
+            </div>
+            <div class="module-info">
+                Modul 2: Anwendung in der Schule
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+        <div class="container">
+            <!-- Breadcrumb -->
+            <div class="breadcrumb">
+                <a href="../index.html">Startseite</a>
+                <span>›</span>
+                <a href="#">Anwendung in der Schule</a>
+                <span>›</span>
+                <strong>Grundlagen Schulumgebung</strong>
+            </div>
+
+            <!-- Progress Section -->
+            <div class="progress-section">
+                <div class="progress-header">
+                    <span class="progress-title">Ihr Fortschritt in diesem Thema</span>
+                    <span class="progress-percentage">0%</span>
+                </div>
+                <div class="progress-bar-container">
+                    <div class="progress-bar" style="width: 0%"></div>
+                </div>
+            </div>
+
+            <!-- Main Content Card -->
+            <div class="content-card">
+                <h1 class="page-title">
+                    <span class="page-icon">📝</span>
+                    Grundlagen der schulischen Nutzung
+                </h1>
+
+                <p class="intro-text">
+                    Lernen Sie die rechtlichen Rahmenbedingungen kennen, die speziell für Schweizer Schulen gelten. 
+                    Der Gemeinsame Tarif 7 (GT7) regelt die Nutzung urheberrechtlich geschützter Werke im Bildungskontext.
+                </p>
+
+                <!-- Learning Objectives -->
+                <div class="learning-objectives">
+                    <h3>🎯 Lernziele</h3>
+                    <ul>
+                        <li>Sie verstehen die gesetzlichen Grundlagen des Urheberrechts im Schulkontext</li>
+                        <li>Sie kennen die Privilegien von Schulen gemäss Art. 19 und 20 URG</li>
+                        <li>Sie wissen, welche Nutzungen durch den GT7 abgedeckt sind</li>
+                        <li>Sie können erlaubte und nicht erlaubte Nutzungen unterscheiden</li>
+                    </ul>
+                </div>
+
+                <!-- Section 1 -->
+                <section class="section">
+                    <h2>Gesetzliche Grundlagen</h2>
+                    
+                    <p>
+                        Das Schweizer Urheberrechtsgesetz (URG) gewährt Schulen besondere Privilegien für die Nutzung 
+                        geschützter Werke im Bildungskontext. Diese Sonderregelungen ermöglichen es Lehrpersonen, 
+                        Unterrichtsmaterialien flexibel und rechtssicher einzusetzen.
+                    </p>
+
+                    <h3>Die wichtigsten Artikel</h3>
+                    
+                    <div class="info-box">
+                        <div class="info-box-title">
+                            <span class="info-box-icon">⚖️</span>
+                            Art. 19 URG - Verwendung zum Eigengebrauch
+                        </div>
+                        <p>
+                            Dieser Artikel erlaubt die Verwendung veröffentlichter Werke im persönlichen Bereich und 
+                            im Kreis von Personen, die unter sich eng verbunden sind (Privatgebrauch) sowie die 
+                            Verwendung durch Lehrpersonen für den Unterricht in der Klasse.
+                        </p>
+                    </div>
+
+                    <div class="info-box">
+                        <div class="info-box-title">
+                            <span class="info-box-icon">💰</span>
+                            Art. 20 URG - Vergütung für den Eigengebrauch
+                        </div>
+                        <p>
+                            Für bestimmte Verwendungen im Eigengebrauch ist eine angemessene Vergütung geschuldet. 
+                            Diese wird über Verwertungsgesellschaften wie ProLitteris abgerechnet und durch den GT7 geregelt.
+                        </p>
+                    </div>
+                </section>
+
+                <!-- Section 2 -->
+                <section class="section">
+                    <h2>Der Gemeinsame Tarif 7 (GT7)</h2>
+                    
+                    <p>
+                        Der GT7 ist die praktische Umsetzung der gesetzlichen Bestimmungen. Er regelt detailliert, 
+                        welche Nutzungen erlaubt sind und wie die Vergütungen berechnet werden.
+                    </p>
+
+                    <h3>Geltungsbereich</h3>
+                    <ul>
+                        <li><strong>Öffentliche Schulen:</strong> Alle Volksschulen, Gymnasien und Berufsschulen</li>
+                        <li><strong>Private Schulen:</strong> Privatschulen mit staatlicher Bewilligung</li>
+                        <li><strong>Hochschulen:</strong> Universitäten, Fachhochschulen und Pädagogische Hochschulen</li>
+                        <li><strong>Weiterbildung:</strong> Institutionen der beruflichen Weiterbildung</li>
+                    </ul>
+
+                    <div class="info-box important">
+                        <div class="info-box-title">
+                            <span class="info-box-icon">⚠️</span>
+                            Wichtig zu wissen
+                        </div>
+                        <p>
+                            Der GT7 gilt auch für das Fürstentum Liechtenstein. Die Tarifperiode 2022-2026 ist aktuell gültig.
+                        </p>
+                    </div>
+                </section>
+
+                <!-- Section 3 -->
+                <section class="section">
+                    <h2>Erlaubte Nutzungen im Überblick</h2>
+                    
+                    <p>
+                        Schulen dürfen unter dem GT7 verschiedene Arten von Werken für Unterrichtszwecke nutzen:
+                    </p>
+
+                    <div class="key-points">
+                        <h3>✅ Diese Nutzungen sind erlaubt</h3>
+                        <ul>
+                            <li><strong>Papierkopien:</strong> Ausschnitte aus Büchern, Zeitungen und Zeitschriften</li>
+                            <li><strong>Digitalkopien:</strong> Scannen und digitales Verteilen von Werkausschnitten</li>
+                            <li><strong>Radio/TV-Sendungen:</strong> Vollständige Aufzeichnung und Nutzung im Unterricht</li>
+                            <li><strong>Musikaufführungen:</strong> In bestimmtem Rahmen bei Schulanlässen</li>
+                            <li><strong>Datenträger:</strong> Speichern auf schulinternen Servern und Plattformen</li>
+                        </ul>
+                    </div>
+
+                    <div class="info-box example">
+                        <div class="info-box-title">
+                            <span class="info-box-icon">💡</span>
+                            Praxisbeispiel
+                        </div>
+                        <p>
+                            Eine Lehrperson darf ein Kapitel aus einem Lehrbuch kopieren und an die Klasse verteilen. 
+                            Sie darf auch eine Dokumentation aus dem Fernsehen aufnehmen und im Unterricht zeigen. 
+                            Beides ist durch den GT7 abgedeckt und vergütet.
+                        </p>
+                    </div>
+                </section>
+
+                <!-- Section 4 -->
+                <section class="section">
+                    <h2>Wichtige Einschränkungen</h2>
+                    
+                    <p>
+                        Nicht alle Nutzungen sind durch den GT7 abgedeckt. Für folgende Verwendungen benötigen Sie 
+                        eine separate Erlaubnis der Rechteinhaber:
+                    </p>
+
+                    <div class="info-box important">
+                        <div class="info-box-title">
+                            <span class="info-box-icon">❌</span>
+                            Diese Nutzungen sind NICHT erlaubt
+                        </div>
+                        <ul>
+                            <li>Kopieren ganzer Bücher oder Zeitschriften (wenn im Handel erhältlich)</li>
+                            <li>Erstellen und Verbreiten eigener Lehrmittel aus fremdem Material</li>
+                            <li>Veröffentlichung auf Websites oder Social Media</li>
+                            <li>Verwendung ausserhalb des Unterrichts (z.B. Unterhaltung, Freizeit)</li>
+                            <li>Weitergabe an andere Schulen oder externe Personen</li>
+                            <li>Musikaufführungen gegen Entgelt oder mit externem Publikum</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <!-- Section 5 -->
+                <section class="section">
+                    <h2>Vergütungsregelung</h2>
+                    
+                    <p>
+                        Die Vergütungen für die Nutzung geschützter Werke werden pauschal berechnet und über die 
+                        Schweizerische Konferenz der kantonalen Erziehungsdirektoren (EDK) abgewickelt.
+                    </p>
+
+                    <h3>So funktioniert's:</h3>
+                    <ol>
+                        <li>Die EDK zieht die Vergütungen für alle öffentlichen Schulen ein</li>
+                        <li>Private Schulen erhalten direkte Rechnungen von ProLitteris</li>
+                        <li>Die Vergütung wird pro Schüler/in und Schulstufe berechnet</li>
+                        <li>Schulen erhalten einen Rabatt von 35% gemäss Art. 60 Abs. 3 URG</li>
+                    </ol>
+
+                    <div class="info-box">
+                        <div class="info-box-title">
+                            <span class="info-box-icon">💡</span>
+                            Gut zu wissen
+                        </div>
+                        <p>
+                            Musikschulen sind in der Vergütung bereits enthalten und müssen keine separaten 
+                            Gebühren zahlen - auch nicht für Erwachsenenunterricht.
+                        </p>
+                    </div>
+                </section>
+
+                <!-- Quiz Section -->
+                <section class="quiz-section">
+                    <h3>📝 Wissenskontrolle</h3>
+                    
+                    <div class="quiz-question">
+                        <h4>Frage 1: Welche Nutzung ist durch den GT7 NICHT abgedeckt?</h4>
+                        <div class="quiz-options">
+                            <div class="quiz-option" data-correct="false">
+                                Ein Kapitel aus einem Lehrbuch für die Klasse kopieren
+                            </div>
+                            <div class="quiz-option" data-correct="true">
+                                Ein komplettes Lehrbuch scannen und auf der Schulwebsite veröffentlichen
+                            </div>
+                            <div class="quiz-option" data-correct="false">
+                                Eine TV-Dokumentation aufnehmen und im Unterricht zeigen
+                            </div>
+                            <div class="quiz-option" data-correct="false">
+                                Zeitungsartikel für den Unterricht digitalisieren
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="quiz-question">
+                        <h4>Frage 2: Wer ist für die Abrechnung der GT7-Vergütungen bei öffentlichen Schulen zuständig?</h4>
+                        <div class="quiz-options">
+                            <div class="quiz-option" data-correct="false">
+                                Jede Schule einzeln direkt an ProLitteris
+                            </div>
+                            <div class="quiz-option" data-correct="true">
+                                Die EDK (Schweizerische Konferenz der kantonalen Erziehungsdirektoren)
+                            </div>
+                            <div class="quiz-option" data-correct="false">
+                                Das Bundesamt für Kultur
+                            </div>
+                            <div class="quiz-option" data-correct="false">
+                                Die einzelnen Lehrpersonen
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Key Points Summary -->
+                <div class="key-points">
+                    <h3>📌 Das Wichtigste in Kürze</h3>
+                    <ul>
+                        <li>Der GT7 regelt die Nutzung geschützter Werke in Schweizer Schulen</li>
+                        <li>Erlaubt sind Ausschnitte für den Unterricht, nicht ganze Werke</li>
+                        <li>Die Nutzung muss schulintern bleiben (keine Veröffentlichung)</li>
+                        <li>Vergütungen werden pauschal über die EDK abgerechnet</li>
+                        <li>Bei Unsicherheit: Lieber nachfragen als riskieren!</li>
+                    </ul>
+                </div>
+
+                <!-- Navigation -->
+                <div class="navigation">
+                    <a href="../index.html" class="nav-button prev">
+                        <span>←</span>
+                        <span>Zur Übersicht</span>
+                    </a>
+                    <a href="gt7.html" class="nav-button">
+                        <span>Weiter zum GT7 Tarif</span>
+                        <span>→</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Scripts -->
+    <script>
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Track reading progress
+            let startTime = Date.now();
+            let scrollProgress = 0;
+            let maxScroll = 0;
+            let quizCompleted = false;
+            
+            // Update scroll progress
+            window.addEventListener('scroll', function() {
+                const windowHeight = window.innerHeight;
+                const documentHeight = document.documentElement.scrollHeight;
+                const scrollTop = window.scrollY;
+                
+                const currentProgress = (scrollTop + windowHeight) / documentHeight * 100;
+                if (currentProgress > maxScroll) {
+                    maxScroll = currentProgress;
+                    updateProgress();
+                }
+            });
+            
+            // Quiz functionality
+            const quizOptions = document.querySelectorAll('.quiz-option');
+            let questionsAnswered = 0;
+            const totalQuestions = document.querySelectorAll('.quiz-question').length;
+            
+            quizOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    const parent = this.closest('.quiz-options');
+                    const wasAnswered = parent.querySelector('.selected, .correct, .incorrect');
+                    
+                    if (!wasAnswered) {
+                        questionsAnswered++;
+                        
+                        // Remove selected class from siblings
+                        parent.querySelectorAll('.quiz-option').forEach(opt => {
+                            opt.classList.remove('selected');
+                        });
+                        
+                        // Check answer
+                        const isCorrect = this.dataset.correct === 'true';
+                        if (isCorrect) {
+                            this.classList.add('correct');
+                        } else {
+                            this.classList.add('incorrect');
+                            // Show correct answer
+                            parent.querySelectorAll('.quiz-option').forEach(opt => {
+                                if (opt.dataset.correct === 'true') {
+                                    opt.classList.add('correct');
+                                }
+                            });
+                        }
+                        
+                        // Check if all questions answered
+                        if (questionsAnswered === totalQuestions) {
+                            quizCompleted = true;
+                            updateProgress();
+                        }
+                    }
+                });
+            });
+            
+            // Update progress function
+            function updateProgress() {
+                let progress = 0;
+                
+                // Reading progress (60% of total)
+                if (maxScroll >= 95) {
+                    progress += 60;
+                } else {
+                    progress += Math.floor(maxScroll * 0.6);
+                }
+                
+                // Quiz progress (30% of total)
+                if (quizCompleted) {
+                    progress += 30;
+                }
+                
+                // Time spent (10% of total - minimum 2 minutes)
+                const timeSpent = (Date.now() - startTime) / 1000 / 60; // in minutes
+                if (timeSpent >= 2) {
+                    progress += 10;
+                }
+                
+                // Cap at 100
+                progress = Math.min(progress, 100);
+                
+                // Update display
+                const progressBar = document.querySelector('.progress-bar');
+                const progressPercentage = document.querySelector('.progress-percentage');
+                
+                progressBar.style.width = progress + '%';
+                progressPercentage.textContent = progress + '%';
+                
+                // Save progress to localStorage
+                localStorage.setItem('schule_grundlagen_progress', progress);
+                
+                // If completed, mark as done
+                if (progress === 100) {
+                    progressBar.style.background = 'linear-gradient(90deg, #00994d, #00cc66)';
+                }
+            }
+            
+            // Load existing progress
+            const savedProgress = localStorage.getItem('schule_grundlagen_progress');
+            if (savedProgress) {
+                const progressBar = document.querySelector('.progress-bar');
+                const progressPercentage = document.querySelector('.progress-percentage');
+                
+                progressBar.style.width = savedProgress + '%';
+                progressPercentage.textContent = savedProgress + '%';
+                
+                if (savedProgress === '100') {
+                    progressBar.style.background = 'linear-gradient(90deg, #00994d, #00cc66)';
+                }
+            }
+        });
+    </script>
+</body>
+</html>
