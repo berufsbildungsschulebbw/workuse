@@ -1,1 +1,1212 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dokumentation - Urheberrecht für Schulen</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+
+        /* Header */
+        .header {
+            background: #0050a0;
+            color: white;
+            padding: 20px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .canton-logo {
+            width: 40px;
+            height: 40px;
+            background: white;
+            border-radius: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #0050a0;
+        }
+
+        h1 {
+            font-size: 20px;
+            font-weight: 400;
+        }
+
+        .module-info {
+            background: rgba(255,255,255,0.1);
+            padding: 5px 15px;
+            border-radius: 3px;
+            font-size: 14px;
+        }
+
+        /* Main Content */
+        .main {
+            margin-top: 80px;
+            padding: 40px 0;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Breadcrumb */
+        .breadcrumb {
+            background: white;
+            padding: 15px 20px;
+            border-radius: 3px;
+            margin-bottom: 30px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .breadcrumb a {
+            color: #0050a0;
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .breadcrumb span {
+            margin: 0 10px;
+            color: #999;
+        }
+
+        /* Content Card */
+        .content-card {
+            background: white;
+            border-radius: 3px;
+            padding: 40px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .page-title {
+            color: #0050a0;
+            font-size: 28px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .page-icon {
+            font-size: 32px;
+        }
+
+        .intro-text {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 30px;
+            padding-bottom: 30px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        /* Learning Objectives */
+        .learning-objectives {
+            background: #e8f2ff;
+            border-left: 4px solid #0050a0;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .learning-objectives h3 {
+            color: #0050a0;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        .learning-objectives ul {
+            margin-left: 20px;
+        }
+
+        .learning-objectives li {
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        /* Content Sections */
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section h2 {
+            color: #0050a0;
+            font-size: 24px;
+            margin-bottom: 20px;
+            padding-left: 30px;
+            position: relative;
+        }
+
+        .section h2::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+            background: #0050a0;
+            border-radius: 50%;
+        }
+
+        .section h3 {
+            color: #333;
+            font-size: 18px;
+            margin: 20px 0 15px 0;
+        }
+
+        .section p {
+            margin-bottom: 15px;
+            line-height: 1.8;
+        }
+
+        /* Info Boxes */
+        .info-box {
+            background: #f9f9f9;
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 3px;
+        }
+
+        .info-box.success {
+            background: #e8f5e9;
+            border-color: #4caf50;
+        }
+
+        .info-box.warning {
+            background: #fff3cd;
+            border-color: #ffc107;
+        }
+
+        .info-box.danger {
+            background: #ffebee;
+            border-color: #f44336;
+        }
+
+        .info-box.citation {
+            background: #e3f2fd;
+            border-color: #2196f3;
+        }
+
+        .info-box-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .info-box-icon {
+            font-size: 20px;
+        }
+
+        /* Documentation Types Grid */
+        .doc-types-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .doc-type-card {
+            background: white;
+            border: 2px solid #0050a0;
+            border-radius: 5px;
+            padding: 20px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .doc-type-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .doc-type-card h4 {
+            color: #0050a0;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .doc-type-icon {
+            font-size: 24px;
+        }
+
+        /* Citation Guide */
+        .citation-guide {
+            background: #f0f8ff;
+            padding: 25px;
+            border-radius: 5px;
+            margin: 30px 0;
+            border: 2px solid #0050a0;
+        }
+
+        .citation-example {
+            background: white;
+            padding: 15px;
+            margin: 15px 0;
+            border-left: 4px solid #0050a0;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+        }
+
+        /* Rights Matrix */
+        .rights-matrix {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .rights-matrix th {
+            background: #0050a0;
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .rights-matrix td {
+            padding: 15px;
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        .rights-matrix tr:hover {
+            background: #f9f9f9;
+        }
+
+        .rights-matrix .icon-yes {
+            color: #4caf50;
+            font-weight: bold;
+        }
+
+        .rights-matrix .icon-no {
+            color: #f44336;
+            font-weight: bold;
+        }
+
+        .rights-matrix .icon-maybe {
+            color: #ff9800;
+            font-weight: bold;
+        }
+
+        /* Checklist */
+        .checklist {
+            background: white;
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 3px;
+        }
+
+        .checklist h4 {
+            color: #0050a0;
+            margin-bottom: 15px;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f0f0;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .checklist-item:hover {
+            background: #f9f9f9;
+        }
+
+        .checklist-item:last-child {
+            border-bottom: none;
+        }
+
+        .checklist-checkbox {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #0050a0;
+            border-radius: 3px;
+            margin-right: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .checklist-item.checked .checklist-checkbox {
+            background: #0050a0;
+        }
+
+        .checklist-item.checked .checklist-checkbox::after {
+            content: '✓';
+            color: white;
+            font-weight: bold;
+        }
+
+        /* Photo Rights Alert */
+        .photo-alert {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ff9f43 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin: 30px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .photo-alert::before {
+            content: '📸';
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 80px;
+            opacity: 0.2;
+        }
+
+        .photo-alert h3 {
+            color: white;
+            margin-bottom: 15px;
+            font-size: 22px;
+        }
+
+        /* Quiz Section */
+        .quiz-section {
+            background: #f0f8ff;
+            padding: 30px;
+            border-radius: 5px;
+            margin: 30px 0;
+            border: 2px solid #0050a0;
+        }
+
+        .quiz-section h3 {
+            color: #0050a0;
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
+
+        .quiz-question {
+            margin-bottom: 25px;
+        }
+
+        .quiz-question h4 {
+            margin-bottom: 15px;
+            color: #333;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .quiz-option {
+            padding: 15px;
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 14px;
+        }
+
+        .quiz-option:hover {
+            border-color: #0050a0;
+            background: #f0f8ff;
+        }
+
+        .quiz-option.correct {
+            border-color: #00994d;
+            background: #e8f5e9;
+            position: relative;
+        }
+
+        .quiz-option.correct::after {
+            content: '✓ Richtig!';
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #00994d;
+            font-weight: bold;
+            font-size: 12px;
+        }
+
+        .quiz-option.incorrect {
+            border-color: #d32f2f;
+            background: #ffebee;
+            position: relative;
+        }
+
+        .quiz-option.incorrect::after {
+            content: '✗ Falsch';
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #d32f2f;
+            font-weight: bold;
+            font-size: 12px;
+        }
+
+        /* Progress Section */
+        .progress-section {
+            background: white;
+            padding: 30px;
+            border-radius: 3px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .progress-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .progress-percentage {
+            font-size: 24px;
+            font-weight: bold;
+            color: #0050a0;
+        }
+
+        .progress-bar-container {
+            background: #e5e5e5;
+            height: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #0050a0, #0066cc);
+            transition: width 0.3s ease;
+        }
+
+        /* Navigation */
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 2px solid #f0f0f0;
+        }
+
+        .nav-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 24px;
+            background: #0050a0;
+            color: white;
+            text-decoration: none;
+            border-radius: 3px;
+            transition: background 0.2s;
+            font-size: 14px;
+        }
+
+        .nav-button:hover {
+            background: #003d7a;
+        }
+
+        .nav-button.prev {
+            background: #666;
+        }
+
+        .nav-button.prev:hover {
+            background: #555;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .doc-types-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .rights-matrix {
+                font-size: 14px;
+            }
+
+            .navigation {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .nav-button {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="header-left">
+                <div class="canton-logo">ZH</div>
+                <h1>Urheberrecht für Schulen</h1>
+            </div>
+            <div class="module-info">
+                Modul 2: Anwendung in der Schule
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+        <div class="container">
+            <!-- Breadcrumb -->
+            <div class="breadcrumb">
+                <a href="../index.html">Startseite</a>
+                <span>›</span>
+                <a href="#">Anwendung in der Schule</a>
+                <span>›</span>
+                <strong>Dokumentation</strong>
+            </div>
+
+            <!-- Progress Section -->
+            <div class="progress-section">
+                <div class="progress-header">
+                    <span class="progress-title">Ihr Fortschritt in diesem Thema</span>
+                    <span class="progress-percentage">0%</span>
+                </div>
+                <div class="progress-bar-container">
+                    <div class="progress-bar" style="width: 0%"></div>
+                </div>
+            </div>
+
+            <!-- Main Content Card -->
+            <div class="content-card">
+                <h1 class="page-title">
+                    <span class="page-icon">📄</span>
+                    Dokumentation: Arbeiten rechtssicher gestalten
+                </h1>
+
+                <p class="intro-text">
+                    Von Lerndossiers über Maturaarbeiten bis zu Fotoreportagen - schriftliche Arbeiten und Dokumentationen 
+                    sind fester Bestandteil des Schulalltags. Lernen Sie, worauf Sie und Ihre Lernenden dabei achten müssen.
+                </p>
+
+                <!-- Learning Objectives -->
+                <div class="learning-objectives">
+                    <h3>🎯 Lernziele</h3>
+                    <ul>
+                        <li>Sie kennen die Regeln für das korrekte Zitieren (Art. 25 URG)</li>
+                        <li>Sie wissen, was bei Fotoreportagen beachtet werden muss</li>
+                        <li>Sie verstehen die Rechte an Schülerarbeiten</li>
+                        <li>Sie können Lernende bei der rechtssicheren Dokumentation anleiten</li>
+                    </ul>
+                </div>
+
+                <!-- Section 1: Types of Documentation -->
+                <section class="section">
+                    <h2>Arten von Dokumentationen im Schulkontext</h2>
+                    
+                    <div class="doc-types-grid">
+                        <div class="doc-type-card">
+                            <h4><span class="doc-type-icon">📝</span> Lerndossiers</h4>
+                            <p>Sammlungen von Lernmaterialien, Reflexionen und Arbeitsproben über einen längeren Zeitraum.</p>
+                            <ul>
+                                <li>Quellen dokumentieren</li>
+                                <li>Eigene Reflexionen kennzeichnen</li>
+                                <li>Fremdinhalte zitieren</li>
+                            </ul>
+                        </div>
+
+                        <div class="doc-type-card">
+                            <h4><span class="doc-type-icon">🎓</span> Maturaarbeiten</h4>
+                            <p>Wissenschaftliche Arbeiten mit erhöhten Anforderungen an Quellenarbeit und Originalität.</p>
+                            <ul>
+                                <li>Wissenschaftliches Zitieren</li>
+                                <li>Plagiatsprüfung</li>
+                                <li>Veröffentlichungsrechte</li>
+                            </ul>
+                        </div>
+
+                        <div class="doc-type-card">
+                            <h4><span class="doc-type-icon">📸</span> Fotoreportagen</h4>
+                            <p>Visuelle Dokumentationen mit besonderen Herausforderungen bei Bild- und Persönlichkeitsrechten.</p>
+                            <ul>
+                                <li>Bildrechte klären</li>
+                                <li>Persönlichkeitsrechte</li>
+                                <li>Recht am eigenen Bild</li>
+                            </ul>
+                        </div>
+
+                        <div class="doc-type-card">
+                            <h4><span class="doc-type-icon">📊</span> Projektdokumentationen</h4>
+                            <p>Dokumentation von Gruppenprojekten mit verschiedenen Medientypen und Quellen.</p>
+                            <ul>
+                                <li>Teamwork dokumentieren</li>
+                                <li>Verschiedene Medien</li>
+                                <li>Quellenvielfalt</li>
+                            </ul>
+                        </div>
+
+                        <div class="doc-type-card">
+                            <h4><span class="doc-type-icon">💼</span> Portfolio-Arbeiten</h4>
+                            <p>Sammlung der besten Arbeiten für Bewerbungen oder Präsentationen.</p>
+                            <ul>
+                                <li>Eigentumsrechte</li>
+                                <li>Weitergaberechte</li>
+                                <li>Datenschutz</li>
+                            </ul>
+                        </div>
+
+                        <div class="doc-type-card">
+                            <h4><span class="doc-type-icon">🌐</span> Digitale Präsentationen</h4>
+                            <p>Online-Präsentationen mit eingebetteten Medien und interaktiven Elementen.</p>
+                            <ul>
+                                <li>Einbettungsrechte</li>
+                                <li>Online-Veröffentlichung</li>
+                                <li>Lizenzangaben</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 2: Citation Rules -->
+                <section class="section">
+                    <h2>Das Zitatrecht richtig anwenden (Art. 25 URG)</h2>
+                    
+                    <p>
+                        Das Zitatrecht erlaubt die Nutzung geschützter Werke ohne Erlaubnis - aber nur unter 
+                        strengen Bedingungen:
+                    </p>
+
+                    <div class="citation-guide">
+                        <h3>✅ Die drei Säulen des korrekten Zitierens</h3>
+                        
+                        <div class="info-box citation">
+                            <div class="info-box-title">
+                                <span class="info-box-icon">1️⃣</span>
+                                Zitatzweck
+                            </div>
+                            <p>
+                                Das Zitat muss der Erläuterung, als Hinweis oder zur Veranschaulichung dienen. 
+                                Es muss eine inhaltliche Auseinandersetzung stattfinden.
+                            </p>
+                        </div>
+
+                        <div class="info-box citation">
+                            <div class="info-box-title">
+                                <span class="info-box-icon">2️⃣</span>
+                                Zitatumfang
+                            </div>
+                            <p>
+                                Nur so viel zitieren wie nötig. Das Zitat darf nicht zum Hauptinhalt werden. 
+                                Die eigene Leistung muss im Vordergrund stehen.
+                            </p>
+                        </div>
+
+                        <div class="info-box citation">
+                            <div class="info-box-title">
+                                <span class="info-box-icon">3️⃣</span>
+                                Quellenangabe
+                            </div>
+                            <p>
+                                Jedes Zitat muss mit einer vollständigen Quellenangabe versehen werden. 
+                                Autor, Werk, Jahr und Seite müssen erkennbar sein.
+                            </p>
+                        </div>
+                    </div>
+
+                    <h3>Beispiele korrekter Quellenangaben:</h3>
+                    
+                    <div class="citation-example">
+                        <strong>Buch:</strong><br>
+                        Müller, Hans: Urheberrecht in der Schule. Zürich: Schulverlag 2023, S. 45.
+                    </div>
+                    
+                    <div class="citation-example">
+                        <strong>Internetquelle:</strong><br>
+                        Schmidt, Anna: "Digitale Medien im Unterricht", in: bildung.ch, 15.03.2024,<br>
+                        https://www.bildung.ch/artikel/digitale-medien (abgerufen am 20.10.2024).
+                    </div>
+                    
+                    <div class="citation-example">
+                        <strong>Bild:</strong><br>
+                        Foto: © Peter Weber / Keystone, 2024
+                    </div>
+                </section>
+
+                <!-- Photo Alert -->
+                <div class="photo-alert">
+                    <h3>📸 Achtung bei Fotoreportagen!</h3>
+                    <p>
+                        Bei Fotografien müssen Sie <strong>drei Rechtsebenen</strong> beachten:
+                    </p>
+                    <ol style="margin-left: 20px; margin-top: 10px;">
+                        <li><strong>Urheberrecht:</strong> Wer hat das Foto gemacht?</li>
+                        <li><strong>Persönlichkeitsrecht:</strong> Wer ist auf dem Foto zu sehen?</li>
+                        <li><strong>Eigentumsrecht:</strong> Was/wessen Eigentum ist abgebildet?</li>
+                    </ol>
+                </div>
+
+                <!-- Section 3: Rights Matrix -->
+                <section class="section">
+                    <h2>Wer hat welche Rechte?</h2>
+                    
+                    <table class="rights-matrix">
+                        <thead>
+                            <tr>
+                                <th>Situation</th>
+                                <th>Lernende</th>
+                                <th>Lehrperson</th>
+                                <th>Schule</th>
+                                <th>Bemerkung</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Urheberrecht an Schülerarbeit</td>
+                                <td class="icon-yes">✓</td>
+                                <td class="icon-no">✗</td>
+                                <td class="icon-no">✗</td>
+                                <td>Schüler behält Urheberrecht</td>
+                            </tr>
+                            <tr>
+                                <td>Bewertungsrecht</td>
+                                <td class="icon-no">✗</td>
+                                <td class="icon-yes">✓</td>
+                                <td class="icon-no">✗</td>
+                                <td>Teil der Lehrtätigkeit</td>
+                            </tr>
+                            <tr>
+                                <td>Aufbewahrung für Schulzwecke</td>
+                                <td class="icon-no">✗</td>
+                                <td class="icon-yes">✓</td>
+                                <td class="icon-yes">✓</td>
+                                <td>Befristete Aufbewahrung OK</td>
+                            </tr>
+                            <tr>
+                                <td>Veröffentlichung auf Schulwebsite</td>
+                                <td class="icon-maybe">⚠️</td>
+                                <td class="icon-maybe">⚠️</td>
+                                <td class="icon-maybe">⚠️</td>
+                                <td>Nur mit Einwilligung aller</td>
+                            </tr>
+                            <tr>
+                                <td>Verwendung als Musterbeispiel</td>
+                                <td class="icon-maybe">⚠️</td>
+                                <td class="icon-maybe">⚠️</td>
+                                <td class="icon-no">✗</td>
+                                <td>Einwilligung erforderlich</td>
+                            </tr>
+                            <tr>
+                                <td>Weitergabe an Dritte</td>
+                                <td class="icon-yes">✓</td>
+                                <td class="icon-no">✗</td>
+                                <td class="icon-no">✗</td>
+                                <td>Nur Urheber darf weitergeben</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="info-box warning">
+                        <div class="info-box-title">
+                            <span class="info-box-icon">⚠️</span>
+                            Wichtig bei Minderjährigen
+                        </div>
+                        <p>
+                            Bei Veröffentlichungen von Arbeiten Minderjähriger braucht es zusätzlich die 
+                            Einwilligung der Eltern - besonders bei Fotos oder persönlichen Inhalten.
+                        </p>
+                    </div>
+                </section>
+
+                <!-- Section 4: Practical Checklist -->
+                <section class="section">
+                    <h2>Checkliste für Lehrpersonen</h2>
+                    
+                    <div class="checklist">
+                        <h4>Bei der Aufgabenstellung klären:</h4>
+                        <div class="checklist-item">
+                            <div class="checklist-checkbox"></div>
+                            <span>Welche Quellen dürfen verwendet werden?</span>
+                        </div>
+                        <div class="checklist-item">
+                            <div class="checklist-checkbox"></div>
+                            <span>Wie müssen Quellen angegeben werden?</span>
+                        </div>
+                        <div class="checklist-item">
+                            <div class="checklist-checkbox"></div>
+                            <span>Dürfen Bilder aus dem Internet verwendet werden?</span>
+                        </div>
+                        <div class="checklist-item">
+                            <div class="checklist-checkbox"></div>
+                            <span>Wird die Arbeit veröffentlicht? Wenn ja, wo?</span>
+                        </div>
+                        <div class="checklist-item">
+                            <div class="checklist-checkbox"></div>
+                            <span>Wer hat nach Abgabe welche Rechte?</span>
+                        </div>
+                        <div class="checklist-item">
+                            <div class="checklist-checkbox"></div>
+                            <span>Wie wird mit KI-generierten Inhalten umgegangen?</span>
+                        </div>
+                    </div>
+
+                    <div class="checklist">
+                        <h4>Bei Fotoreportagen zusätzlich:</h4>
+                        <div class="checklist-item">
+                            <div class="checklist-checkbox"></div>
+                            <span>Sind alle fotografierten Personen einverstanden?</span>
+                        </div>
+                        <div class="checklist-item">
+                            <div class="checklist-checkbox"></div>
+                            <span>Wurden Einverständniserklärungen eingeholt?</span>
+                        </div>
+                        <div class="checklist-item">
+                            <div class="checklist-checkbox"></div>
+                            <span>Sind Aufnahmeorte erlaubt (kein Hausfriedensbruch)?</span>
+                        </div>
+                        <div class="checklist-item">
+                            <div class="checklist-checkbox"></div>
+                            <span>Werden fremde Kunstwerke oder Marken gezeigt?</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 5: Common Pitfalls -->
+                <section class="section">
+                    <h2>Häufige Fallen und wie man sie vermeidet</h2>
+                    
+                    <div class="info-box danger">
+                        <div class="info-box-title">
+                            <span class="info-box-icon">🚫</span>
+                            Falle 1: "Für Schulzwecke ist alles erlaubt"
+                        </div>
+                        <p>
+                            <strong>Falsch!</strong> Auch Schülerarbeiten müssen das Urheberrecht respektieren. 
+                            Der GT7 gilt nur für Unterrichtsmaterial der Lehrperson, nicht für Schülerproduktionen.
+                        </p>
+                    </div>
+
+                    <div class="info-box danger">
+                        <div class="info-box-title">
+                            <span class="info-box-icon">🚫</span>
+                            Falle 2: "Mit Quellenangabe ist alles OK"
+                        </div>
+                        <p>
+                            <strong>Falsch!</strong> Die Quellenangabe allein macht die Nutzung nicht legal. 
+                            Es müssen alle Bedingungen des Zitatrechts erfüllt sein.
+                        </p>
+                    </div>
+
+                    <div class="info-box danger">
+                        <div class="info-box-title">
+                            <span class="info-box-icon">🚫</span>
+                            Falle 3: "Die Schule besitzt alle Schülerarbeiten"
+                        </div>
+                        <p>
+                            <strong>Falsch!</strong> Das Urheberrecht bleibt bei den Lernenden. 
+                            Die Schule hat nur begrenzte Nutzungsrechte für Schulzwecke.
+                        </p>
+                    </div>
+                </section>
+
+                <!-- Section 6: Best Practices -->
+                <section class="section">
+                    <h2>Best Practices für verschiedene Arbeitstypen</h2>
+                    
+                    <div class="info-box success">
+                        <div class="info-box-title">
+                            <span class="info-box-icon">📝</span>
+                            Lerndossiers & Portfolios
+                        </div>
+                        <ul>
+                            <li>Klare Trennung zwischen eigenen und fremden Inhalten</li>
+                            <li>Durchgängige Quellenangaben, auch bei Bildern</li>
+                            <li>Reflexionen deutlich als eigene Gedanken kennzeichnen</li>
+                            <li>Bei digitalen Portfolios: Einbettungen statt Kopien verwenden</li>
+                        </ul>
+                    </div>
+
+                    <div class="info-box success">
+                        <div class="info-box-title">
+                            <span class="info-box-icon">🎓</span>
+                            Maturaarbeiten
+                        </div>
+                        <ul>
+                            <li>Wissenschaftliche Zitierweise konsequent anwenden</li>
+                            <li>Plagiatssoftware prophylaktisch nutzen</li>
+                            <li>Eigenständigkeitserklärung unterschreiben lassen</li>
+                            <li>Veröffentlichungsrechte im Voraus klären</li>
+                        </ul>
+                    </div>
+
+                    <div class="info-box success">
+                        <div class="info-box-title">
+                            <span class="info-box-icon">📸</span>
+                            Fotoreportagen
+                        </div>
+                        <ul>
+                            <li>Einverständniserklärungen VOR dem Fotografieren einholen</li>
+                            <li>Bei Minderjährigen: Elterneinwilligung</li>
+                            <li>Keine heimlichen Aufnahmen</li>
+                            <li>Persönlichkeitsrechte respektieren</li>
+                            <li>Alternative: Menschen unkenntlich machen</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <!-- Quiz Section -->
+                <section class="quiz-section">
+                    <h3>📝 Wissenskontrolle</h3>
+                    
+                    <div class="quiz-question">
+                        <h4>Frage 1: Ein Schüler erstellt eine Fotoreportage über den Pausenhof. Was muss er beachten?</h4>
+                        <div class="quiz-options">
+                            <div class="quiz-option" data-correct="false">
+                                Nichts, da es Schulgelände ist
+                            </div>
+                            <div class="quiz-option" data-correct="true">
+                                Einwilligung aller erkennbaren Personen einholen
+                            </div>
+                            <div class="quiz-option" data-correct="false">
+                                Nur die Erlaubnis der Schulleitung reicht
+                            </div>
+                            <div class="quiz-option" data-correct="false">
+                                Für Schulzwecke sind keine Einwilligungen nötig
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="quiz-question">
+                        <h4>Frage 2: Wem gehört eine preisgekrönte Maturaarbeit nach der Bewertung?</h4>
+                        <div class="quiz-options">
+                            <div class="quiz-option" data-correct="false">
+                                Der Schule, da sie dort entstanden ist
+                            </div>
+                            <div class="quiz-option" data-correct="false">
+                                Der betreuenden Lehrperson
+                            </div>
+                            <div class="quiz-option" data-correct="true">
+                                Dem Schüler/der Schülerin als Urheber/in
+                            </div>
+                            <div class="quiz-option" data-correct="false">
+                                Allen gemeinsam
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Final Tips -->
+                <div class="info-box">
+                    <div class="info-box-title">
+                        <span class="info-box-icon">💡</span>
+                        Goldene Regeln für Dokumentationen
+                    </div>
+                    <ol>
+                        <li><strong>Transparenz:</strong> Klären Sie Rechte und Pflichten im Voraus</li>
+                        <li><strong>Dokumentation:</strong> Halten Sie Einwilligungen schriftlich fest</li>
+                        <li><strong>Respekt:</strong> Achten Sie Persönlichkeits- und Urheberrechte</li>
+                        <li><strong>Vorbild:</strong> Leben Sie korrektes Zitieren vor</li>
+                        <li><strong>Kreativität:</strong> Fördern Sie eigene Inhalte statt Kopien</li>
+                    </ol>
+                </div>
+
+                <!-- Navigation -->
+                <div class="navigation">
+                    <a href="lehrmittel.html" class="nav-button prev">
+                        <span>←</span>
+                        <span>Zurück zu Lehrmittel</span>
+                    </a>
+                    <a href="../index.html" class="nav-button">
+                        <span>Zur Modulübersicht</span>
+                        <span>→</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Scripts -->
+    <script>
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Track reading progress
+            let startTime = Date.now();
+            let scrollProgress = 0;
+            let maxScroll = 0;
+            let checklistCompleted = 0;
+            let quizCompleted = false;
+            
+            // Update scroll progress
+            window.addEventListener('scroll', function() {
+                const windowHeight = window.innerHeight;
+                const documentHeight = document.documentElement.scrollHeight;
+                const scrollTop = window.scrollY;
+                
+                const currentProgress = (scrollTop + windowHeight) / documentHeight * 100;
+                if (currentProgress > maxScroll) {
+                    maxScroll = currentProgress;
+                    updateProgress();
+                }
+            });
+            
+            // Checklist functionality
+            const checklistItems = document.querySelectorAll('.checklist-item');
+            const totalChecklistItems = checklistItems.length;
+            
+            checklistItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    if (!this.classList.contains('checked')) {
+                        this.classList.add('checked');
+                        checklistCompleted++;
+                        updateProgress();
+                    }
+                });
+            });
+            
+            // Quiz functionality
+            const quizOptions = document.querySelectorAll('.quiz-option');
+            let questionsAnswered = 0;
+            const totalQuestions = document.querySelectorAll('.quiz-question').length;
+            
+            quizOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    const parent = this.closest('.quiz-options');
+                    const wasAnswered = parent.querySelector('.selected, .correct, .incorrect');
+                    
+                    if (!wasAnswered) {
+                        questionsAnswered++;
+                        
+                        // Check answer
+                        const isCorrect = this.dataset.correct === 'true';
+                        if (isCorrect) {
+                            this.classList.add('correct');
+                        } else {
+                            this.classList.add('incorrect');
+                            // Show correct answer
+                            parent.querySelectorAll('.quiz-option').forEach(opt => {
+                                if (opt.dataset.correct === 'true') {
+                                    opt.classList.add('correct');
+                                }
+                            });
+                        }
+                        
+                        // Check if all questions answered
+                        if (questionsAnswered === totalQuestions) {
+                            quizCompleted = true;
+                            updateProgress();
+                        }
+                    }
+                });
+            });
+            
+            // Update progress function
+            function updateProgress() {
+                let progress = 0;
+                
+                // Reading progress (50% of total)
+                if (maxScroll >= 95) {
+                    progress += 50;
+                } else {
+                    progress += Math.floor(maxScroll * 0.5);
+                }
+                
+                // Checklist progress (25% of total)
+                if (checklistCompleted === totalChecklistItems) {
+                    progress += 25;
+                } else {
+                    progress += Math.floor((checklistCompleted / totalChecklistItems) * 25);
+                }
+                
+                // Quiz progress (15% of total)
+                if (quizCompleted) {
+                    progress += 15;
+                } else if (questionsAnswered > 0) {
+                    progress += Math.floor((questionsAnswered / totalQuestions) * 15);
+                }
+                
+                // Time spent (10% of total - minimum 3 minutes)
+                const timeSpent = (Date.now() - startTime) / 1000 / 60; // in minutes
+                if (timeSpent >= 3) {
+                    progress += 10;
+                }
+                
+                // Cap at 100
+                progress = Math.min(progress, 100);
+                
+                // Update display
+                const progressBar = document.querySelector('.progress-bar');
+                const progressPercentage = document.querySelector('.progress-percentage');
+                
+                progressBar.style.width = progress + '%';
+                progressPercentage.textContent = progress + '%';
+                
+                // Save progress to localStorage
+                localStorage.setItem('schule_dokumentation_progress', progress);
+                
+                // If completed, mark as done
+                if (progress === 100) {
+                    progressBar.style.background = 'linear-gradient(90deg, #00994d, #00cc66)';
+                }
+            }
+            
+            // Load existing progress
+            const savedProgress = localStorage.getItem('schule_dokumentation_progress');
+            if (savedProgress) {
+                const progressBar = document.querySelector('.progress-bar');
+                const progressPercentage = document.querySelector('.progress-percentage');
+                
+                progressBar.style.width = savedProgress + '%';
+                progressPercentage.textContent = savedProgress + '%';
+                
+                if (savedProgress === '100') {
+                    progressBar.style.background = 'linear-gradient(90deg, #00994d, #00cc66)';
+                }
+            }
+        });
+    </script>
+</body>
+</html>
