@@ -1,1 +1,1257 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creative Commons - Urheberrecht für Schulen</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+
+        /* Header */
+        .header {
+            background: #0050a0;
+            color: white;
+            padding: 20px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .canton-logo {
+            width: 40px;
+            height: 40px;
+            background: white;
+            border-radius: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #0050a0;
+        }
+
+        h1 {
+            font-size: 20px;
+            font-weight: 400;
+        }
+
+        .module-info {
+            background: rgba(255,255,255,0.1);
+            padding: 5px 15px;
+            border-radius: 3px;
+            font-size: 14px;
+        }
+
+        /* Main Content */
+        .main {
+            margin-top: 80px;
+            padding: 40px 0;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Breadcrumb */
+        .breadcrumb {
+            background: white;
+            padding: 15px 20px;
+            border-radius: 3px;
+            margin-bottom: 30px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .breadcrumb a {
+            color: #0050a0;
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .breadcrumb span {
+            margin: 0 10px;
+            color: #999;
+        }
+
+        /* Content Card */
+        .content-card {
+            background: white;
+            border-radius: 3px;
+            padding: 40px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .page-title {
+            color: #0050a0;
+            font-size: 28px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .page-icon {
+            font-size: 32px;
+        }
+
+        .intro-text {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 30px;
+            padding-bottom: 30px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        /* Learning Objectives */
+        .learning-objectives {
+            background: #e8f2ff;
+            border-left: 4px solid #0050a0;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .learning-objectives h3 {
+            color: #0050a0;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        .learning-objectives ul {
+            margin-left: 20px;
+        }
+
+        .learning-objectives li {
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        /* Content Sections */
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section h2 {
+            color: #0050a0;
+            font-size: 24px;
+            margin-bottom: 20px;
+            padding-left: 30px;
+            position: relative;
+        }
+
+        .section h2::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+            background: #0050a0;
+            border-radius: 50%;
+        }
+
+        .section h3 {
+            color: #333;
+            font-size: 18px;
+            margin: 20px 0 15px 0;
+        }
+
+        .section p {
+            margin-bottom: 15px;
+            line-height: 1.8;
+        }
+
+        /* CC License Builder */
+        .cc-builder {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ffd93d 100%);
+            padding: 30px;
+            border-radius: 10px;
+            margin: 30px 0;
+            color: white;
+        }
+
+        .cc-builder h3 {
+            color: white;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        .builder-question {
+            background: rgba(255,255,255,0.95);
+            color: #333;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .builder-question h4 {
+            margin-bottom: 15px;
+            color: #0050a0;
+        }
+
+        .builder-options {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .builder-option {
+            flex: 1;
+            padding: 15px;
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .builder-option:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .builder-option.selected {
+            background: #e8f2ff;
+            border-color: #0050a0;
+        }
+
+        .builder-result {
+            background: white;
+            color: #333;
+            padding: 25px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+
+        .cc-license-display {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+
+        .cc-icons {
+            display: flex;
+            gap: 5px;
+        }
+
+        .cc-icon {
+            width: 40px;
+            height: 40px;
+            background: #333;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-weight: bold;
+            font-size: 12px;
+        }
+
+        /* CC License Cards */
+        .cc-licenses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .cc-license-card {
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            padding: 20px;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .cc-license-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border-color: #ff6b6b;
+        }
+
+        .cc-license-card.selected {
+            background: #fff3e0;
+            border-color: #ff9800;
+        }
+
+        .cc-license-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .cc-license-title {
+            font-weight: 600;
+            color: #333;
+        }
+
+        /* Interactive License Matcher */
+        .license-matcher {
+            background: #f0f8ff;
+            padding: 30px;
+            border-radius: 5px;
+            margin: 30px 0;
+        }
+
+        .matcher-scenario {
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border-left: 4px solid #0050a0;
+        }
+
+        .matcher-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .matcher-option {
+            padding: 10px;
+            background: #f9f9f9;
+            border: 2px solid #ddd;
+            border-radius: 3px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.2s;
+        }
+
+        .matcher-option:hover {
+            background: #e8f2ff;
+            border-color: #0050a0;
+        }
+
+        .matcher-option.correct {
+            background: #e8f5e9;
+            border-color: #4caf50;
+        }
+
+        .matcher-option.incorrect {
+            background: #ffebee;
+            border-color: #f44336;
+        }
+
+        /* Info Boxes */
+        .info-box {
+            background: #f9f9f9;
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 3px;
+        }
+
+        .info-box.warning {
+            background: #fff3cd;
+            border-color: #ffc107;
+        }
+
+        .info-box.success {
+            background: #e8f5e9;
+            border-color: #4caf50;
+        }
+
+        .info-box-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .info-box-icon {
+            font-size: 20px;
+        }
+
+        /* Practice Section */
+        .practice-section {
+            background: #fff3e0;
+            padding: 30px;
+            border-radius: 5px;
+            margin: 30px 0;
+            border: 2px solid #ff9800;
+        }
+
+        .practice-item {
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .practice-item h4 {
+            color: #ff9800;
+            margin-bottom: 10px;
+        }
+
+        /* Attribution Generator */
+        .attribution-generator {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin: 30px 0;
+        }
+
+        .attribution-generator h3 {
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .generator-input {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .generator-field {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .generator-field label {
+            font-weight: 600;
+        }
+
+        .generator-field input {
+            padding: 10px;
+            border: none;
+            border-radius: 3px;
+            font-size: 14px;
+        }
+
+        .generator-output {
+            background: rgba(255,255,255,0.95);
+            color: #333;
+            padding: 20px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            margin-top: 20px;
+        }
+
+        .copy-button {
+            background: #0050a0;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background 0.3s;
+        }
+
+        .copy-button:hover {
+            background: #003d7a;
+        }
+
+        /* Quiz Section */
+        .quiz-section {
+            background: #f0f8ff;
+            padding: 30px;
+            border-radius: 5px;
+            margin: 30px 0;
+            border: 2px solid #0050a0;
+        }
+
+        .quiz-section h3 {
+            color: #0050a0;
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
+
+        .quiz-question {
+            margin-bottom: 25px;
+        }
+
+        .quiz-question h4 {
+            margin-bottom: 15px;
+            color: #333;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .quiz-option {
+            padding: 15px;
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 14px;
+        }
+
+        .quiz-option:hover {
+            border-color: #0050a0;
+            background: #f0f8ff;
+        }
+
+        .quiz-option.correct {
+            border-color: #00994d;
+            background: #e8f5e9;
+        }
+
+        .quiz-option.incorrect {
+            border-color: #d32f2f;
+            background: #ffebee;
+        }
+
+        /* Progress Section */
+        .progress-section {
+            background: white;
+            padding: 30px;
+            border-radius: 3px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .progress-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .progress-percentage {
+            font-size: 24px;
+            font-weight: bold;
+            color: #0050a0;
+        }
+
+        .progress-bar-container {
+            background: #e5e5e5;
+            height: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #0050a0, #0066cc);
+            transition: width 0.3s ease;
+        }
+
+        /* Navigation */
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 2px solid #f0f0f0;
+        }
+
+        .nav-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 24px;
+            background: #0050a0;
+            color: white;
+            text-decoration: none;
+            border-radius: 3px;
+            transition: background 0.2s;
+            font-size: 14px;
+        }
+
+        .nav-button:hover {
+            background: #003d7a;
+        }
+
+        .nav-button.prev {
+            background: #666;
+        }
+
+        .nav-button.prev:hover {
+            background: #555;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .cc-licenses-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .builder-options {
+                flex-direction: column;
+            }
+
+            .navigation {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .nav-button {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="header-left">
+                <div class="canton-logo">ZH</div>
+                <h1>Urheberrecht für Schulen</h1>
+            </div>
+            <div class="module-info">
+                Modul 3: Lizenzen verstehen
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+        <div class="container">
+            <!-- Breadcrumb -->
+            <div class="breadcrumb">
+                <a href="../index.html">Startseite</a>
+                <span>›</span>
+                <a href="#">Lizenzen verstehen</a>
+                <span>›</span>
+                <strong>Creative Commons</strong>
+            </div>
+
+            <!-- Progress Section -->
+            <div class="progress-section">
+                <div class="progress-header">
+                    <span class="progress-title">Ihr Fortschritt in diesem Thema</span>
+                    <span class="progress-percentage">0%</span>
+                </div>
+                <div class="progress-bar-container">
+                    <div class="progress-bar" style="width: 0%"></div>
+                </div>
+            </div>
+
+            <!-- Main Content Card -->
+            <div class="content-card">
+                <h1 class="page-title">
+                    <span class="page-icon">🅭🅯</span>
+                    Creative Commons: Werke intelligent teilen
+                </h1>
+
+                <p class="intro-text">
+                    Creative Commons bietet standardisierte Lizenzen, mit denen Sie Ihre Werke gezielt freigeben können. 
+                    Lernen Sie, wie Sie die richtige CC-Lizenz wählen und eigene Werke rechtssicher lizenzieren.
+                </p>
+
+                <!-- Learning Objectives -->
+                <div class="learning-objectives">
+                    <h3>🎯 Lernziele</h3>
+                    <ul>
+                        <li>Sie kennen alle CC-Lizenzmodule und ihre Bedeutung</li>
+                        <li>Sie können die passende CC-Lizenz für Ihre Werke wählen</li>
+                        <li>Sie wissen, wie Sie CC-Lizenzen korrekt anwenden</li>
+                        <li>Sie können CC-lizenzierte Werke korrekt nutzen und zitieren</li>
+                    </ul>
+                </div>
+
+                <!-- Section 1: CC Basics -->
+                <section class="section">
+                    <h2>Was ist Creative Commons?</h2>
+                    
+                    <p>
+                        Creative Commons (CC) ist eine Non-Profit-Organisation, die 2001 gegründet wurde. 
+                        Sie bietet <strong>sechs standardisierte Lizenzen</strong>, die weltweit anerkannt sind 
+                        und es Urhebern ermöglichen, ihre Werke gezielt freizugeben.
+                    </p>
+
+                    <div class="info-box">
+                        <div class="info-box-title">
+                            <span class="info-box-icon">🌍</span>
+                            Globaler Standard
+                        </div>
+                        <p>
+                            CC-Lizenzen funktionieren in über 90 Ländern gleich. Ein Werk mit CC BY-Lizenz 
+                            aus den USA kann in der Schweiz unter denselben Bedingungen genutzt werden.
+                        </p>
+                    </div>
+                </section>
+
+                <!-- Interactive CC Builder -->
+                <section class="section">
+                    <h2>Interaktiver CC-Lizenz-Generator</h2>
+                    
+                    <div class="cc-builder">
+                        <h3>🔧 Erstellen Sie Ihre eigene CC-Lizenz</h3>
+                        
+                        <div class="builder-question">
+                            <h4>1. Darf Ihr Werk kommerziell genutzt werden?</h4>
+                            <div class="builder-options">
+                                <div class="builder-option" data-question="commercial" data-value="yes">
+                                    ✅ Ja, auch kommerziell
+                                </div>
+                                <div class="builder-option" data-question="commercial" data-value="no">
+                                    ❌ Nein, nur nicht-kommerziell
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="builder-question">
+                            <h4>2. Dürfen Bearbeitungen Ihres Werks erstellt werden?</h4>
+                            <div class="builder-options">
+                                <div class="builder-option" data-question="derivatives" data-value="yes">
+                                    ✅ Ja, Bearbeitungen erlaubt
+                                </div>
+                                <div class="builder-option" data-question="derivatives" data-value="share">
+                                    🔄 Ja, aber nur unter gleichen Bedingungen
+                                </div>
+                                <div class="builder-option" data-question="derivatives" data-value="no">
+                                    ❌ Nein, keine Bearbeitungen
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="builder-result" id="builderResult">
+                            <h4>Ihre empfohlene Lizenz:</h4>
+                            <div class="cc-license-display">
+                                <div class="cc-icons" id="licenseIcons">
+                                    <!-- Icons werden dynamisch eingefügt -->
+                                </div>
+                                <div id="licenseName">Wählen Sie oben Ihre Präferenzen...</div>
+                            </div>
+                            <p id="licenseDescription"></p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- CC Licenses Overview -->
+                <section class="section">
+                    <h2>Die 6 CC-Lizenzen im Überblick</h2>
+                    
+                    <div class="cc-licenses-grid">
+                        <div class="cc-license-card">
+                            <div class="cc-license-header">
+                                <div class="cc-icons">
+                                    <span class="cc-icon">CC</span>
+                                    <span class="cc-icon">BY</span>
+                                </div>
+                                <span class="cc-license-title">CC BY</span>
+                            </div>
+                            <p><strong>Namensnennung</strong></p>
+                            <p>Die freieste Lizenz. Erlaubt jede Nutzung bei Nennung des Urhebers.</p>
+                            <p style="color: #4caf50; margin-top: 10px;">✓ Kommerziell ✓ Bearbeitung</p>
+                        </div>
+
+                        <div class="cc-license-card">
+                            <div class="cc-license-header">
+                                <div class="cc-icons">
+                                    <span class="cc-icon">CC</span>
+                                    <span class="cc-icon">BY</span>
+                                    <span class="cc-icon">SA</span>
+                                </div>
+                                <span class="cc-license-title">CC BY-SA</span>
+                            </div>
+                            <p><strong>Namensnennung - Weitergabe unter gleichen Bedingungen</strong></p>
+                            <p>Bearbeitungen müssen unter derselben Lizenz stehen.</p>
+                            <p style="color: #4caf50; margin-top: 10px;">✓ Kommerziell ✓ Bearbeitung</p>
+                        </div>
+
+                        <div class="cc-license-card">
+                            <div class="cc-license-header">
+                                <div class="cc-icons">
+                                    <span class="cc-icon">CC</span>
+                                    <span class="cc-icon">BY</span>
+                                    <span class="cc-icon">ND</span>
+                                </div>
+                                <span class="cc-license-title">CC BY-ND</span>
+                            </div>
+                            <p><strong>Namensnennung - Keine Bearbeitungen</strong></p>
+                            <p>Werk darf nur unverändert weitergegeben werden.</p>
+                            <p style="color: #ff9800; margin-top: 10px;">✓ Kommerziell ✗ Bearbeitung</p>
+                        </div>
+
+                        <div class="cc-license-card">
+                            <div class="cc-license-header">
+                                <div class="cc-icons">
+                                    <span class="cc-icon">CC</span>
+                                    <span class="cc-icon">BY</span>
+                                    <span class="cc-icon">NC</span>
+                                </div>
+                                <span class="cc-license-title">CC BY-NC</span>
+                            </div>
+                            <p><strong>Namensnennung - Nicht-kommerziell</strong></p>
+                            <p>Nur für nicht-kommerzielle Zwecke nutzbar.</p>
+                            <p style="color: #ff9800; margin-top: 10px;">✗ Kommerziell ✓ Bearbeitung</p>
+                        </div>
+
+                        <div class="cc-license-card">
+                            <div class="cc-license-header">
+                                <div class="cc-icons">
+                                    <span class="cc-icon">CC</span>
+                                    <span class="cc-icon">BY</span>
+                                    <span class="cc-icon">NC</span>
+                                    <span class="cc-icon">SA</span>
+                                </div>
+                                <span class="cc-license-title">CC BY-NC-SA</span>
+                            </div>
+                            <p><strong>Namensnennung - Nicht-kommerziell - Weitergabe unter gleichen Bedingungen</strong></p>
+                            <p>Nicht-kommerziell, Bearbeitungen unter gleicher Lizenz.</p>
+                            <p style="color: #ff9800; margin-top: 10px;">✗ Kommerziell ✓ Bearbeitung</p>
+                        </div>
+
+                        <div class="cc-license-card">
+                            <div class="cc-license-header">
+                                <div class="cc-icons">
+                                    <span class="cc-icon">CC</span>
+                                    <span class="cc-icon">BY</span>
+                                    <span class="cc-icon">NC</span>
+                                    <span class="cc-icon">ND</span>
+                                </div>
+                                <span class="cc-license-title">CC BY-NC-ND</span>
+                            </div>
+                            <p><strong>Namensnennung - Nicht-kommerziell - Keine Bearbeitungen</strong></p>
+                            <p>Die restriktivste CC-Lizenz.</p>
+                            <p style="color: #f44336; margin-top: 10px;">✗ Kommerziell ✗ Bearbeitung</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Attribution Generator -->
+                <section class="section">
+                    <h2>Quellenangaben-Generator</h2>
+                    
+                    <div class="attribution-generator">
+                        <h3>📝 Automatische Quellenangabe erstellen</h3>
+                        
+                        <div class="generator-input">
+                            <div class="generator-field">
+                                <label>Titel des Werks:</label>
+                                <input type="text" id="workTitle" placeholder="z.B. Berglandschaft">
+                            </div>
+                            <div class="generator-field">
+                                <label>Urheber/Autor:</label>
+                                <input type="text" id="workAuthor" placeholder="z.B. Max Mustermann">
+                            </div>
+                            <div class="generator-field">
+                                <label>Quelle/Link:</label>
+                                <input type="text" id="workSource" placeholder="z.B. https://commons.wikimedia.org/...">
+                            </div>
+                            <div class="generator-field">
+                                <label>Lizenz:</label>
+                                <input type="text" id="workLicense" placeholder="z.B. CC BY-SA 4.0">
+                            </div>
+                        </div>
+                        
+                        <button class="copy-button" onclick="generateAttribution()">Quellenangabe generieren</button>
+                        
+                        <div class="generator-output" id="attributionOutput" style="display: none;">
+                            <!-- Generierte Quellenangabe wird hier angezeigt -->
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Interactive Matcher -->
+                <section class="section">
+                    <h2>Übung: Welche Lizenz passt?</h2>
+                    
+                    <div class="license-matcher">
+                        <div class="matcher-scenario">
+                            <h4>📚 Szenario 1: Unterrichtsmaterial</h4>
+                            <p>Sie erstellen ein Arbeitsblatt und möchten, dass andere Lehrpersonen es frei nutzen und anpassen können, aber keine kommerzielle Nutzung erlauben.</p>
+                            <div class="matcher-options">
+                                <div class="matcher-option" data-correct="false">CC BY</div>
+                                <div class="matcher-option" data-correct="true">CC BY-NC</div>
+                                <div class="matcher-option" data-correct="true">CC BY-NC-SA</div>
+                                <div class="matcher-option" data-correct="false">CC BY-ND</div>
+                            </div>
+                        </div>
+
+                        <div class="matcher-scenario">
+                            <h4>📸 Szenario 2: Schulfoto</h4>
+                            <p>Ein Foto vom Schulfest soll auf der Website, aber nicht verändert werden.</p>
+                            <div class="matcher-options">
+                                <div class="matcher-option" data-correct="false">CC BY</div>
+                                <div class="matcher-option" data-correct="false">CC BY-SA</div>
+                                <div class="matcher-option" data-correct="true">CC BY-ND</div>
+                                <div class="matcher-option" data-correct="false">CC BY-NC</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Best Practices -->
+                <section class="section">
+                    <h2>So wenden Sie CC-Lizenzen richtig an</h2>
+                    
+                    <div class="practice-section">
+                        <div class="practice-item">
+                            <h4>1. Für eigene Werke</h4>
+                            <ol>
+                                <li>Wählen Sie die passende CC-Lizenz</li>
+                                <li>Fügen Sie den Lizenzhinweis gut sichtbar hinzu</li>
+                                <li>Verlinken Sie zur Lizenzbeschreibung</li>
+                                <li>Optional: Registrieren Sie bei CC</li>
+                            </ol>
+                        </div>
+
+                        <div class="practice-item">
+                            <h4>2. Für fremde CC-Werke (TASL-Regel)</h4>
+                            <ul>
+                                <li><strong>T</strong>itle - Titel des Werks</li>
+                                <li><strong>A</strong>uthor - Name des Urhebers</li>
+                                <li><strong>S</strong>ource - Quelle/Link zum Original</li>
+                                <li><strong>L</strong>icense - Angabe der CC-Lizenz</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Common Mistakes -->
+                <section class="section">
+                    <h2>Häufige Fehler vermeiden</h2>
+                    
+                    <div class="info-box warning">
+                        <div class="info-box-title">
+                            <span class="info-box-icon">⚠️</span>
+                            CC ist unwiderruflich!
+                        </div>
+                        <p>
+                            Einmal veröffentlichte CC-Lizenzen können nicht zurückgenommen werden. 
+                            Sie können zwar aufhören, das Werk zu verbreiten, aber bereits heruntergeladene 
+                            Kopien behalten ihre Lizenz.
+                        </p>
+                    </div>
+
+                    <div class="info-box warning">
+                        <div class="info-box-title">
+                            <span class="info-box-icon">⚠️</span>
+                            NC ist nicht eindeutig
+                        </div>
+                        <p>
+                            "Nicht-kommerziell" ist rechtlich nicht klar definiert. Schon Werbung auf einer 
+                            Website kann als kommerziell gelten. Im Zweifel: Lieber nachfragen!
+                        </p>
+                    </div>
+                </section>
+
+                <!-- Quiz Section -->
+                <section class="quiz-section">
+                    <h3>📝 Wissenskontrolle</h3>
+                    
+                    <div class="quiz-question">
+                        <h4>Frage 1: Welche CC-Lizenz ist für OER (Open Educational Resources) am besten geeignet?</h4>
+                        <div class="quiz-options">
+                            <div class="quiz-option" data-correct="true">CC BY oder CC BY-SA</div>
+                            <div class="quiz-option" data-correct="false">CC BY-NC-ND</div>
+                            <div class="quiz-option" data-correct="false">CC BY-ND</div>
+                            <div class="quiz-option" data-correct="false">Alle Rechte vorbehalten</div>
+                        </div>
+                    </div>
+
+                    <div class="quiz-question">
+                        <h4>Frage 2: Was bedeutet das SA in CC BY-SA?</h4>
+                        <div class="quiz-options">
+                            <div class="quiz-option" data-correct="false">Save Attribution</div>
+                            <div class="quiz-option" data-correct="true">ShareAlike - Weitergabe unter gleichen Bedingungen</div>
+                            <div class="quiz-option" data-correct="false">Special Allowance</div>
+                            <div class="quiz-option" data-correct="false">Single Author</div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Key Points -->
+                <div class="info-box success">
+                    <div class="info-box-title">
+                        <span class="info-box-icon">🎯</span>
+                        Das Wichtigste zu Creative Commons
+                    </div>
+                    <ol>
+                        <li>CC-Lizenzen sind <strong>unwiderruflich</strong> - überlegen Sie gut!</li>
+                        <li><strong>BY</strong> (Namensnennung) ist immer dabei</li>
+                        <li>Je mehr Buchstaben, desto <strong>restriktiver</strong> die Lizenz</li>
+                        <li>Für Bildung ideal: <strong>CC BY</strong> oder <strong>CC BY-SA</strong></li>
+                        <li>Immer die <strong>TASL-Regel</strong> bei Quellenangaben befolgen</li>
+                        <li>CC0 = Verzicht auf alle Rechte (Public Domain)</li>
+                    </ol>
+                </div>
+
+                <!-- Navigation -->
+                <div class="navigation">
+                    <a href="grundlagen.html" class="nav-button prev">
+                        <span>←</span>
+                        <span>Zurück zu Grundlagen</span>
+                    </a>
+                    <a href="../index.html" class="nav-button">
+                        <span>Zur Modulübersicht</span>
+                        <span>→</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Scripts -->
+    <script>
+        // CC License Builder
+        const builderOptions = document.querySelectorAll('.builder-option');
+        const builderAnswers = {};
+
+        builderOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                const question = this.dataset.question;
+                const value = this.dataset.value;
+                
+                // Clear other selections for this question
+                document.querySelectorAll(`.builder-option[data-question="${question}"]`).forEach(opt => {
+                    opt.classList.remove('selected');
+                });
+                
+                this.classList.add('selected');
+                builderAnswers[question] = value;
+                
+                updateLicenseRecommendation();
+            });
+        });
+
+        function updateLicenseRecommendation() {
+            if (!builderAnswers.commercial || !builderAnswers.derivatives) return;
+            
+            let license = 'CC BY';
+            let icons = ['CC', 'BY'];
+            let description = '';
+            
+            if (builderAnswers.commercial === 'no') {
+                license += '-NC';
+                icons.push('NC');
+            }
+            
+            if (builderAnswers.derivatives === 'share') {
+                license += '-SA';
+                icons.push('SA');
+                description = 'Bearbeitungen müssen unter derselben Lizenz weitergegeben werden.';
+            } else if (builderAnswers.derivatives === 'no') {
+                license += '-ND';
+                icons.push('ND');
+                description = 'Keine Bearbeitungen erlaubt. Das Werk darf nur unverändert genutzt werden.';
+            }
+            
+            // Update display
+            document.getElementById('licenseName').innerHTML = `<strong>${license}</strong>`;
+            document.getElementById('licenseIcons').innerHTML = icons.map(icon => 
+                `<span class="cc-icon">${icon}</span>`
+            ).join('');
+            
+            if (builderAnswers.commercial === 'no') {
+                description += ' Nur nicht-kommerzielle Nutzung erlaubt.';
+            }
+            if (!description) {
+                description = 'Die freieste Creative Commons Lizenz. Erlaubt jede Art der Nutzung bei Namensnennung.';
+            }
+            
+            document.getElementById('licenseDescription').textContent = description;
+        }
+
+        // Attribution Generator
+        function generateAttribution() {
+            const title = document.getElementById('workTitle').value || '[Titel]';
+            const author = document.getElementById('workAuthor').value || '[Autor]';
+            const source = document.getElementById('workSource').value || '[Quelle]';
+            const license = document.getElementById('workLicense').value || '[Lizenz]';
+            
+            const attribution = `"${title}" von ${author}, ${source}, lizenziert unter ${license}`;
+            
+            const output = document.getElementById('attributionOutput');
+            output.innerHTML = `
+                <strong>Ihre Quellenangabe:</strong><br>
+                ${attribution}<br><br>
+                <button class="copy-button" onclick="copyToClipboard('${attribution}')">In Zwischenablage kopieren</button>
+            `;
+            output.style.display = 'block';
+        }
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Quellenangabe wurde kopiert!');
+            });
+        }
+
+        // License Matcher
+        const matcherOptions = document.querySelectorAll('.matcher-option');
+        
+        matcherOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                if (this.classList.contains('correct') || this.classList.contains('incorrect')) return;
+                
+                const isCorrect = this.dataset.correct === 'true';
+                if (isCorrect) {
+                    this.classList.add('correct');
+                } else {
+                    this.classList.add('incorrect');
+                }
+            });
+        });
+
+        // Quiz functionality
+        const quizOptions = document.querySelectorAll('.quiz-option');
+        let questionsAnswered = 0;
+        const totalQuestions = document.querySelectorAll('.quiz-question').length;
+        
+        quizOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                const parent = this.closest('.quiz-options');
+                const wasAnswered = parent.querySelector('.selected, .correct, .incorrect');
+                
+                if (!wasAnswered) {
+                    questionsAnswered++;
+                    
+                    const isCorrect = this.dataset.correct === 'true';
+                    if (isCorrect) {
+                        this.classList.add('correct');
+                    } else {
+                        this.classList.add('incorrect');
+                        parent.querySelectorAll('.quiz-option').forEach(opt => {
+                            if (opt.dataset.correct === 'true') {
+                                opt.classList.add('correct');
+                            }
+                        });
+                    }
+                    
+                    updateProgress();
+                }
+            });
+        });
+
+        // Progress tracking
+        let startTime = Date.now();
+        let maxScroll = 0;
+        let builderUsed = false;
+        let matcherUsed = false;
+
+        window.addEventListener('scroll', function() {
+            const windowHeight = window.innerHeight;
+            const documentHeight = document.documentElement.scrollHeight;
+            const scrollTop = window.scrollY;
+            
+            const currentProgress = (scrollTop + windowHeight) / documentHeight * 100;
+            if (currentProgress > maxScroll) {
+                maxScroll = currentProgress;
+                updateProgress();
+            }
+        });
+
+        function updateProgress() {
+            let progress = 0;
+            
+            // Reading progress (40%)
+            if (maxScroll >= 95) {
+                progress += 40;
+            } else {
+                progress += Math.floor(maxScroll * 0.4);
+            }
+            
+            // Builder interaction (20%)
+            if (Object.keys(builderAnswers).length === 2) {
+                builderUsed = true;
+            }
+            if (builderUsed) {
+                progress += 20;
+            }
+            
+            // Matcher interaction (20%)
+            if (document.querySelectorAll('.matcher-option.correct, .matcher-option.incorrect').length >= 4) {
+                matcherUsed = true;
+            }
+            if (matcherUsed) {
+                progress += 20;
+            }
+            
+            // Quiz (10%)
+            if (questionsAnswered === totalQuestions) {
+                progress += 10;
+            } else if (questionsAnswered > 0) {
+                progress += Math.floor((questionsAnswered / totalQuestions) * 10);
+            }
+            
+            // Time spent (10%)
+            const timeSpent = (Date.now() - startTime) / 1000 / 60;
+            if (timeSpent >= 4) {
+                progress += 10;
+            }
+            
+            progress = Math.min(progress, 100);
+            
+            const progressBar = document.querySelector('.progress-bar');
+            const progressPercentage = document.querySelector('.progress-percentage');
+            
+            progressBar.style.width = progress + '%';
+            progressPercentage.textContent = progress + '%';
+            
+            localStorage.setItem('lizenzen_cc_progress', progress);
+            
+            if (progress === 100) {
+                progressBar.style.background = 'linear-gradient(90deg, #00994d, #00cc66)';
+            }
+        }
+
+        // Load saved progress
+        const savedProgress = localStorage.getItem('lizenzen_cc_progress');
+        if (savedProgress) {
+            const progressBar = document.querySelector('.progress-bar');
+            const progressPercentage = document.querySelector('.progress-percentage');
+            
+            progressBar.style.width = savedProgress + '%';
+            progressPercentage.textContent = savedProgress + '%';
+            
+            if (savedProgress === '100') {
+                progressBar.style.background = 'linear-gradient(90deg, #00994d, #00cc66)';
+            }
+        }
+    </script>
+</body>
+</html>
