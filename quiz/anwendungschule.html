@@ -1,1 +1,1211 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz: Anwendung in der Schule - Urheberrecht</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(255,255,255,0.95);
+            padding: 20px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .canton-logo {
+            width: 40px;
+            height: 40px;
+            background: #0050a0;
+            color: white;
+            border-radius: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        h1 {
+            font-size: 24px;
+            color: #0050a0;
+        }
+
+        /* Main Container */
+        .main {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        /* Quiz Card */
+        .quiz-card {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-bottom: 30px;
+        }
+
+        .quiz-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .quiz-title {
+            color: #0050a0;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .quiz-subtitle {
+            color: #666;
+            font-size: 18px;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            background: #e5e5e5;
+            height: 30px;
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #0050a0, #0066cc);
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 15px;
+            color: white;
+            font-weight: bold;
+        }
+
+        /* Question Types */
+        .question-container {
+            margin-bottom: 30px;
+            min-height: 400px;
+        }
+
+        .question-header {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .question-type {
+            display: inline-block;
+            background: #0050a0;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .question-text {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        /* Swipe Cards */
+        .swipe-container {
+            position: relative;
+            height: 400px;
+            margin: 30px auto;
+            max-width: 500px;
+        }
+
+        .swipe-card {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            padding: 30px;
+            cursor: grab;
+            transition: transform 0.3s, opacity 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .swipe-card.dragging {
+            cursor: grabbing;
+        }
+
+        .swipe-hint {
+            display: flex;
+            justify-content: space-between;
+            padding: 0 50px;
+            margin-bottom: 20px;
+        }
+
+        .swipe-left, .swipe-right {
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+
+        .swipe-left {
+            background: #ffebee;
+            color: #c62828;
+        }
+
+        .swipe-right {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        /* Drag & Drop */
+        .drag-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 30px 0;
+        }
+
+        .drag-items {
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .drag-item {
+            background: white;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            cursor: move;
+            transition: all 0.3s;
+            border: 2px solid #ddd;
+        }
+
+        .drag-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .drag-item.dragging {
+            opacity: 0.5;
+        }
+
+        .drop-zones {
+            display: grid;
+            gap: 15px;
+        }
+
+        .drop-zone {
+            background: white;
+            border: 2px dashed #0050a0;
+            padding: 20px;
+            border-radius: 10px;
+            min-height: 80px;
+            transition: all 0.3s;
+        }
+
+        .drop-zone.drag-over {
+            background: #e8f2ff;
+            border-color: #0066cc;
+        }
+
+        .drop-zone-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #0050a0;
+        }
+
+        /* Slider Question */
+        .slider-container {
+            margin: 30px 0;
+        }
+
+        .slider-scenario {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+
+        .slider-wrapper {
+            margin: 20px 0;
+        }
+
+        .slider {
+            width: 100%;
+            height: 40px;
+            -webkit-appearance: none;
+            appearance: none;
+            background: transparent;
+            cursor: pointer;
+        }
+
+        .slider::-webkit-slider-track {
+            width: 100%;
+            height: 10px;
+            background: linear-gradient(to right, #f44336 0%, #ffc107 50%, #4caf50 100%);
+            border-radius: 5px;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 30px;
+            height: 30px;
+            background: white;
+            border: 3px solid #0050a0;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .slider-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        .slider-value {
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            margin: 20px 0;
+            color: #0050a0;
+        }
+
+        /* Chat Simulation */
+        .chat-container {
+            background: #f5f5f5;
+            border-radius: 10px;
+            padding: 20px;
+            height: 400px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            margin-bottom: 20px;
+        }
+
+        .chat-message {
+            margin: 10px 0;
+            display: flex;
+            animation: slideIn 0.3s;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(-20px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .chat-message.user {
+            justify-content: flex-end;
+        }
+
+        .message-bubble {
+            max-width: 70%;
+            padding: 12px 16px;
+            border-radius: 15px;
+            background: white;
+        }
+
+        .user .message-bubble {
+            background: #0050a0;
+            color: white;
+        }
+
+        .chat-options {
+            display: grid;
+            gap: 10px;
+        }
+
+        .chat-option {
+            padding: 12px;
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .chat-option:hover {
+            background: #e8f2ff;
+            border-color: #0050a0;
+        }
+
+        /* Timeline Question */
+        .timeline-container {
+            margin: 30px 0;
+        }
+
+        .timeline-events {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .timeline-event {
+            background: #0050a0;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 20px;
+            cursor: move;
+            transition: all 0.3s;
+        }
+
+        .timeline-event.placed {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .timeline-track {
+            position: relative;
+            height: 100px;
+            background: linear-gradient(90deg, #e5e5e5 0%, #e5e5e5 100%);
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .timeline-line {
+            position: absolute;
+            top: 50%;
+            left: 5%;
+            right: 5%;
+            height: 4px;
+            background: #0050a0;
+        }
+
+        .timeline-slot {
+            position: absolute;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+            height: 60px;
+            background: white;
+            border: 2px dashed #999;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+
+        /* Navigation */
+        .quiz-navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 2px solid #f0f0f0;
+        }
+
+        .nav-button {
+            padding: 12px 24px;
+            background: #0050a0;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-button:hover {
+            background: #003d7a;
+            transform: translateY(-1px);
+        }
+
+        .nav-button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        /* Score Display */
+        .score-display {
+            text-align: center;
+            padding: 20px;
+            background: #f5f5f5;
+            border-radius: 10px;
+        }
+
+        .score-number {
+            font-size: 48px;
+            font-weight: bold;
+            color: #0050a0;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .quiz-card {
+                padding: 20px;
+            }
+
+            .drag-container {
+                grid-template-columns: 1fr;
+            }
+
+            .swipe-container {
+                height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="header-left">
+                <div class="canton-logo">ZH</div>
+                <h1>Interaktives Urheberrechts-Quiz</h1>
+            </div>
+            <div class="score-display">
+                <span id="currentScore">0</span> / <span id="totalQuestions">8</span> Punkte
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+        <div class="quiz-card">
+            <div class="quiz-header">
+                <h2 class="quiz-title">🚀 Interaktives Praxis-Quiz</h2>
+                <p class="quiz-subtitle">Swipe, drag & drop, entscheide - teste dein Wissen spielerisch!</p>
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar" style="width: 12.5%">
+                    <span>1 / 8</span>
+                </div>
+            </div>
+
+            <!-- Question Container -->
+            <div class="question-container" id="questionContainer">
+                <!-- Questions will be dynamically loaded here -->
+            </div>
+
+            <!-- Navigation -->
+            <div class="quiz-navigation">
+                <button class="nav-button" id="prevBtn" onclick="previousQuestion()" disabled>
+                    <span>←</span>
+                    <span>Zurück</span>
+                </button>
+                <button class="nav-button" id="checkBtn" onclick="checkAnswer()" style="display:none;">
+                    <span>✓</span>
+                    <span>Prüfen</span>
+                </button>
+                <button class="nav-button" id="nextBtn" onclick="nextQuestion()" disabled>
+                    <span>Weiter</span>
+                    <span>→</span>
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Quiz Questions with different types
+        const questions = [
+            {
+                type: 'swipe',
+                title: 'Swipe-Entscheidung: Erlaubt oder Verboten?',
+                intro: 'Swipe nach rechts für ERLAUBT ✅, nach links für VERBOTEN ❌',
+                cards: [
+                    {
+                        scenario: '📚 Lehrerin scannt ganzes Lehrbuch',
+                        text: 'Frau Müller scannt das komplette Deutschbuch und lädt es auf Teams hoch.',
+                        correct: false,
+                        feedback: 'Verboten! Ganze Bücher dürfen nicht kopiert werden.'
+                    },
+                    {
+                        scenario: '🎬 YouTube im Klassenzimmer',
+                        text: 'Herr Weber zeigt ein YouTube-Video im Unterricht über Beamer.',
+                        correct: true,
+                        feedback: 'Erlaubt! Streaming im Unterricht ist OK.'
+                    },
+                    {
+                        scenario: '📸 Klassenfoto auf Instagram',
+                        text: 'Sarah postet Klassenfotos ohne zu fragen auf Instagram.',
+                        correct: false,
+                        feedback: 'Verboten! Persönlichkeitsrechte beachten!'
+                    },
+                    {
+                        scenario: '🎵 Spotify im Sport',
+                        text: 'Sportlehrer spielt Spotify-Playlist während Training.',
+                        correct: true,
+                        feedback: 'Erlaubt! Streaming für Unterricht ist OK.'
+                    }
+                ]
+            },
+            {
+                type: 'drag',
+                title: 'Drag & Drop: Ordne die Lizenzen zu!',
+                intro: 'Ziehe die Materialien zur passenden Lizenz-Kategorie',
+                items: [
+                    'Wikipedia-Artikel',
+                    'Netflix-Film',
+                    'Pixabay-Foto',
+                    'NZZ-Artikel',
+                    'YouTube-Video',
+                    'Spotify-Song',
+                    'CC0-Grafik',
+                    'Schulbuch-Scan'
+                ],
+                zones: [
+                    {
+                        id: 'free',
+                        title: '✅ Frei nutzbar',
+                        correct: ['Pixabay-Foto', 'CC0-Grafik', 'Wikipedia-Artikel']
+                    },
+                    {
+                        id: 'education',
+                        title: '📚 Nur für Bildung',
+                        correct: ['NZZ-Artikel', 'Schulbuch-Scan', 'YouTube-Video']
+                    },
+                    {
+                        id: 'restricted',
+                        title: '🔒 Stark eingeschränkt',
+                        correct: ['Netflix-Film', 'Spotify-Song']
+                    }
+                ]
+            },
+            {
+                type: 'slider',
+                title: 'Risiko-Barometer',
+                intro: 'Bewerte das rechtliche Risiko von 0 (sicher) bis 100 (gefährlich)',
+                scenarios: [
+                    {
+                        text: 'Du verwendest ein Bild von Unsplash für deine Präsentation',
+                        correctRange: [0, 20],
+                        feedback: 'Sehr geringes Risiko! Unsplash bietet CC0-Lizenzen.'
+                    },
+                    {
+                        text: 'ChatGPT schreibt deine ganze Hausaufgabe ohne Quellenangabe',
+                        correctRange: [80, 100],
+                        feedback: 'Hohes Risiko! Plagiat und wissenschaftliches Fehlverhalten.'
+                    },
+                    {
+                        text: 'Du teilst einen Meme in der Klassen-WhatsApp',
+                        correctRange: [30, 50],
+                        feedback: 'Mittleres Risiko - Memes können geschützt sein.'
+                    }
+                ]
+            },
+            {
+                type: 'chat',
+                title: 'Chat-Simulation: Beratung',
+                intro: 'Ein Schüler fragt dich um Rat. Wähle die beste Antwort!',
+                conversation: [
+                    {
+                        from: 'student',
+                        text: 'Hey! Ich mache ein Video für Geschichte und will den Soundtrack von Star Wars verwenden. Geht das?'
+                    }
+                ],
+                options: [
+                    {
+                        text: 'Klar, für Schulprojekte ist alles erlaubt!',
+                        correct: false,
+                        feedback: 'Falsch! Musik hat keinen Bildungsbonus.'
+                    },
+                    {
+                        text: 'Nein, nimm lieber lizenzfreie Musik von YouTube Audio Library',
+                        correct: true,
+                        feedback: 'Richtig! Sicherere Alternative vorgeschlagen.'
+                    },
+                    {
+                        text: 'Nur wenn du John Williams persönlich fragst',
+                        correct: false,
+                        feedback: 'Unrealistisch - es gibt bessere Alternativen.'
+                    }
+                ]
+            },
+            {
+                type: 'timeline',
+                title: 'Timeline: Urheberrechts-Ablauf',
+                intro: 'Ordne die Schritte in der richtigen Reihenfolge',
+                events: [
+                    'Material finden',
+                    'Lizenz prüfen',
+                    'Erlaubnis einholen',
+                    'Material nutzen',
+                    'Quelle angeben'
+                ],
+                correctOrder: ['Material finden', 'Lizenz prüfen', 'Erlaubnis einholen', 'Material nutzen', 'Quelle angeben']
+            },
+            {
+                type: 'scenario',
+                title: 'Entscheidungsbaum',
+                intro: 'Navigiere durch die Situation',
+                scenario: 'Du willst ein Meme für dein Referat verwenden',
+                decisions: [
+                    {
+                        question: 'Woher stammt das Meme?',
+                        options: [
+                            {
+                                text: 'Reddit/9GAG',
+                                next: 1,
+                                feedback: 'Vorsicht - Ursprung oft unklar!'
+                            },
+                            {
+                                text: 'Selbst erstellt',
+                                result: 'success',
+                                feedback: 'Perfekt! Eigene Kreationen sind immer OK!'
+                            }
+                        ]
+                    },
+                    {
+                        question: 'Wie willst du es verwenden?',
+                        options: [
+                            {
+                                text: 'Nur im Klassenzimmer zeigen',
+                                result: 'ok',
+                                feedback: 'Wahrscheinlich OK für Bildungszwecke'
+                            },
+                            {
+                                text: 'Auf Schulwebsite veröffentlichen',
+                                result: 'danger',
+                                feedback: 'Gefährlich! Öffentliche Nutzung braucht Rechte'
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                type: 'matching',
+                title: 'Verbinde die Paare',
+                intro: 'Welche Aussage passt zu welcher Regel?',
+                pairs: [
+                    { left: 'CC BY', right: 'Namensnennung erforderlich' },
+                    { left: 'CC0', right: 'Komplett frei nutzbar' },
+                    { left: 'Copyright ©', right: 'Alle Rechte vorbehalten' },
+                    { left: 'CC BY-SA', right: 'Weitergabe unter gleichen Bedingungen' }
+                ]
+            },
+            {
+                type: 'quickfire',
+                title: '⚡ Quickfire Round!',
+                intro: '10 Sekunden pro Frage - wie viele schaffst du?',
+                questions: [
+                    {
+                        q: 'Wikipedia-Lizenz?',
+                        a: ['CC BY-SA', 'CC0', 'Copyright'],
+                        correct: 0
+                    },
+                    {
+                        q: 'Musik 30 Sek = OK?',
+                        a: ['Ja', 'Nein', 'Manchmal'],
+                        correct: 1
+                    },
+                    {
+                        q: 'ChatGPT zitieren?',
+                        a: ['Immer', 'Nie', 'Optional'],
+                        correct: 0
+                    }
+                ]
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let answers = {};
+
+        // Initialize quiz
+        function init() {
+            loadQuestion();
+        }
+
+        // Load current question
+        function loadQuestion() {
+            const question = questions[currentQuestion];
+            const container = document.getElementById('questionContainer');
+            
+            // Clear container
+            container.innerHTML = '';
+            
+            // Create question based on type
+            switch(question.type) {
+                case 'swipe':
+                    loadSwipeQuestion(question, container);
+                    break;
+                case 'drag':
+                    loadDragQuestion(question, container);
+                    break;
+                case 'slider':
+                    loadSliderQuestion(question, container);
+                    break;
+                case 'chat':
+                    loadChatQuestion(question, container);
+                    break;
+                case 'timeline':
+                    loadTimelineQuestion(question, container);
+                    break;
+                case 'scenario':
+                    loadScenarioQuestion(question, container);
+                    break;
+                case 'matching':
+                    loadMatchingQuestion(question, container);
+                    break;
+                case 'quickfire':
+                    loadQuickfireQuestion(question, container);
+                    break;
+            }
+            
+            updateProgress();
+        }
+
+        // Swipe Question
+        function loadSwipeQuestion(question, container) {
+            let currentCard = 0;
+            
+            container.innerHTML = `
+                <div class="question-header">
+                    <div class="question-type">Swipe-Karten</div>
+                    <div class="question-text">${question.title}</div>
+                    <p>${question.intro}</p>
+                </div>
+                <div class="swipe-hint">
+                    <div class="swipe-left">← Verboten</div>
+                    <div class="swipe-right">Erlaubt →</div>
+                </div>
+                <div class="swipe-container" id="swipeContainer">
+                    ${question.cards.map((card, i) => `
+                        <div class="swipe-card" style="z-index: ${question.cards.length - i}; display: ${i === 0 ? 'flex' : 'none'}">
+                            <h3>${card.scenario}</h3>
+                            <p style="margin-top: 20px;">${card.text}</p>
+                        </div>
+                    `).join('')}
+                </div>
+                <div style="text-align: center; margin-top: 20px;">
+                    <span id="cardCounter">Karte 1 von ${question.cards.length}</span>
+                </div>
+            `;
+            
+            // Add swipe functionality
+            const cards = container.querySelectorAll('.swipe-card');
+            cards.forEach((card, index) => {
+                let startX = 0;
+                let currentX = 0;
+                let isDragging = false;
+                
+                card.addEventListener('mousedown', handleStart);
+                card.addEventListener('touchstart', handleStart);
+                card.addEventListener('mousemove', handleMove);
+                card.addEventListener('touchmove', handleMove);
+                card.addEventListener('mouseup', handleEnd);
+                card.addEventListener('touchend', handleEnd);
+                card.addEventListener('mouseleave', handleEnd);
+                
+                function handleStart(e) {
+                    if (index !== currentCard) return;
+                    isDragging = true;
+                    startX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+                    card.classList.add('dragging');
+                }
+                
+                function handleMove(e) {
+                    if (!isDragging) return;
+                    e.preventDefault();
+                    currentX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+                    const deltaX = currentX - startX;
+                    const rotation = deltaX * 0.1;
+                    
+                    card.style.transform = `translateX(${deltaX}px) rotate(${rotation}deg)`;
+                    
+                    // Change opacity based on direction
+                    if (deltaX > 50) {
+                        card.style.background = 'linear-gradient(135deg, #e8f5e9, white)';
+                    } else if (deltaX < -50) {
+                        card.style.background = 'linear-gradient(135deg, #ffebee, white)';
+                    }
+                }
+                
+                function handleEnd(e) {
+                    if (!isDragging) return;
+                    isDragging = false;
+                    card.classList.remove('dragging');
+                    
+                    const deltaX = currentX - startX;
+                    
+                    if (Math.abs(deltaX) > 100) {
+                        // Card swiped
+                        const swipeRight = deltaX > 0;
+                        const isCorrect = swipeRight === question.cards[index].correct;
+                        
+                        if (isCorrect) score++;
+                        
+                        // Animate card away
+                        card.style.transform = `translateX(${deltaX > 0 ? 1000 : -1000}px) rotate(${deltaX > 0 ? 45 : -45}deg)`;
+                        card.style.opacity = '0';
+                        
+                        setTimeout(() => {
+                            card.style.display = 'none';
+                            currentCard++;
+                            
+                            if (currentCard < question.cards.length) {
+                                cards[currentCard].style.display = 'flex';
+                                document.getElementById('cardCounter').textContent = `Karte ${currentCard + 1} von ${question.cards.length}`;
+                            } else {
+                                // All cards done
+                                document.getElementById('nextBtn').disabled = false;
+                                container.innerHTML += '<div style="text-align: center; margin-top: 20px;"><h3>Alle Karten bewertet!</h3></div>';
+                            }
+                        }, 300);
+                    } else {
+                        // Reset card position
+                        card.style.transform = '';
+                        card.style.background = '';
+                    }
+                    
+                    currentX = 0;
+                }
+            });
+        }
+
+        // Drag & Drop Question
+        function loadDragQuestion(question, container) {
+            container.innerHTML = `
+                <div class="question-header">
+                    <div class="question-type">Drag & Drop</div>
+                    <div class="question-text">${question.title}</div>
+                    <p>${question.intro}</p>
+                </div>
+                <div class="drag-container">
+                    <div class="drag-items">
+                        <h4>Materialien:</h4>
+                        ${question.items.map(item => `
+                            <div class="drag-item" draggable="true" data-item="${item}">${item}</div>
+                        `).join('')}
+                    </div>
+                    <div class="drop-zones">
+                        ${question.zones.map(zone => `
+                            <div class="drop-zone" data-zone="${zone.id}">
+                                <div class="drop-zone-title">${zone.title}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+            
+            // Add drag & drop functionality
+            const dragItems = container.querySelectorAll('.drag-item');
+            const dropZones = container.querySelectorAll('.drop-zone');
+            
+            dragItems.forEach(item => {
+                item.addEventListener('dragstart', (e) => {
+                    e.dataTransfer.setData('text', e.target.dataset.item);
+                    e.target.classList.add('dragging');
+                });
+                
+                item.addEventListener('dragend', (e) => {
+                    e.target.classList.remove('dragging');
+                });
+            });
+            
+            dropZones.forEach(zone => {
+                zone.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    zone.classList.add('drag-over');
+                });
+                
+                zone.addEventListener('dragleave', () => {
+                    zone.classList.remove('drag-over');
+                });
+                
+                zone.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    const item = e.dataTransfer.getData('text');
+                    const draggedElement = document.querySelector(`[data-item="${item}"]`);
+                    zone.appendChild(draggedElement);
+                    zone.classList.remove('drag-over');
+                    
+                    // Check if all items placed
+                    const remainingItems = container.querySelectorAll('.drag-items .drag-item');
+                    if (remainingItems.length === 0) {
+                        document.getElementById('checkBtn').style.display = 'inline-flex';
+                    }
+                });
+            });
+        }
+
+        // Other question types would be implemented similarly...
+        function loadSliderQuestion(question, container) {
+            let currentScenario = 0;
+            
+            container.innerHTML = `
+                <div class="question-header">
+                    <div class="question-type">Risiko-Bewertung</div>
+                    <div class="question-text">${question.title}</div>
+                    <p>${question.intro}</p>
+                </div>
+                <div class="slider-container">
+                    <div class="slider-scenario">
+                        <p id="scenarioText">${question.scenarios[0].text}</p>
+                    </div>
+                    <div class="slider-wrapper">
+                        <input type="range" class="slider" id="riskSlider" min="0" max="100" value="50">
+                        <div class="slider-labels">
+                            <span>🟢 Sicher</span>
+                            <span>🟡 Mittel</span>
+                            <span>🔴 Gefährlich</span>
+                        </div>
+                        <div class="slider-value" id="sliderValue">50</div>
+                    </div>
+                    <button class="nav-button" onclick="submitSliderAnswer()" style="margin: 20px auto; display: block;">
+                        Bewertung abgeben
+                    </button>
+                </div>
+            `;
+            
+            const slider = document.getElementById('riskSlider');
+            const sliderValue = document.getElementById('sliderValue');
+            
+            slider.addEventListener('input', (e) => {
+                sliderValue.textContent = e.target.value;
+            });
+            
+            window.submitSliderAnswer = () => {
+                const value = parseInt(slider.value);
+                const scenario = question.scenarios[currentScenario];
+                
+                if (value >= scenario.correctRange[0] && value <= scenario.correctRange[1]) {
+                    score++;
+                    alert('Richtig! ' + scenario.feedback);
+                } else {
+                    alert('Nicht ganz. ' + scenario.feedback);
+                }
+                
+                currentScenario++;
+                if (currentScenario < question.scenarios.length) {
+                    document.getElementById('scenarioText').textContent = question.scenarios[currentScenario].text;
+                    slider.value = 50;
+                    sliderValue.textContent = '50';
+                } else {
+                    document.getElementById('nextBtn').disabled = false;
+                }
+            };
+        }
+
+        function loadChatQuestion(question, container) {
+            container.innerHTML = `
+                <div class="question-header">
+                    <div class="question-type">Chat-Simulation</div>
+                    <div class="question-text">${question.title}</div>
+                    <p>${question.intro}</p>
+                </div>
+                <div class="chat-container">
+                    <div class="chat-messages" id="chatMessages">
+                        ${question.conversation.map(msg => `
+                            <div class="chat-message ${msg.from}">
+                                <div class="message-bubble">${msg.text}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div class="chat-options">
+                        ${question.options.map((option, i) => `
+                            <div class="chat-option" onclick="selectChatOption(${i})">
+                                ${option.text}
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+            
+            window.selectChatOption = (index) => {
+                const option = question.options[index];
+                const messagesDiv = document.getElementById('chatMessages');
+                
+                // Add user message
+                messagesDiv.innerHTML += `
+                    <div class="chat-message user">
+                        <div class="message-bubble">${option.text}</div>
+                    </div>
+                `;
+                
+                // Add feedback
+                setTimeout(() => {
+                    messagesDiv.innerHTML += `
+                        <div class="chat-message">
+                            <div class="message-bubble">${option.feedback}</div>
+                        </div>
+                    `;
+                    
+                    if (option.correct) score++;
+                    document.getElementById('nextBtn').disabled = false;
+                }, 500);
+                
+                // Disable options
+                document.querySelectorAll('.chat-option').forEach(opt => {
+                    opt.style.pointerEvents = 'none';
+                    opt.style.opacity = '0.5';
+                });
+            };
+        }
+
+        // Placeholder for other question types
+        function loadTimelineQuestion(question, container) {
+            // Implementation for timeline
+            loadDefaultQuestion(question, container);
+        }
+
+        function loadScenarioQuestion(question, container) {
+            // Implementation for scenario
+            loadDefaultQuestion(question, container);
+        }
+
+        function loadMatchingQuestion(question, container) {
+            // Implementation for matching
+            loadDefaultQuestion(question, container);
+        }
+
+        function loadQuickfireQuestion(question, container) {
+            // Implementation for quickfire
+            loadDefaultQuestion(question, container);
+        }
+
+        function loadDefaultQuestion(question, container) {
+            container.innerHTML = `
+                <div class="question-header">
+                    <div class="question-type">${question.type}</div>
+                    <div class="question-text">${question.title}</div>
+                    <p>${question.intro}</p>
+                </div>
+                <div style="padding: 40px; text-align: center;">
+                    <p>Diese Frage-Art wird noch implementiert...</p>
+                    <button class="nav-button" onclick="document.getElementById('nextBtn').disabled = false;" style="margin: 20px auto;">
+                        Überspringen
+                    </button>
+                </div>
+            `;
+        }
+
+        // Check answer for drag & drop
+        function checkAnswer() {
+            const question = questions[currentQuestion];
+            
+            if (question.type === 'drag') {
+                const zones = document.querySelectorAll('.drop-zone');
+                let correct = 0;
+                
+                zones.forEach(zone => {
+                    const zoneId = zone.dataset.zone;
+                    const items = zone.querySelectorAll('.drag-item');
+                    const zoneData = question.zones.find(z => z.id === zoneId);
+                    
+                    items.forEach(item => {
+                        if (zoneData.correct.includes(item.dataset.item)) {
+                            item.style.background = '#e8f5e9';
+                            correct++;
+                        } else {
+                            item.style.background = '#ffebee';
+                        }
+                    });
+                });
+                
+                score += Math.round((correct / question.items.length) * 2);
+                document.getElementById('checkBtn').style.display = 'none';
+                document.getElementById('nextBtn').disabled = false;
+            }
+        }
+
+        // Navigation
+        function nextQuestion() {
+            currentQuestion++;
+            if (currentQuestion < questions.length) {
+                loadQuestion();
+                document.getElementById('nextBtn').disabled = true;
+                document.getElementById('checkBtn').style.display = 'none';
+                document.getElementById('prevBtn').disabled = false;
+            } else {
+                showResults();
+            }
+        }
+
+        function previousQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                loadQuestion();
+                document.getElementById('prevBtn').disabled = currentQuestion === 0;
+            }
+        }
+
+        function updateProgress() {
+            const progress = ((currentQuestion + 1) / questions.length) * 100;
+            const progressBar = document.getElementById('progressBar');
+            progressBar.style.width = progress + '%';
+            progressBar.innerHTML = `<span>${currentQuestion + 1} / ${questions.length}</span>`;
+            
+            document.getElementById('currentScore').textContent = score;
+            document.getElementById('totalQuestions').textContent = questions.length * 2;
+        }
+
+        function showResults() {
+            const container = document.querySelector('.quiz-card');
+            const maxScore = questions.length * 2;
+            const percentage = Math.round((score / maxScore) * 100);
+            
+            container.innerHTML = `
+                <div style="text-align: center; padding: 40px;">
+                    <h2 style="color: #0050a0; font-size: 36px; margin-bottom: 20px;">
+                        Quiz abgeschlossen! 🎉
+                    </h2>
+                    <div class="score-number">${score} / ${maxScore}</div>
+                    <p style="font-size: 24px; margin: 20px 0;">${percentage}%</p>
+                    <p style="font-size: 18px; color: #666;">
+                        ${percentage >= 80 ? 'Hervorragend! Du bist ein Urheberrechts-Profi! 🏆' :
+                          percentage >= 60 ? 'Gut gemacht! Du kennst dich schon aus! 🎯' :
+                          percentage >= 40 ? 'Nicht schlecht! Weiter üben! 💪' :
+                          'Schau dir nochmal die Lernmaterialien an! 📚'}
+                    </p>
+                    <button class="nav-button" onclick="location.reload()" style="margin: 30px auto;">
+                        Quiz wiederholen
+                    </button>
+                </div>
+            `;
+        }
+
+        // Initialize on load
+        window.onload = init;
+    </script>
+</body>
+</html>
