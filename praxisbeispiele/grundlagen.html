@@ -1,1 +1,820 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grundlagen Praxis - Urheberrecht für Schulen</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+
+        /* Header */
+        .header {
+            background: #0050a0;
+            color: white;
+            padding: 20px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .canton-logo {
+            width: 40px;
+            height: 40px;
+            background: white;
+            border-radius: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #0050a0;
+        }
+
+        h1 {
+            font-size: 20px;
+            font-weight: 400;
+        }
+
+        .module-info {
+            background: rgba(255,255,255,0.1);
+            padding: 5px 15px;
+            border-radius: 3px;
+            font-size: 14px;
+        }
+
+        /* Main Content */
+        .main {
+            margin-top: 80px;
+            padding: 40px 0;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Breadcrumb */
+        .breadcrumb {
+            background: white;
+            padding: 15px 20px;
+            border-radius: 3px;
+            margin-bottom: 30px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .breadcrumb a {
+            color: #0050a0;
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .breadcrumb span {
+            margin: 0 10px;
+            color: #999;
+        }
+
+        /* Content Card */
+        .content-card {
+            background: white;
+            border-radius: 3px;
+            padding: 40px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .page-title {
+            color: #0050a0;
+            font-size: 28px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .page-icon {
+            font-size: 32px;
+        }
+
+        .intro-text {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 30px;
+            padding-bottom: 30px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        /* Two Column Layout */
+        .two-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 30px 0;
+        }
+
+        .column-card {
+            background: #f9f9f9;
+            padding: 25px;
+            border-radius: 8px;
+            border: 2px solid #e0e0e0;
+            transition: all 0.3s;
+        }
+
+        .column-card:hover {
+            border-color: #0050a0;
+            background: #f0f8ff;
+        }
+
+        .column-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .column-icon {
+            font-size: 36px;
+            width: 60px;
+            height: 60px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .column-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #0050a0;
+        }
+
+        /* Situation Cards */
+        .situation-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .situation-card {
+            background: white;
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 8px;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .situation-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border-color: #0050a0;
+        }
+
+        .situation-type {
+            display: inline-block;
+            padding: 3px 10px;
+            background: #e8f2ff;
+            color: #0050a0;
+            border-radius: 3px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .situation-type.digital {
+            background: #e8f2ff;
+            color: #0050a0;
+        }
+
+        .situation-type.analog {
+            background: #f0f4f0;
+            color: #2e7d32;
+        }
+
+        .situation-type.hybrid {
+            background: #fff3e0;
+            color: #f57c00;
+        }
+
+        .situation-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        .situation-desc {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        /* Quick Cases Preview */
+        .cases-preview {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 30px;
+            border-radius: 10px;
+            margin: 30px 0;
+            color: white;
+        }
+
+        .cases-preview-header {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .case-preview-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .case-preview {
+            background: rgba(255,255,255,0.95);
+            color: #333;
+            padding: 20px;
+            border-radius: 8px;
+            transition: transform 0.2s;
+            cursor: pointer;
+        }
+
+        .case-preview:hover {
+            transform: translateY(-2px);
+        }
+
+        .case-preview-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .case-preview-icon {
+            font-size: 24px;
+        }
+
+        .case-preview-title {
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .case-preview-summary {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .case-preview-link {
+            color: #0050a0;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        /* Info Box */
+        .info-box {
+            background: #e8f2ff;
+            border-left: 4px solid #0050a0;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 5px 5px 0;
+        }
+
+        .info-box h4 {
+            color: #0050a0;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Progress Section */
+        .progress-section {
+            background: white;
+            padding: 30px;
+            border-radius: 3px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .progress-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .progress-percentage {
+            font-size: 24px;
+            font-weight: bold;
+            color: #0050a0;
+        }
+
+        .progress-bar-container {
+            background: #e5e5e5;
+            height: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #0050a0, #0066cc);
+            transition: width 0.3s ease;
+        }
+
+        /* Comparison Table */
+        .comparison-table {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+
+        .comparison-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            border-bottom: 1px solid #eee;
+        }
+
+        .comparison-row:last-child {
+            border-bottom: none;
+        }
+
+        .comparison-header {
+            background: #f5f5f5;
+            font-weight: 600;
+        }
+
+        .comparison-cell {
+            padding: 15px;
+            text-align: center;
+        }
+
+        .comparison-cell.situation-col {
+            background: #fafafa;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .check {
+            color: #4caf50;
+            font-size: 20px;
+        }
+
+        .cross {
+            color: #f44336;
+            font-size: 20px;
+        }
+
+        .warning {
+            color: #ff9800;
+            font-size: 20px;
+        }
+
+        /* Navigation */
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 2px solid #f0f0f0;
+        }
+
+        .nav-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 24px;
+            background: #0050a0;
+            color: white;
+            text-decoration: none;
+            border-radius: 3px;
+            transition: background 0.2s;
+            font-size: 14px;
+        }
+
+        .nav-button:hover {
+            background: #003d7a;
+        }
+
+        .nav-button.prev {
+            background: #666;
+        }
+
+        .nav-button.prev:hover {
+            background: #555;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .two-columns {
+                grid-template-columns: 1fr;
+            }
+
+            .case-preview-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .comparison-row {
+                grid-template-columns: 1fr;
+            }
+
+            .comparison-cell {
+                text-align: left !important;
+            }
+
+            .navigation {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .nav-button {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="header-left">
+                <div class="canton-logo">ZH</div>
+                <h1>Urheberrecht für Schulen</h1>
+            </div>
+            <div class="module-info">
+                Modul 4: Praxisbeispiele
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+        <div class="container">
+            <!-- Breadcrumb -->
+            <div class="breadcrumb">
+                <a href="../index.html">Startseite</a>
+                <span>›</span>
+                <a href="#">Praxisbeispiele</a>
+                <span>›</span>
+                <strong>Grundlagen Praxis</strong>
+            </div>
+
+            <!-- Progress Section -->
+            <div class="progress-section">
+                <div class="progress-header">
+                    <span class="progress-title">Ihr Fortschritt in diesem Thema</span>
+                    <span class="progress-percentage">0%</span>
+                </div>
+                <div class="progress-bar-container">
+                    <div class="progress-bar" style="width: 0%"></div>
+                </div>
+            </div>
+
+            <!-- Main Content Card -->
+            <div class="content-card">
+                <h1 class="page-title">
+                    <span class="page-icon">📚</span>
+                    Praxisbeispiele: Analog trifft Digital
+                </h1>
+
+                <p class="intro-text">
+                    Der Schulalltag bewegt sich heute zwischen traditionellen und digitalen Lehrformen. 
+                    Verstehen Sie die urheberrechtlichen Grundlagen für beide Welten und deren Verbindung.
+                </p>
+
+                <!-- Analog vs Digital Introduction -->
+                <div class="two-columns">
+                    <div class="column-card">
+                        <div class="column-header">
+                            <div class="column-icon">📖</div>
+                            <div class="column-title">Analoger Unterricht</div>
+                        </div>
+                        <ul>
+                            <li>Kopien für den Klassenraum</li>
+                            <li>Arbeitsblätter aus Büchern</li>
+                            <li>Overheadfolien und Ausdrucke</li>
+                            <li>Wandtafel und Handouts</li>
+                        </ul>
+                        <p style="margin-top: 15px; font-size: 14px; color: #4caf50;">
+                            <strong>✓ Grundsatz:</strong> Im physischen Klassenraum gelten erweiterte Nutzungsrechte
+                        </p>
+                    </div>
+
+                    <div class="column-card">
+                        <div class="column-header">
+                            <div class="column-icon">💻</div>
+                            <div class="column-title">Digitaler Unterricht</div>
+                        </div>
+                        <ul>
+                            <li>Teams & Online-Plattformen</li>
+                            <li>Cloud-Speicher für Materialien</li>
+                            <li>Streaming und Aufzeichnungen</li>
+                            <li>KI-Tools und digitale Medien</li>
+                        </ul>
+                        <p style="margin-top: 15px; font-size: 14px; color: #ff9800;">
+                            <strong>⚠️ Achtung:</strong> Digital bedeutet oft "Verbreitung" - strengere Regeln!
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Common Situations Overview -->
+                <h3 style="color: #0050a0; margin-top: 40px; margin-bottom: 20px;">Typische Situationen im Schulalltag</h3>
+                
+                <div class="situation-grid">
+                    <div class="situation-card">
+                        <span class="situation-type analog">ANALOG</span>
+                        <div class="situation-title">Kopien für die Klasse</div>
+                        <div class="situation-desc">
+                            20 Kopien eines Zeitungsartikels für die Deutschstunde - erlaubt oder nicht?
+                        </div>
+                    </div>
+
+                    <div class="situation-card">
+                        <span class="situation-type digital">DIGITAL</span>
+                        <div class="situation-title">PDF in Teams hochladen</div>
+                        <div class="situation-desc">
+                            Gescannte Buchseiten im Klassenkanal teilen - was geht, was nicht?
+                        </div>
+                    </div>
+
+                    <div class="situation-card">
+                        <span class="situation-type hybrid">HYBRID</span>
+                        <div class="situation-title">Live-Stream der Lektion</div>
+                        <div class="situation-desc">
+                            Kranke Schüler von zu Hause zuschalten - worauf achten?
+                        </div>
+                    </div>
+
+                    <div class="situation-card">
+                        <span class="situation-type analog">ANALOG</span>
+                        <div class="situation-title">Filme im Klassenzimmer</div>
+                        <div class="situation-desc">
+                            DVD oder YouTube-Video zeigen - unterschiedliche Regeln?
+                        </div>
+                    </div>
+
+                    <div class="situation-card">
+                        <span class="situation-type digital">DIGITAL</span>
+                        <div class="situation-title">KI-generierte Inhalte</div>
+                        <div class="situation-desc">
+                            ChatGPT für Arbeitsblätter nutzen - Urheberrecht beachten?
+                        </div>
+                    </div>
+
+                    <div class="situation-card">
+                        <span class="situation-type hybrid">HYBRID</span>
+                        <div class="situation-title">Materialsammlung</div>
+                        <div class="situation-desc">
+                            Analoge Sammlung digitalisieren - was ist zu beachten?
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Comparison -->
+                <div class="info-box">
+                    <h4>🔍 Die wichtigste Unterscheidung</h4>
+                    <div class="comparison-table">
+                        <div class="comparison-row comparison-header">
+                            <div class="comparison-cell">Situation</div>
+                            <div class="comparison-cell">Analog erlaubt?</div>
+                            <div class="comparison-cell">Digital erlaubt?</div>
+                        </div>
+                        <div class="comparison-row">
+                            <div class="comparison-cell situation-col">Ganzes Buch kopieren</div>
+                            <div class="comparison-cell"><span class="cross">✗</span></div>
+                            <div class="comparison-cell"><span class="cross">✗</span></div>
+                        </div>
+                        <div class="comparison-row">
+                            <div class="comparison-cell situation-col">Einzelne Artikel/Kapitel</div>
+                            <div class="comparison-cell"><span class="check">✓</span></div>
+                            <div class="comparison-cell"><span class="warning">⚠️</span> <small>Nur geschlossener Bereich</small></div>
+                        </div>
+                        <div class="comparison-row">
+                            <div class="comparison-cell situation-col">Eigene Materialien</div>
+                            <div class="comparison-cell"><span class="check">✓</span></div>
+                            <div class="comparison-cell"><span class="check">✓</span></div>
+                        </div>
+                        <div class="comparison-row">
+                            <div class="comparison-cell situation-col">YouTube im Unterricht</div>
+                            <div class="comparison-cell"><span class="check">✓</span></div>
+                            <div class="comparison-cell"><span class="check">✓</span> <small>Link teilen</small></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cases Preview -->
+                <div class="cases-preview">
+                    <h3 class="cases-preview-header">Vertiefte Fallbeispiele - Details auf den Folgeseiten</h3>
+                    <div class="case-preview-grid">
+                        <div class="case-preview">
+                            <div class="case-preview-header">
+                                <span class="case-preview-icon">🏫</span>
+                                <span class="case-preview-title">Materialverwaltung</span>
+                            </div>
+                            <div class="case-preview-summary">
+                                Wie Sie analoge und digitale Materialien rechtssicher kombinieren und verwalten.
+                            </div>
+                            <a href="dokumentation.html" class="case-preview-link">→ Details in "Dokumentation"</a>
+                        </div>
+
+                        <div class="case-preview">
+                            <div class="case-preview-header">
+                                <span class="case-preview-icon">🎬</span>
+                                <span class="case-preview-title">Multimedia im Unterricht</span>
+                            </div>
+                            <div class="case-preview-summary">
+                                Videos, Musik und Bilder - was geht analog, was digital?
+                            </div>
+                            <a href="multimedia.html" class="case-preview-link">→ Details in "Multimedia"</a>
+                        </div>
+
+                        <div class="case-preview">
+                            <div class="case-preview-header">
+                                <span class="case-preview-icon">📱</span>
+                                <span class="case-preview-title">Social Media & KI</span>
+                            </div>
+                            <div class="case-preview-summary">
+                                Moderne Tools rechtssicher im Unterricht einsetzen.
+                            </div>
+                            <a href="socialmedia.html" class="case-preview-link">→ Details in "Social Media"</a>
+                        </div>
+
+                        <div class="case-preview">
+                            <div class="case-preview-header">
+                                <span class="case-preview-icon">📝</span>
+                                <span class="case-preview-title">Lizenzmanagement</span>
+                            </div>
+                            <div class="case-preview-summary">
+                                Creative Commons, OER und kommerzielle Lizenzen verstehen.
+                            </div>
+                            <a href="lizenzen.html" class="case-preview-link">→ Details in "Lizenzen"</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Key Takeaways -->
+                <div style="background: #f0f8ff; padding: 25px; border-radius: 8px; margin-top: 30px;">
+                    <h4 style="color: #0050a0; margin-bottom: 15px;">📌 Merksätze für die Praxis</h4>
+                    <ol>
+                        <li style="margin-bottom: 10px;"><strong>Analog ≠ Digital:</strong> Was im Klassenzimmer erlaubt ist, kann online problematisch sein</li>
+                        <li style="margin-bottom: 10px;"><strong>Geschlossener Benutzerkreis:</strong> Teams/Moodle nur mit Zugangskontrolle nutzen</li>
+                        <li style="margin-bottom: 10px;"><strong>Eigenproduktion bevorzugen:</strong> Selbst erstellte Materialien sind immer sicher</li>
+                        <li style="margin-bottom: 10px;"><strong>Im Zweifel fragen:</strong> Rechtsdienst oder Schulleitung konsultieren</li>
+                        <li><strong>Dokumentieren:</strong> Quellen und Lizenzen immer festhalten</li>
+                    </ol>
+                </div>
+
+                <!-- Navigation -->
+                <div class="navigation">
+                    <a href="../index.html" class="nav-button prev">
+                        <span>←</span>
+                        <span>Zur Übersicht</span>
+                    </a>
+                    <a href="dokumentation.html" class="nav-button">
+                        <span>Weiter zu Dokumentation</span>
+                        <span>→</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Scripts -->
+    <script>
+        // Progress tracking
+        let startTime = Date.now();
+        let maxScroll = 0;
+        let cardsViewed = 0;
+        const totalCards = document.querySelectorAll('.situation-card').length;
+
+        window.addEventListener('scroll', function() {
+            const windowHeight = window.innerHeight;
+            const documentHeight = document.documentElement.scrollHeight;
+            const scrollTop = window.scrollY;
+            
+            const currentProgress = (scrollTop + windowHeight) / documentHeight * 100;
+            if (currentProgress > maxScroll) {
+                maxScroll = currentProgress;
+                updateProgress();
+            }
+        });
+
+        // Track card interactions
+        document.querySelectorAll('.situation-card').forEach(card => {
+            card.addEventListener('click', function() {
+                if (!this.classList.contains('viewed')) {
+                    this.classList.add('viewed');
+                    this.style.background = '#f0f8ff';
+                    cardsViewed++;
+                    updateProgress();
+                }
+            });
+        });
+
+        function updateProgress() {
+            let progress = 0;
+            
+            // Reading progress (40%)
+            if (maxScroll >= 95) {
+                progress += 40;
+            } else {
+                progress += Math.floor(maxScroll * 0.4);
+            }
+            
+            // Card interactions (40%)
+            progress += Math.floor((cardsViewed / totalCards) * 40);
+            
+            // Time spent (20%)
+            const timeSpent = (Date.now() - startTime) / 1000 / 60;
+            if (timeSpent >= 3) {
+                progress += 20;
+            } else {
+                progress += Math.floor(timeSpent / 3 * 20);
+            }
+            
+            progress = Math.min(progress, 100);
+            
+            const progressBar = document.querySelector('.progress-bar');
+            const progressPercentage = document.querySelector('.progress-percentage');
+            
+            progressBar.style.width = progress + '%';
+            progressPercentage.textContent = progress + '%';
+            
+            localStorage.setItem('praxis_grundlagen_progress', progress);
+            
+            if (progress === 100) {
+                progressBar.style.background = 'linear-gradient(90deg, #00994d, #00cc66)';
+            }
+        }
+
+        // Load saved progress
+        const savedProgress = localStorage.getItem('praxis_grundlagen_progress');
+        if (savedProgress) {
+            const progressBar = document.querySelector('.progress-bar');
+            const progressPercentage = document.querySelector('.progress-percentage');
+            
+            progressBar.style.width = savedProgress + '%';
+            progressPercentage.textContent = savedProgress + '%';
+            
+            if (savedProgress === '100') {
+                progressBar.style.background = 'linear-gradient(90deg, #00994d, #00cc66)';
+            }
+        }
+
+        // Smooth scroll for case preview links
+        document.querySelectorAll('.case-preview').forEach(preview => {
+            preview.addEventListener('click', function(e) {
+                if (e.target.classList.contains('case-preview-link')) {
+                    return;
+                }
+                const link = this.querySelector('.case-preview-link');
+                if (link) {
+                    window.location.href = link.href;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
