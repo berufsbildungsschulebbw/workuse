@@ -1,1 +1,976 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dokumentation - Urheberrecht für Schulen</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+
+        /* Header */
+        .header {
+            background: #0050a0;
+            color: white;
+            padding: 20px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .canton-logo {
+            width: 40px;
+            height: 40px;
+            background: white;
+            border-radius: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #0050a0;
+        }
+
+        h1 {
+            font-size: 20px;
+            font-weight: 400;
+        }
+
+        .module-info {
+            background: rgba(255,255,255,0.1);
+            padding: 5px 15px;
+            border-radius: 3px;
+            font-size: 14px;
+        }
+
+        /* Main Content */
+        .main {
+            margin-top: 80px;
+            padding: 40px 0;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Breadcrumb */
+        .breadcrumb {
+            background: white;
+            padding: 15px 20px;
+            border-radius: 3px;
+            margin-bottom: 30px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .breadcrumb a {
+            color: #0050a0;
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .breadcrumb span {
+            margin: 0 10px;
+            color: #999;
+        }
+
+        /* Content Card */
+        .content-card {
+            background: white;
+            border-radius: 3px;
+            padding: 40px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .page-title {
+            color: #0050a0;
+            font-size: 28px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .page-icon {
+            font-size: 32px;
+        }
+
+        .intro-text {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 30px;
+            padding-bottom: 30px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        /* Documentation Template */
+        .doc-template {
+            background: #f9f9f9;
+            border: 2px solid #0050a0;
+            border-radius: 8px;
+            padding: 25px;
+            margin: 30px 0;
+        }
+
+        .doc-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .doc-icon {
+            font-size: 36px;
+        }
+
+        .doc-title {
+            font-size: 22px;
+            font-weight: 600;
+            color: #0050a0;
+        }
+
+        /* Form Fields */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .form-hint {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        /* Material Cards */
+        .material-card {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: all 0.3s;
+        }
+
+        .material-card:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .material-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 15px;
+        }
+
+        .material-type {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .material-type.book {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .material-type.article {
+            background: #e3f2fd;
+            color: #1565c0;
+        }
+
+        .material-type.video {
+            background: #fce4ec;
+            color: #c2185b;
+        }
+
+        .material-type.digital {
+            background: #f3e5f5;
+            color: #7b1fa2;
+        }
+
+        .material-status {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+
+        .material-status.ok {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .material-status.check {
+            background: #fff3e0;
+            color: #f57c00;
+        }
+
+        .material-status.problem {
+            background: #ffebee;
+            color: #c62828;
+        }
+
+        /* Workflow Steps */
+        .workflow {
+            position: relative;
+            margin: 40px 0;
+        }
+
+        .workflow-step {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .workflow-step:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            left: 25px;
+            top: 50px;
+            width: 2px;
+            height: calc(100% + 20px);
+            background: #ddd;
+        }
+
+        .step-number {
+            width: 50px;
+            height: 50px;
+            background: #0050a0;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 20px;
+            flex-shrink: 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .step-content {
+            margin-left: 25px;
+            flex: 1;
+        }
+
+        .step-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .step-description {
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        /* Checklist */
+        .checklist {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+
+        .checklist-title {
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #0050a0;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 12px;
+            cursor: pointer;
+        }
+
+        .checklist-checkbox {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #0050a0;
+            border-radius: 3px;
+            margin-right: 12px;
+            flex-shrink: 0;
+            margin-top: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .checklist-item.checked .checklist-checkbox {
+            background: #0050a0;
+        }
+
+        .checklist-item.checked .checklist-checkbox::after {
+            content: '✓';
+            color: white;
+            font-weight: bold;
+        }
+
+        /* Warning Box */
+        .warning-box {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            border-radius: 5px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .warning-box h4 {
+            color: #856404;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Success Box */
+        .success-box {
+            background: #d4edda;
+            border: 2px solid #28a745;
+            border-radius: 5px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .success-box h4 {
+            color: #155724;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Example Box */
+        .example-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 30px;
+            border-radius: 10px;
+            margin: 30px 0;
+            color: white;
+        }
+
+        .example-content {
+            background: rgba(255,255,255,0.95);
+            color: #333;
+            padding: 25px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+
+        .example-header {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        /* Table */
+        .doc-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .doc-table th {
+            background: #f5f5f5;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 2px solid #ddd;
+        }
+
+        .doc-table td {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .doc-table tr:hover {
+            background: #f9f9f9;
+        }
+
+        /* Navigation */
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 2px solid #f0f0f0;
+        }
+
+        .nav-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 24px;
+            background: #0050a0;
+            color: white;
+            text-decoration: none;
+            border-radius: 3px;
+            transition: background 0.2s;
+            font-size: 14px;
+        }
+
+        .nav-button:hover {
+            background: #003d7a;
+        }
+
+        .nav-button.prev {
+            background: #666;
+        }
+
+        .nav-button.prev:hover {
+            background: #555;
+        }
+
+        /* Progress */
+        .progress-section {
+            background: white;
+            padding: 30px;
+            border-radius: 3px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .progress-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .progress-percentage {
+            font-size: 24px;
+            font-weight: bold;
+            color: #0050a0;
+        }
+
+        .progress-bar-container {
+            background: #e5e5e5;
+            height: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #0050a0, #0066cc);
+            transition: width 0.3s ease;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .material-header {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .workflow-step {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .step-content {
+                margin-left: 0;
+                margin-top: 15px;
+            }
+
+            .workflow-step:not(:last-child)::after {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+
+            .navigation {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .nav-button {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="header-left">
+                <div class="canton-logo">ZH</div>
+                <h1>Urheberrecht für Schulen</h1>
+            </div>
+            <div class="module-info">
+                Modul 4: Praxisbeispiele
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+        <div class="container">
+            <!-- Breadcrumb -->
+            <div class="breadcrumb">
+                <a href="../index.html">Startseite</a>
+                <span>›</span>
+                <a href="grundlagen.html">Praxisbeispiele</a>
+                <span>›</span>
+                <strong>Dokumentation & Verwaltung</strong>
+            </div>
+
+            <!-- Progress Section -->
+            <div class="progress-section">
+                <div class="progress-header">
+                    <span class="progress-title">Ihr Fortschritt in diesem Thema</span>
+                    <span class="progress-percentage">0%</span>
+                </div>
+                <div class="progress-bar-container">
+                    <div class="progress-bar" style="width: 0%"></div>
+                </div>
+            </div>
+
+            <!-- Main Content Card -->
+            <div class="content-card">
+                <h1 class="page-title">
+                    <span class="page-icon">📁</span>
+                    Dokumentation & Materialverwaltung
+                </h1>
+
+                <p class="intro-text">
+                    Rechtssichere Dokumentation ist die Grundlage für den sorgenfreien Einsatz von Fremdmaterialien. 
+                    Lernen Sie, wie Sie Quellen korrekt erfassen und Ihre Materialsammlung verwalten.
+                </p>
+
+                <!-- Workflow Section -->
+                <h3 style="color: #0050a0; margin: 30px 0 20px;">Der Dokumentations-Workflow</h3>
+                
+                <div class="workflow">
+                    <div class="workflow-step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <div class="step-title">Material prüfen</div>
+                            <div class="step-description">
+                                Bevor Sie Material verwenden: Klären Sie Quelle, Urheber und Lizenz
+                            </div>
+                            <div class="checklist">
+                                <div class="checklist-item">
+                                    <div class="checklist-checkbox"></div>
+                                    <span>Wer ist der Urheber/die Urheberin?</span>
+                                </div>
+                                <div class="checklist-item">
+                                    <div class="checklist-checkbox"></div>
+                                    <span>Unter welcher Lizenz steht das Werk?</span>
+                                </div>
+                                <div class="checklist-item">
+                                    <div class="checklist-checkbox"></div>
+                                    <span>Ist eine Nutzung für Bildungszwecke erlaubt?</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="workflow-step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <div class="step-title">Quelle dokumentieren</div>
+                            <div class="step-description">
+                                Erfassen Sie alle relevanten Informationen systematisch
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="workflow-step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <div class="step-title">Nutzung festhalten</div>
+                            <div class="step-description">
+                                Dokumentieren Sie, wie und wo Sie das Material einsetzen
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="workflow-step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <div class="step-title">Ablage organisieren</div>
+                            <div class="step-description">
+                                Speichern Sie Material und Dokumentation strukturiert ab
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Documentation Template -->
+                <div class="doc-template">
+                    <div class="doc-header">
+                        <span class="doc-icon">📝</span>
+                        <span class="doc-title">Muster-Dokumentation für Unterrichtsmaterial</span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Titel des Werks</label>
+                        <input type="text" class="form-input" placeholder="z.B. Die Französische Revolution - Kapitel 3">
+                        <span class="form-hint">Genaue Bezeichnung des verwendeten Materials</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Urheber/Autor</label>
+                        <input type="text" class="form-input" placeholder="z.B. Dr. Maria Müller">
+                        <span class="form-hint">Name der Person oder Organisation</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Quelle</label>
+                        <input type="text" class="form-input" placeholder="z.B. Lehrbuch Geschichte, Klett Verlag, 2023, S. 45-48">
+                        <span class="form-hint">Verlag, Erscheinungsjahr, Seitenzahlen oder URL</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Lizenz/Rechte</label>
+                        <select class="form-input">
+                            <option>Bitte wählen...</option>
+                            <option>Eigenes Material</option>
+                            <option>CC0 (Public Domain)</option>
+                            <option>CC BY</option>
+                            <option>CC BY-SA</option>
+                            <option>CC BY-NC</option>
+                            <option>CC BY-NC-SA</option>
+                            <option>Copyright - GT7 Nutzung</option>
+                            <option>Copyright - Schullizenz vorhanden</option>
+                            <option>Unbekannt/Zu klären</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Verwendungszweck</label>
+                        <input type="text" class="form-input" placeholder="z.B. Arbeitsblatt Klasse 3a, Geschichtsunterricht">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Datum der Nutzung</label>
+                        <input type="date" class="form-input">
+                    </div>
+                </div>
+
+                <!-- Real Examples -->
+                <div class="example-box">
+                    <div style="color: white;">
+                        <h3 class="example-header">💼 Praxisbeispiel: Frau Meiers Materialsammlung</h3>
+                        <p>Deutschlehrerin am Gymnasium Wiedikon dokumentiert ihre Materialien</p>
+                    </div>
+                    
+                    <div class="example-content">
+                        <div class="material-card">
+                            <div class="material-header">
+                                <div>
+                                    <span class="material-type article">ARTIKEL</span>
+                                    <h4 style="margin-top: 10px;">NZZ-Artikel: "KI in der Bildung"</h4>
+                                    <p style="color: #666; font-size: 14px; margin-top: 5px;">
+                                        Autor: Thomas Müller | NZZ, 15.03.2024 | Online-Ausgabe
+                                    </p>
+                                </div>
+                                <span class="material-status ok">✓ Dokumentiert</span>
+                            </div>
+                            <p><strong>Nutzung:</strong> Einzelner Artikel für Klasse 4b, Diskussionsgrundlage</p>
+                            <p><strong>Rechtslage:</strong> GT7 erlaubt Nutzung einzelner Artikel für Unterricht</p>
+                        </div>
+
+                        <div class="material-card">
+                            <div class="material-header">
+                                <div>
+                                    <span class="material-type video">VIDEO</span>
+                                    <h4 style="margin-top: 10px;">SRF mySchool: "Dürrenmatt erklärt"</h4>
+                                    <p style="color: #666; font-size: 14px; margin-top: 5px;">
+                                        SRF | 2023 | 15 Min. | www.srf.ch/myschool
+                                    </p>
+                                </div>
+                                <span class="material-status ok">✓ Dokumentiert</span>
+                            </div>
+                            <p><strong>Nutzung:</strong> Streaming im Klassenzimmer via Link</p>
+                            <p><strong>Rechtslage:</strong> Bildungsangebot von SRF, explizit für Schulen</p>
+                        </div>
+
+                        <div class="material-card">
+                            <div class="material-header">
+                                <div>
+                                    <span class="material-type book">BUCH</span>
+                                    <h4 style="margin-top: 10px;">Kapitel aus "Texte, Themen und Strukturen"</h4>
+                                    <p style="color: #666; font-size: 14px; margin-top: 5px;">
+                                        Cornelsen Verlag | 2022 | Kapitel 5, S. 120-135
+                                    </p>
+                                </div>
+                                <span class="material-status check">⚠️ Prüfen</span>
+                            </div>
+                            <p><strong>Geplante Nutzung:</strong> Scan für Teams hochladen</p>
+                            <p style="color: #ff6b35;"><strong>Achtung:</strong> Ganzes Kapitel könnte zu viel sein - besser nur Auszüge!</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Platform-specific Documentation -->
+                <h3 style="color: #0050a0; margin: 30px 0 20px;">Dokumentation nach Plattform</h3>
+
+                <table class="doc-table">
+                    <thead>
+                        <tr>
+                            <th>Plattform</th>
+                            <th>Was dokumentieren?</th>
+                            <th>Aufbewahrung</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Microsoft Teams</strong></td>
+                            <td>
+                                • Quellenangaben in Dateinamen<br>
+                                • Lizenzinfo in Dateibeschreibung<br>
+                                • Nutzungszeitraum festlegen
+                            </td>
+                            <td>Automatisch in Teams-Verlauf</td>
+                        </tr>
+                        <tr>
+                            <td><strong>OneNote</strong></td>
+                            <td>
+                                • Quellen direkt unter Material<br>
+                                • Tags für Lizenzen verwenden<br>
+                                • Datum der Einbindung
+                            </td>
+                            <td>In Notizbuch-Struktur</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Schulserver</strong></td>
+                            <td>
+                                • Excel-Liste mit allen Materialien<br>
+                                • Ordnerstruktur nach Fach/Jahr<br>
+                                • README-Dateien pro Ordner
+                            </td>
+                            <td>Zentral auf Server</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Papierablage</strong></td>
+                            <td>
+                                • Deckblatt mit Quellenangaben<br>
+                                • Kopie der Lizenz beilegen<br>
+                                • Verwendungsnachweis
+                            </td>
+                            <td>Ordner im Lehrerzimmer</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <!-- Warning Box -->
+                <div class="warning-box">
+                    <h4>⚠️ Häufige Dokumentationsfehler</h4>
+                    <ul>
+                        <li><strong>"Quelle: Internet"</strong> - Zu ungenau! Immer vollständige URL angeben</li>
+                        <li><strong>Fehlende Datumsangaben</strong> - Wann wurde das Material bezogen/genutzt?</li>
+                        <li><strong>Urheber verwechselt</strong> - Fotograf ≠ Website-Betreiber</li>
+                        <li><strong>Lizenz nicht geprüft</strong> - "Gratis" heisst nicht "frei nutzbar"</li>
+                    </ul>
+                </div>
+
+                <!-- Success Box -->
+                <div class="success-box">
+                    <h4>✅ Best Practices für die Dokumentation</h4>
+                    <ol>
+                        <li><strong>Sofort dokumentieren:</strong> Nicht erst am Semesterende</li>
+                        <li><strong>Einheitliches System:</strong> Gleiche Struktur für alle Materialien</li>
+                        <li><strong>Digital bevorzugen:</strong> Einfacher zu durchsuchen und teilen</li>
+                        <li><strong>Regelmässig aufräumen:</strong> Veraltete Materialien entfernen</li>
+                        <li><strong>Im Team abstimmen:</strong> Gemeinsame Standards in der Fachschaft</li>
+                    </ol>
+                </div>
+
+                <!-- Quick Reference -->
+                <div style="background: #f0f8ff; padding: 25px; border-radius: 8px; margin-top: 30px;">
+                    <h4 style="color: #0050a0; margin-bottom: 15px;">📋 Checkliste: Minimalanforderungen</h4>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                        <div>
+                            <strong>Immer erfassen:</strong>
+                            <ul style="margin-top: 10px;">
+                                <li>Titel/Bezeichnung</li>
+                                <li>Urheber/Autor</li>
+                                <li>Quelle (Verlag/URL)</li>
+                                <li>Datum der Nutzung</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <strong>Bei Bedarf ergänzen:</strong>
+                            <ul style="margin-top: 10px;">
+                                <li>Lizenztyp</li>
+                                <li>Ablaufdatum (bei befristeten Lizenzen)</li>
+                                <li>Kosten (bei käuflichen Lizenzen)</li>
+                                <li>Verwendungszweck</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Navigation -->
+                <div class="navigation">
+                    <a href="grundlagen.html" class="nav-button prev">
+                        <span>←</span>
+                        <span>Zurück zu Grundlagen</span>
+                    </a>
+                    <a href="multimedia.html" class="nav-button">
+                        <span>Weiter zu Multimedia</span>
+                        <span>→</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Scripts -->
+    <script>
+        // Progress tracking
+        let startTime = Date.now();
+        let maxScroll = 0;
+        let checklistCompleted = 0;
+        let formInteracted = false;
+
+        window.addEventListener('scroll', function() {
+            const windowHeight = window.innerHeight;
+            const documentHeight = document.documentElement.scrollHeight;
+            const scrollTop = window.scrollY;
+            
+            const currentProgress = (scrollTop + windowHeight) / documentHeight * 100;
+            if (currentProgress > maxScroll) {
+                maxScroll = currentProgress;
+                updateProgress();
+            }
+        });
+
+        // Checklist functionality
+        document.querySelectorAll('.checklist-item').forEach(item => {
+            item.addEventListener('click', function() {
+                this.classList.toggle('checked');
+                checklistCompleted++;
+                updateProgress();
+            });
+        });
+
+        // Form interaction tracking
+        document.querySelectorAll('.form-input').forEach(input => {
+            input.addEventListener('change', function() {
+                if (!formInteracted) {
+                    formInteracted = true;
+                    updateProgress();
+                }
+            });
+        });
+
+        function updateProgress() {
+            let progress = 0;
+            
+            // Reading progress (50%)
+            if (maxScroll >= 95) {
+                progress += 50;
+            } else {
+                progress += Math.floor(maxScroll * 0.5);
+            }
+            
+            // Interactions (30%)
+            if (checklistCompleted > 0) {
+                progress += Math.min(15, checklistCompleted * 5);
+            }
+            if (formInteracted) {
+                progress += 15;
+            }
+            
+            // Time spent (20%)
+            const timeSpent = (Date.now() - startTime) / 1000 / 60;
+            if (timeSpent >= 5) {
+                progress += 20;
+            } else {
+                progress += Math.floor(timeSpent / 5 * 20);
+            }
+            
+            progress = Math.min(progress, 100);
+            
+            const progressBar = document.querySelector('.progress-bar');
+            const progressPercentage = document.querySelector('.progress-percentage');
+            
+            progressBar.style.width = progress + '%';
+            progressPercentage.textContent = progress + '%';
+            
+            localStorage.setItem('dokumentation_progress', progress);
+            
+            if (progress === 100) {
+                progressBar.style.background = 'linear-gradient(90deg, #00994d, #00cc66)';
+            }
+        }
+
+        // Load saved progress
+        const savedProgress = localStorage.getItem('dokumentation_progress');
+        if (savedProgress) {
+            const progressBar = document.querySelector('.progress-bar');
+            const progressPercentage = document.querySelector('.progress-percentage');
+            
+            progressBar.style.width = savedProgress + '%';
+            progressPercentage.textContent = savedProgress + '%';
+            
+            if (savedProgress === '100') {
+                progressBar.style.background = 'linear-gradient(90deg, #00994d, #00cc66)';
+            }
+        }
+    </script>
+</body>
+</html>
