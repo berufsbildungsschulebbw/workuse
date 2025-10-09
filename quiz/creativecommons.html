@@ -105,24 +105,18 @@
   </main>
 
   <script>
+    /* ---------------------------
+       QUIZ-DATEN
+    --------------------------- */
     const questions = [
       {
         type:'builder',
         title:'Lizenz-Baukasten',
         intro:'Baue die richtige CC-Lizenz für folgende Situation:',
         scenario:'Du erstellst Lernmaterialien, die andere Lehrer verwenden und verändern dürfen sollen, aber nicht kommerziell nutzen.',
-        options:{
-          base:['CC'],
-          attribution:['BY','Ohne BY'],
-          commercial:['NC (Nicht kommerziell)','Kommerziell OK'],
-          share:['SA (Share Alike)','Keine SA'],
-          derivatives:['ND (Keine Bearbeitung)','Bearbeitung OK']
-        },
+        options:{ base:['CC'], attribution:['BY','Ohne BY'], commercial:['NC (Nicht kommerziell)','Kommerziell OK'], share:['SA (Share Alike)','Keine SA'], derivatives:['ND (Keine Bearbeitung)','Bearbeitung OK'] },
         correct:['CC','BY','NC','Bearbeitung OK'],
-        feedback:{
-          correct:'Perfekt! CC BY-NC erlaubt Namensnennung, verbietet kommerzielle Nutzung und erlaubt Bearbeitungen.',
-          incorrect:'Nicht ganz. Denk daran: Namensnennung (BY) ist fast immer nötig, NC verhindert kommerzielle Nutzung.'
-        }
+        feedback:{ correct:'Perfekt! CC BY-NC erlaubt Namensnennung, verbietet kommerzielle Nutzung und erlaubt Bearbeitungen.', incorrect:'Nicht ganz. Denk daran: Namensnennung (BY) ist fast immer nötig, NC verhindert kommerzielle Nutzung.' }
       },
       {
         type:'wheel',
@@ -181,43 +175,85 @@
           { q:'NC bedeutet?', options:['Nice Content','Not Copyright','Non-Commercial'], correct:2, time:3 }
         ]
       },
-      { type:'simulator', title:'Lizenz-Simulator', intro:'Wähle Materialien und kombiniere sie - geht das?'},
+      { type:'simulator', title:'Lizenz-Simulator', intro:'Wähle Materialien und kombiniere sie - geht das?' },
       { type:'story', title:'CC-Geschichte', intro:'Wähle deinen Weg durch die Lizenz-Welt!' }
     ];
 
+    /* ---------------------------
+       ZUSTAND & PUNKTE
+    --------------------------- */
     let currentQuestion = 0;
     let score = 0;
 
-    function updateScore(){
-      document.getElementById('currentScore').textContent = score;
+    // Annäherung: max. Punkte (hier grob gewichtet)
+    const MAX_POINTS = 2 /*builder*/ + 2 /*wheel*/ + 3 /*memory max*/ + 2 /*puzzle*/ + 2 /*detective*/ + 3 /*speed*/;
+    document.getElementById('totalQuestions').textContent = questions.length;
+
+    function updateScoreUI(){ document.getElementById('currentScore').textContent = score; }
+
+    // Fortschritt -> Startseite (kompatibel zur Praxisbeispiel-Seite)
+    function saveProgressToStart(percent){
+      const p = Math.max(0, Math.min(100, Math.round(percent)));
+      localStorage.setItem('creativecommons_progress', String(p));
+      localStorage.setItem('creativecommons_score', String(score));
+      localStorage.setItem('creativecommons_total', String(MAX_POINTS));
+      localStorage.setItem('creativecommons_completed', String(p === 100));
     }
 
-    function init(){ loadQuestion(); }
+    // Prozent rechnen: 60% über „Fragen erledigt“, 40% über Punkte-Ausbeute
+    function recomputeAndSaveProgress(){
+      const doneRatio = currentQuestion / questions.length;          // 0..1
+      const pointsRatio = Math.min(1, score / MAX_POINTS);           // 0..1
+      const percent = (doneRatio * 60) + (pointsRatio * 40);          // 0..100
+      saveProgressToStart(percent);
+    }
+
+    function markCompleted(){
+      saveProgressToStart(100);
+    }
+
+    /* ---------------------------
+       INITIALISIERUNG
+    --------------------------- */
+    function init(){ loadQuestion(); recomputeAndSaveProgress(); }
     window.onload = init;
 
+    /* ---------------------------
+       LADEN / RENDERN
+    --------------------------- */
     function loadQuestion(){
-      const question = questions[currentQuestion];
+      const q = questions[currentQuestion];
       const container = document.getElementById('questionContainer');
       container.innerHTML = '';
 
-      switch(question.type){
-        case 'builder': loadBuilderQuestion(question, container); break;
-        case 'wheel': loadWheelQuestion(question, container); break;
-        case 'memory': loadMemoryQuestion(question, container); break;
-        case 'puzzle': loadPuzzleQuestion(question, container); break;
-        case 'detective': loadDetectiveQuestion(question, container); break;
-        case 'speedround': loadSpeedQuestion(question, container); break;
-        case 'simulator': loadSimulatorQuestion(question, container); break;
-        case 'story': loadStoryQuestion(question, container); break;
+      switch(q.type){
+        case 'builder': loadBuilderQuestion(q, container); break;
+        case 'wheel': loadWheelQuestion(q, container); break;
+        case 'memory': loadMemoryQuestion(q, container); break;
+        case 'puzzle': loadPuzzleQuestion(q, container); break;
+        case 'detective': loadDetectiveQuestion(q, container); break;
+        case 'speedround': loadSpeedQuestion(q, container); break;
+        case 'simulator': loadSimulatorQuestion(q, container); break;
+        case 'story': loadStoryQuestion(q, container); break;
       }
 
-      updateProgress();
+      updateProgressUI();
       document.getElementById('prevBtn').disabled = currentQuestion === 0;
     }
 
-    /* ------- BUILDER ------- */
+    function updateProgressUI(){
+      const progress = ((currentQuestion + 1) / questions.length) * 100;
+      const bar = document.getElementById('progressBar');
+      bar.style.width = progress + '%';
+      bar.innerHTML = `<span>${currentQuestion + 1} / ${questions.length}</span>`;
+      updateScoreUI();
+    }
+
+    /* ---------------------------
+       BUILDER
+    --------------------------- */
     function loadBuilderQuestion(question, container){
-      const selectedOptions = {};
+      const selected = {};
 
       container.innerHTML = `
         <div class="question-header">
@@ -234,11 +270,11 @@
               <div class="builder-title">${category.charAt(0).toUpperCase()+category.slice(1)}:</div>
               <div class="builder-options">
                 ${question.options[category].map(opt => `
-                  <div class="builder-option" data-category="${category}" data-value="${opt}" onclick="selectBuilderOption(this,'${category}','${opt}')">
-                    ${opt}
-                  </div>`).join('')}
+                  <div class="builder-option" data-category="${category}" data-value="${opt}" onclick="selectBuilderOption(this,'${category}','${opt}')">${opt}</div>
+                `).join('')}
               </div>
-            </div>`).join('')}
+            </div>
+          `).join('')}
         </div>
         <div class="license-preview">
           <h3>Deine Lizenz:</h3>
@@ -248,42 +284,44 @@
         <button class="nav-button" onclick="checkBuilder()" style="margin:20px auto;display:block;">Lizenz prüfen</button>
       `;
 
-      window.selectBuilderOption = (el, category, value)=>{
-        document.querySelectorAll(`[data-category="${category}"]`).forEach(o=>o.classList.remove('selected'));
+      window.selectBuilderOption = (el, cat, val)=>{
+        document.querySelectorAll(`[data-category="${cat}"]`).forEach(o=>o.classList.remove('selected'));
         el.classList.add('selected');
-        selectedOptions[category] = value;
+        selected[cat] = val;
         updateLicensePreview();
       };
 
       window.updateLicensePreview = ()=>{
         const preview = document.getElementById('licensePreview');
         const text = document.getElementById('licenseText');
-        let icons = [], licenseText = '';
+        let icons = [], lic = '';
 
-        if(selectedOptions.base==='CC'){
-          icons.push('<div class="license-icon">CC</div>'); licenseText='CC';
-          if(selectedOptions.attribution==='BY'){ icons.push('<div class="license-icon">BY</div>'); licenseText+=' BY'; }
-          if(selectedOptions.commercial==='NC (Nicht kommerziell)'){ icons.push('<div class="license-icon">NC</div>'); licenseText+='-NC'; }
-          if(selectedOptions.share==='SA (Share Alike)'){ icons.push('<div class="license-icon">SA</div>'); licenseText+='-SA'; }
-          if(selectedOptions.derivatives==='ND (Keine Bearbeitung)'){ icons.push('<div class="license-icon">ND</div>'); licenseText+='-ND'; }
+        if(selected.base==='CC'){
+          icons.push('<div class="license-icon">CC</div>'); lic='CC';
+          if(selected.attribution==='BY'){ icons.push('<div class="license-icon">BY</div>'); lic+=' BY'; }
+          if(selected.commercial==='NC (Nicht kommerziell)'){ icons.push('<div class="license-icon">NC</div>'); lic+='-NC'; }
+          if(selected.share==='SA (Share Alike)'){ icons.push('<div class="license-icon">SA</div>'); lic+='-SA'; }
+          if(selected.derivatives==='ND (Keine Bearbeitung)'){ icons.push('<div class="license-icon">ND</div>'); lic+='-ND'; }
         }
         preview.innerHTML = icons.join('') || '<div class="license-icon">?</div>';
-        text.textContent = licenseText || 'Wähle die Komponenten oben';
+        text.textContent = lic || 'Wähle die Komponenten oben';
       };
 
       window.checkBuilder = ()=>{
-        const selected = Object.values(selectedOptions);
-        const isCorrect = question.correct.every(item => selected.includes(item));
-        if(isCorrect){ alert(question.feedback.correct); score += 2; updateScore(); }
-        else{ alert(question.feedback.incorrect); }
+        const sel = Object.values(selected);
+        const ok = question.correct.every(x => sel.includes(x));
+        if(ok){ alert(question.feedback.correct); score += 2; }
+        else { alert(question.feedback.incorrect); }
+        updateScoreUI(); recomputeAndSaveProgress();
         document.getElementById('nextBtn').disabled = false;
       };
     }
 
-    /* ------- WHEEL ------- */
+    /* ---------------------------
+       WHEEL
+    --------------------------- */
     function loadWheelQuestion(question, container){
       const segmentAngle = 360 / question.segments.length;
-
       container.innerHTML = `
         <div class="question-header">
           <div class="question-type">Glücksrad</div>
@@ -296,11 +334,7 @@
             ${question.segments.map((seg,i)=>{
               const angle = segmentAngle * i;
               return `
-                <div class="wheel-segment" style="
-                  background:${seg.color};
-                  transform:rotate(${angle}deg);
-                  clip-path: polygon(0 100%, 50% 50%, 100% 100%);
-                ">
+                <div class="wheel-segment" style="background:${seg.color};transform:rotate(${angle}deg);clip-path:polygon(0 100%, 50% 50%, 100% 100%);">
                   <div style="position:absolute;top:70%;left:50%;transform:translate(-50%,-50%) rotate(-${angle}deg);color:#fff;font-weight:bold;">${seg.name}</div>
                 </div>`;
             }).join('')}
@@ -316,11 +350,9 @@
       spinBtn.onclick = ()=>{
         spinBtn.disabled = true;
 
-        // Wähle vorab das Zielsegment zuverlässig
         const targetIndex = Math.floor(Math.random()*question.segments.length);
         const centerAngle = targetIndex * segmentAngle + segmentAngle/2;
-        // Pointer ist oben; wir drehen so, dass centerAngle bei 0° landet
-        const fullTurns = 3 + Math.floor(Math.random()*2); // 3–4 Umdrehungen
+        const fullTurns = 3 + Math.floor(Math.random()*2);
         const spinAngle = fullTurns*360 + (360 - centerAngle);
 
         wheel.style.transform = `rotate(${spinAngle}deg)`;
@@ -340,17 +372,20 @@
             const user = (document.getElementById('wheelAnswer').value||'').toLowerCase().trim();
             const correct = seg.answer.toLowerCase();
             if(user && (user.includes(correct.substring(0,5)) || correct.includes(user))){
-              alert('Richtig! '+seg.answer); score+=2; updateScore();
+              alert('Richtig! '+seg.answer); score += 2;
             }else{
               alert('Die richtige Antwort war: '+seg.answer);
             }
+            updateScoreUI(); recomputeAndSaveProgress();
             document.getElementById('nextBtn').disabled = false;
           };
         }, 4200);
       };
     }
 
-    /* ------- MEMORY ------- */
+    /* ---------------------------
+       MEMORY
+    --------------------------- */
     function loadMemoryQuestion(question, container){
       const cards = [];
       question.pairs.forEach(p=>{
@@ -400,9 +435,8 @@
                 a.el.classList.add('matched'); b.el.classList.add('matched');
                 matchedPairs++; document.getElementById('pairsFound').textContent = matchedPairs;
                 if(matchedPairs===question.pairs.length){
-                  // kleine Punkte-Logik je nach Effizienz
                   score += Math.max(1, 3 - Math.floor(attempts/10));
-                  updateScore();
+                  updateScoreUI(); recomputeAndSaveProgress();
                   setTimeout(()=>{
                     alert(`Geschafft in ${attempts} Versuchen!`);
                     document.getElementById('nextBtn').disabled = false;
@@ -418,7 +452,9 @@
       });
     }
 
-    /* ------- PUZZLE ------- */
+    /* ---------------------------
+       PUZZLE
+    --------------------------- */
     function loadPuzzleQuestion(question, container){
       container.innerHTML = `
         <div class="question-header">
@@ -455,13 +491,16 @@
         items.forEach((el,i)=>{
           if(el.textContent.trim()===question.correct[i]){ el.classList.add('correct'); correct++; }
         });
-        if(correct===question.correct.length){ alert('Perfekt! Die Reihenfolge stimmt!'); score+=2; updateScore(); }
+        if(correct===question.correct.length){ alert('Perfekt! Die Reihenfolge stimmt!'); score += 2; }
         else{ alert(`${correct} von ${question.correct.length} richtig platziert.`); }
+        updateScoreUI(); recomputeAndSaveProgress();
         document.getElementById('nextBtn').disabled = false;
       };
     }
 
-    /* ------- DETECTIVE ------- */
+    /* ---------------------------
+       DETECTIVE
+    --------------------------- */
     function loadDetectiveQuestion(question, container){
       container.innerHTML = `
         <div class="question-header">
@@ -484,14 +523,17 @@
       container.querySelectorAll('[data-opt]').forEach(btn=>{
         btn.onclick = ()=>{
           const sel = btn.getAttribute('data-opt');
-          if(sel===question.correct){ alert('Richtig! Gut kombiniert, Detektiv!'); score+=2; updateScore(); }
+          if(sel===question.correct){ alert('Richtig! Gut kombiniert, Detektiv!'); score += 2; }
           else{ alert(`Die richtige Antwort war ${question.correct}. Hinweise: BY nötig, ND gesetzt, kommerziell erlaubt.`); }
+          updateScoreUI(); recomputeAndSaveProgress();
           document.getElementById('nextBtn').disabled = false;
         };
       });
     }
 
-    /* ------- SPEED ROUND ------- */
+    /* ---------------------------
+       SPEED ROUND
+    --------------------------- */
     function loadSpeedQuestion(question, container){
       let currentQ = 0, timerId = null;
 
@@ -516,7 +558,8 @@
         container.querySelectorAll('[data-i]').forEach(b=>{
           b.onclick = ()=>{
             if(timerId) clearInterval(timerId);
-            if(parseInt(b.getAttribute('data-i'),10)===q.correct){ score++; updateScore(); }
+            if(parseInt(b.getAttribute('data-i'),10)===q.correct){ score++; }
+            updateScoreUI(); recomputeAndSaveProgress();
             next();
           };
         });
@@ -540,7 +583,9 @@
       show();
     }
 
-    /* ------- PLACEHOLDERS ------- */
+    /* ---------------------------
+       PLATZHALTER
+    --------------------------- */
     function loadSimulatorQuestion(q, container){
       container.innerHTML = `
         <div class="question-header">
@@ -565,35 +610,37 @@
       document.getElementById('nextBtn').disabled = false;
     }
 
-    /* ------- NAV / PROGRESS ------- */
+    /* ---------------------------
+       NAVIGATION
+    --------------------------- */
     function nextQuestion(){
       currentQuestion++;
       if(currentQuestion < questions.length){
         loadQuestion();
         document.getElementById('nextBtn').disabled = true;
+        recomputeAndSaveProgress();
       }else{
         showResults();
       }
     }
 
     function previousQuestion(){
-      if(currentQuestion>0){ currentQuestion--; loadQuestion(); document.getElementById('nextBtn').disabled = true; }
-    }
-
-    function updateProgress(){
-      const progress = ((currentQuestion+1)/questions.length)*100;
-      const bar = document.getElementById('progressBar');
-      bar.style.width = progress+'%';
-      bar.innerHTML = `<span>${currentQuestion+1} / ${questions.length}</span>`;
-      updateScore();
+      if(currentQuestion>0){
+        currentQuestion--;
+        loadQuestion();
+        document.getElementById('nextBtn').disabled = true;
+        recomputeAndSaveProgress();
+      }
     }
 
     function showResults(){
+      markCompleted();
       document.querySelector('.quiz-card').innerHTML = `
         <div style="text-align:center;padding:40px;">
           <h2 style="color:#0050a0;font-size:36px;">Quiz abgeschlossen! 🎉</h2>
           <div style="font-size:48px;margin:20px 0;color:#0050a0;">${score} Punkte</div>
-          <p style="font-size:18px;">Du kennst dich mit Creative Commons aus!</p>
+          <p style="font-size:18px;">Dein Ergebnis wurde auf der Startseite gespeichert.</p>
+          <div style="margin-top:20px;"><a class="nav-button" href="../index.html">Zur Startseite →</a></div>
           <button class="nav-button" onclick="location.reload()" style="margin:30px auto;">Quiz wiederholen</button>
         </div>
       `;
@@ -601,4 +648,3 @@
   </script>
 </body>
 </html>
-
