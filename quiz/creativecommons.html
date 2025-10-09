@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Creative Commons Test - Urheberrecht für Schulen</title>
+    <title>Quiz: Creative Commons - Urheberrecht für Schulen</title>
     <style>
         * {
             margin: 0;
@@ -19,17 +19,11 @@
             min-height: 100vh;
         }
 
-        /* Header */
+        /* Header mit Navigation */
         .header {
-            background: rgba(0, 80, 160, 0.95);
-            color: white;
-            padding: 15px 0;
+            background: rgba(255,255,255,0.95);
+            padding: 20px 0;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
         }
 
         .header-content {
@@ -48,53 +42,74 @@
         }
 
         .canton-logo {
-            width: 35px;
-            height: 35px;
-            background: white;
+            width: 40px;
+            height: 40px;
+            background: #0050a0;
+            color: white;
             border-radius: 2px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: bold;
-            color: #0050a0;
-            font-size: 14px;
         }
 
-        .header h1 {
-            font-size: 20px;
-            font-weight: 500;
+        h1 {
+            font-size: 24px;
+            color: #0050a0;
         }
 
         /* Navigation */
-        .nav-buttons {
-            display: flex;
-            gap: 10px;
+        .nav-bar {
+            background: #f5f5f5;
+            padding: 10px 0;
+            border-bottom: 1px solid #ddd;
         }
 
-        .nav-btn {
-            background: rgba(255, 255, 255, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            color: white;
-            padding: 8px 16px;
-            border-radius: 4px;
-            text-decoration: none;
-            font-size: 14px;
-            transition: all 0.3s;
-            cursor: pointer;
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .nav-link {
             display: inline-flex;
             align-items: center;
-            gap: 5px;
+            gap: 8px;
+            color: #0050a0;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            transition: background 0.3s;
         }
 
-        .nav-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: translateY(-1px);
+        .nav-link:hover {
+            background: rgba(0, 80, 160, 0.1);
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .breadcrumb a {
+            color: #0050a0;
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
         }
 
         /* Main Container */
         .main {
             max-width: 900px;
-            margin: 85px auto 40px;
+            margin: 40px auto;
             padding: 0 20px;
         }
 
@@ -105,18 +120,6 @@
             padding: 40px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
             margin-bottom: 30px;
-            animation: slideUp 0.5s ease-out;
-        }
-
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
         }
 
         .quiz-header {
@@ -146,7 +149,7 @@
 
         .progress-bar {
             height: 100%;
-            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(90deg, #0050a0, #0066cc);
             transition: width 0.5s ease;
             display: flex;
             align-items: center;
@@ -154,18 +157,6 @@
             padding-right: 15px;
             color: white;
             font-weight: bold;
-        }
-
-        /* Score Display */
-        .score-display {
-            background: rgba(255, 255, 255, 0.9);
-            padding: 10px 20px;
-            border-radius: 20px;
-            color: #0050a0;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            gap: 5px;
         }
 
         /* Question Container */
@@ -270,7 +261,7 @@
             font-weight: bold;
         }
 
-        /* Wheel of Licenses */
+        /* Wheel of Licenses - Star Shape */
         .wheel-container {
             position: relative;
             margin: 30px auto;
@@ -279,21 +270,55 @@
             max-width: 100%;
         }
 
+        .wheel-wrapper {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
         .wheel {
             width: 100%;
             height: 100%;
-            border-radius: 50%;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            position: absolute;
             transition: transform 4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
 
         .wheel-segment {
             position: absolute;
-            width: 50%;
-            height: 50%;
-            transform-origin: right bottom;
+            width: 200px;
+            height: 200px;
+            left: 50%;
+            top: 50%;
+            transform-origin: center;
+        }
+
+        .segment-triangle {
+            width: 0;
+            height: 0;
+            border-left: 60px solid transparent;
+            border-right: 60px solid transparent;
+            border-bottom: 150px solid;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -100%);
+        }
+
+        .segment-text {
+            position: absolute;
+            top: -120px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-weight: bold;
+            font-size: 14px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+            text-align: center;
+            width: 100px;
         }
 
         .wheel-pointer {
@@ -331,13 +356,19 @@
             transform: translate(-50%, -50%) scale(1.1);
         }
 
-        /* Memory Game */
+        .spin-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Memory Game - Reduziert */
         .memory-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 15px;
+            margin: 30px 0;
+            max-width: 500px;
             margin: 30px auto;
-            max-width: 600px;
         }
 
         .memory-card {
@@ -383,50 +414,7 @@
             padding: 10px;
             text-align: center;
             border: 2px solid #ddd;
-        }
-
-        /* Puzzle Pieces */
-        .puzzle-container {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            margin: 30px auto;
-            max-width: 500px;
-        }
-
-        .puzzle-piece {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            border: 2px solid #ddd;
-            cursor: move;
-            text-align: center;
-            transition: all 0.3s;
-            min-height: 80px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .puzzle-piece.correct {
-            background: #e8f5e9;
-            border-color: #4caf50;
-        }
-
-        /* Detective Scene */
-        .detective-scene {
-            background: #f5f5f5;
-            padding: 30px;
-            border-radius: 10px;
-            margin: 20px 0;
-        }
-
-        .evidence-item {
-            background: white;
-            padding: 15px;
-            margin: 10px 0;
-            border-radius: 8px;
-            border: 2px solid #ddd;
+            font-size: 14px;
         }
 
         /* Navigation */
@@ -441,7 +429,7 @@
 
         .nav-button {
             padding: 12px 24px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #0050a0;
             color: white;
             border: none;
             border-radius: 5px;
@@ -453,57 +441,22 @@
             gap: 10px;
         }
 
-        .nav-button:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        .nav-button:hover {
+            background: #003d7a;
+            transform: translateY(-1px);
         }
 
         .nav-button:disabled {
-            opacity: 0.5;
+            background: #ccc;
             cursor: not-allowed;
         }
 
-        .nav-button.secondary {
-            background: #f0f0f0;
-            color: #666;
-        }
-
-        .nav-button.secondary:hover:not(:disabled) {
-            background: #e0e0e0;
-        }
-
-        /* Results */
-        .results-container {
+        /* Score Display */
+        .score-display {
             text-align: center;
-            padding: 40px;
-        }
-
-        .results-icon {
-            font-size: 64px;
-            margin-bottom: 20px;
-        }
-
-        .results-title {
-            color: #0050a0;
-            font-size: 32px;
-            margin-bottom: 20px;
-        }
-
-        .results-score {
-            font-size: 48px;
-            font-weight: bold;
-            margin: 20px 0;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .action-buttons {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            margin-top: 30px;
+            padding: 20px;
+            background: #f5f5f5;
+            border-radius: 10px;
         }
 
         /* Responsive */
@@ -518,44 +471,41 @@
             }
 
             .memory-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-
-            .puzzle-container {
                 grid-template-columns: repeat(2, 1fr);
-            }
-
-            .nav-buttons {
-                flex-direction: column;
-                gap: 8px;
-            }
-
-            .nav-btn {
-                width: 100%;
-                text-align: center;
-                justify-content: center;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Header mit Navigation -->
+    <!-- Header -->
     <header class="header">
         <div class="header-content">
             <div class="header-left">
                 <div class="canton-logo">ZH</div>
-                <h1>Creative Commons Test - Spielerisch lernen</h1>
+                <h1>Creative Commons Quiz</h1>
             </div>
-            <div class="nav-buttons">
-                <a href="../quiz.html" class="nav-btn">
-                    📝 Zur Testübersicht
-                </a>
-                <a href="../index.html" class="nav-btn">
-                    🏠 Zur Startseite
-                </a>
+            <div class="score-display">
+                <span id="currentScore">0</span> / <span id="totalQuestions">5</span> Punkte
             </div>
         </div>
     </header>
+
+    <!-- Navigation -->
+    <nav class="nav-bar">
+        <div class="nav-content">
+            <a href="../../index.html" class="nav-link">
+                <span>←</span>
+                <span>Zurück zur Übersicht</span>
+            </a>
+            <div class="breadcrumb">
+                <a href="../../index.html">Startseite</a>
+                <span>›</span>
+                <span>Wissenstest</span>
+                <span>›</span>
+                <span>Creative Commons</span>
+            </div>
+        </div>
+    </nav>
 
     <!-- Main Content -->
     <main class="main">
@@ -567,16 +517,8 @@
 
             <!-- Progress Bar -->
             <div class="progress-container">
-                <div class="progress-bar" id="progressBar" style="width: 12.5%">
-                    <span>1 / 8</span>
-                </div>
-            </div>
-
-            <!-- Score Display -->
-            <div style="text-align: center; margin-bottom: 20px;">
-                <div class="score-display" style="display: inline-block;">
-                    <span>🏆</span>
-                    <span id="currentScore">0</span> / <span id="totalQuestions">8</span> Punkte
+                <div class="progress-bar" id="progressBar" style="width: 20%">
+                    <span>1 / 5</span>
                 </div>
             </div>
 
@@ -585,20 +527,11 @@
                 <!-- Questions will be dynamically loaded here -->
             </div>
 
-            <!-- Results Container -->
-            <div id="resultsContainer" class="results-container" style="display: none;">
-                <!-- Results will be shown here -->
-            </div>
-
             <!-- Navigation -->
-            <div class="quiz-navigation" id="navigationButtons">
-                <button class="nav-button secondary" id="prevBtn" onclick="previousQuestion()" disabled>
+            <div class="quiz-navigation">
+                <button class="nav-button" id="prevBtn" onclick="previousQuestion()" disabled>
                     <span>←</span>
                     <span>Zurück</span>
-                </button>
-                <button class="nav-button" id="checkBtn" onclick="checkAnswer()" style="display:none;">
-                    <span>✓</span>
-                    <span>Prüfen</span>
                 </button>
                 <button class="nav-button" id="nextBtn" onclick="nextQuestion()" disabled>
                     <span>Weiter</span>
@@ -609,7 +542,7 @@
     </main>
 
     <script>
-        // Quiz Questions
+        // Quiz Questions - reduziert auf 5
         const questions = [
             {
                 type: 'builder',
@@ -620,7 +553,6 @@
                     base: ['CC'],
                     attribution: ['BY', 'Ohne BY'],
                     commercial: ['NC (Nicht kommerziell)', 'Kommerziell OK'],
-                    share: ['SA (Share Alike)', 'Keine SA'],
                     derivatives: ['ND (Keine Bearbeitung)', 'Bearbeitung OK']
                 },
                 correct: ['CC', 'BY', 'NC', 'Bearbeitung OK'],
@@ -639,7 +571,7 @@
                     { name: 'CC BY-SA', color: '#ff9800', question: 'Was bedeutet SA?', answer: 'Share Alike - Weitergabe unter gleichen Bedingungen' },
                     { name: 'CC BY-NC', color: '#9c27b0', question: 'Was bedeutet NC?', answer: 'Non-Commercial - nicht kommerziell' },
                     { name: 'CC BY-ND', color: '#f44336', question: 'Was bedeutet ND?', answer: 'No Derivatives - keine Bearbeitung' },
-                    { name: 'CC BY-NC-ND', color: '#795548', question: 'Welche ist die restriktivste CC-Lizenz?', answer: 'CC BY-NC-ND' }
+                    { name: 'CC BY-NC-SA', color: '#795548', question: 'Welche Kombination ist am restriktivsten?', answer: 'CC BY-NC-ND' }
                 ]
             },
             {
@@ -647,22 +579,11 @@
                 title: 'CC-Memory',
                 intro: 'Finde die passenden Paare von Lizenz-Symbol und Bedeutung!',
                 pairs: [
-                    { symbol: 'CC', meaning: 'Creative Commons' },
                     { symbol: 'BY', meaning: 'Namensnennung' },
                     { symbol: 'SA', meaning: 'Gleiche Bedingungen' },
                     { symbol: 'NC', meaning: 'Nicht kommerziell' },
-                    { symbol: 'ND', meaning: 'Keine Bearbeitung' },
-                    { symbol: '0', meaning: 'Public Domain' },
-                    { symbol: '©', meaning: 'Copyright' },
-                    { symbol: '🔓', meaning: 'Open Access' }
+                    { symbol: 'ND', meaning: 'Keine Bearbeitung' }
                 ]
-            },
-            {
-                type: 'puzzle',
-                title: 'Lizenz-Puzzle',
-                intro: 'Ordne die Lizenzteile in der richtigen Reihenfolge von frei nach restriktiv!',
-                pieces: ['CC0', 'CC BY', 'CC BY-SA', 'CC BY-NC', 'CC BY-ND', 'CC BY-NC-ND'],
-                correct: ['CC0', 'CC BY', 'CC BY-SA', 'CC BY-NC', 'CC BY-ND', 'CC BY-NC-ND']
             },
             {
                 type: 'detective',
@@ -680,56 +601,23 @@
                 correct: 'CC BY-ND'
             },
             {
-                type: 'multiple',
-                title: 'Was bedeutet CC BY-SA?',
-                options: [
-                    'Namensnennung und Share Alike',
-                    'Nur für Schulen erlaubt',
-                    'Keine kommerzielle Nutzung',
-                    'Keine Bearbeitung erlaubt'
-                ],
-                correct: 0,
-                feedback: 'CC BY-SA bedeutet Namensnennung (BY) und Weitergabe unter gleichen Bedingungen (Share Alike).'
-            },
-            {
-                type: 'multiple',
-                title: 'Welche Lizenz eignet sich am besten für OER?',
-                options: [
-                    'CC BY-NC-ND',
-                    'CC BY oder CC BY-SA',
-                    'Copyright',
-                    'CC BY-NC'
-                ],
-                correct: 1,
-                feedback: 'CC BY und CC BY-SA sind ideal für OER, da sie maximale Nachnutzung ermöglichen.'
-            },
-            {
-                type: 'multiple', 
-                title: 'Was passiert mit CC-Lizenzen nach dem Tod des Urhebers?',
-                options: [
-                    'Die Lizenz erlischt',
-                    'Die Lizenz bleibt bestehen',
-                    'Die Erben entscheiden',
-                    'Das Werk wird gemeinfrei'
-                ],
-                correct: 1,
-                feedback: 'CC-Lizenzen sind unwiderruflich und bleiben auch nach dem Tod des Urhebers bestehen.'
+                type: 'speedround',
+                title: 'Blitz-Lizenzen',
+                intro: 'Beantworte so schnell wie möglich!',
+                questions: [
+                    { q: 'Wikipedia nutzt welche Lizenz?', options: ['CC BY-SA', 'CC0', 'CC BY'], correct: 0, time: 8 },
+                    { q: 'Was ist die freieste Lizenz?', options: ['CC BY', 'CC0', 'Public Domain'], correct: 1, time: 8 },
+                    { q: 'NC bedeutet?', options: ['Nice Content', 'Not Copyright', 'Non-Commercial'], correct: 2, time: 5 }
+                ]
             }
         ];
 
         let currentQuestion = 0;
         let score = 0;
-        let maxScore = 0;
-        let questionScores = [];
 
         // Initialize
         function init() {
-            currentQuestion = 0;
-            score = 0;
-            maxScore = questions.length * 2; // 2 points per question
-            questionScores = new Array(questions.length).fill(0);
             loadQuestion();
-            updateDisplay();
         }
 
         // Load Question
@@ -749,64 +637,18 @@
                 case 'memory':
                     loadMemoryQuestion(question, container);
                     break;
-                case 'puzzle':
-                    loadPuzzleQuestion(question, container);
-                    break;
                 case 'detective':
                     loadDetectiveQuestion(question, container);
                     break;
-                case 'multiple':
-                    loadMultipleChoice(question, container);
+                case 'speedround':
+                    loadSpeedQuestion(question, container);
                     break;
             }
             
             updateProgress();
-            updateNavigationButtons();
         }
 
-        // Multiple Choice Question
-        function loadMultipleChoice(question, container) {
-            container.innerHTML = `
-                <div class="question-header">
-                    <div class="question-type">Multiple Choice</div>
-                    <div class="question-text">${question.title}</div>
-                </div>
-                <div style="margin: 30px 0;">
-                    ${question.options.map((option, i) => `
-                        <div class="builder-option" style="margin: 10px 0; text-align: left;" onclick="selectMultipleChoice(${i}, ${question.correct})">
-                            ${option}
-                        </div>
-                    `).join('')}
-                </div>
-                <div id="feedbackArea" style="display: none; padding: 20px; background: #f5f5f5; border-radius: 10px; margin-top: 20px;"></div>
-            `;
-            
-            window.selectMultipleChoice = (selected, correct) => {
-                const options = document.querySelectorAll('.builder-option');
-                options.forEach(opt => opt.style.pointerEvents = 'none');
-                
-                if (selected === correct) {
-                    options[selected].style.background = '#e8f5e9';
-                    options[selected].style.borderColor = '#4caf50';
-                    questionScores[currentQuestion] = 2;
-                    score += 2;
-                } else {
-                    options[selected].style.background = '#ffe6e6';
-                    options[selected].style.borderColor = '#f44336';
-                    options[correct].style.background = '#e8f5e9';
-                    options[correct].style.borderColor = '#4caf50';
-                }
-                
-                const feedback = document.getElementById('feedbackArea');
-                feedback.style.display = 'block';
-                feedback.innerHTML = `<strong>Erklärung:</strong> ${question.feedback}`;
-                
-                document.getElementById('nextBtn').disabled = false;
-                updateDisplay();
-            };
-        }
-
-        // License Builder (angepasst)
+        // License Builder
         function loadBuilderQuestion(question, container) {
             let selectedOptions = {};
             
@@ -852,6 +694,7 @@
                 
                 event.target.classList.add('selected');
                 selectedOptions[category] = value;
+                
                 updateLicensePreview();
             };
             
@@ -876,11 +719,6 @@
                         licenseText += '-NC';
                     }
                     
-                    if (selectedOptions.share === 'SA (Share Alike)') {
-                        icons.push('<div class="license-icon">SA</div>');
-                        licenseText += '-SA';
-                    }
-                    
                     if (selectedOptions.derivatives === 'ND (Keine Bearbeitung)') {
                         icons.push('<div class="license-icon">ND</div>');
                         licenseText += '-ND';
@@ -897,148 +735,178 @@
                 
                 if (isCorrect) {
                     alert(question.feedback.correct);
-                    questionScores[currentQuestion] = 2;
                     score += 2;
                 } else {
                     alert(question.feedback.incorrect);
-                    questionScores[currentQuestion] = 0;
                 }
                 
                 document.getElementById('nextBtn').disabled = false;
-                updateDisplay();
             };
         }
 
-        // Wheel (vereinfacht)
+        // Wheel of Fortune - Verbessert
         function loadWheelQuestion(question, container) {
+            const segmentAngle = 360 / question.segments.length;
+            
             container.innerHTML = `
                 <div class="question-header">
                     <div class="question-type">Glücksrad</div>
                     <div class="question-text">${question.title}</div>
+                    <p>${question.intro}</p>
                 </div>
-                <div style="text-align: center; padding: 40px;">
-                    <p style="font-size: 18px; margin-bottom: 30px;">Beantworte die Frage zu Creative Commons Lizenzen!</p>
-                    <div style="background: #f5f5f5; padding: 30px; border-radius: 10px;">
-                        <h3 style="color: #0050a0; margin-bottom: 20px;">Was bedeutet das SA-Modul?</h3>
-                        <input type="text" id="wheelAnswer" placeholder="Deine Antwort..." style="width: 100%; padding: 10px; border: 2px solid #ddd; border-radius: 5px; margin-bottom: 20px;">
-                        <button class="nav-button" onclick="checkWheelAnswer()" style="margin: 0 auto;">
-                            Antwort prüfen
-                        </button>
+                <div class="wheel-container">
+                    <div class="wheel-pointer"></div>
+                    <div class="wheel" id="wheel">
+                        ${question.segments.map((seg, i) => {
+                            const angle = segmentAngle * i;
+                            
+                            return `
+                                <div class="wheel-segment" style="
+                                    background: ${seg.color};
+                                    transform: rotate(${angle}deg);
+                                    clip-path: polygon(50% 50%, 50% 0, ${Math.cos((segmentAngle * Math.PI) / 180) * 50 + 50}% ${Math.sin((segmentAngle * Math.PI) / 180) * 50}%, 50% 50%);
+                                ">
+                                    <div class="segment-text" style="
+                                        transform: rotate(${segmentAngle / 2}deg) translateX(-50%);
+                                    ">${seg.name}</div>
+                                </div>
+                            `;
+                        }).join('')}
                     </div>
+                    <button class="spin-button" id="spinBtn" onclick="spinWheel()">DREHEN!</button>
+                </div>
+                <div id="wheelQuestion" style="display: none; margin-top: 30px; padding: 20px; background: #f5f5f5; border-radius: 10px;">
                 </div>
             `;
             
-            window.checkWheelAnswer = () => {
-                const answer = document.getElementById('wheelAnswer').value.toLowerCase();
-                if (answer.includes('share alike') || answer.includes('gleiche') || answer.includes('gleichen bedingungen')) {
-                    alert('Richtig! SA bedeutet Share Alike - Weitergabe unter gleichen Bedingungen.');
-                    questionScores[currentQuestion] = 2;
+            window.spinWheel = () => {
+                const wheel = document.getElementById('wheel');
+                const button = document.getElementById('spinBtn');
+                button.disabled = true;
+                
+                const randomRotation = 720 + Math.random() * 720;
+                wheel.style.transform = `rotate(${randomRotation}deg)`;
+                
+                setTimeout(() => {
+                    const normalizedAngle = (360 - (randomRotation % 360) + 90) % 360;
+                    const selectedIndex = Math.floor(normalizedAngle / segmentAngle) % question.segments.length;
+                    const segment = question.segments[selectedIndex];
+                    
+                    const questionDiv = document.getElementById('wheelQuestion');
+                    
+                    questionDiv.innerHTML = `
+                        <h3 style="color: ${segment.color}; margin-bottom: 15px;">Gewählt: ${segment.name}</h3>
+                        <p style="font-size: 18px; margin-bottom: 20px; font-weight: bold;">${segment.question}</p>
+                        <input type="text" id="wheelAnswer" placeholder="Deine Antwort..." style="width: 100%; padding: 10px; border: 2px solid #ddd; border-radius: 5px; margin-bottom: 15px; font-size: 16px;">
+                        <button class="nav-button" onclick="checkWheelAnswer('${segment.answer.replace(/'/g, "\\'")}')" style="margin: 0 auto; display: block;">
+                            Antwort prüfen
+                        </button>
+                    `;
+                    questionDiv.style.display = 'block';
+                }, 4000);
+            };
+            
+            window.checkWheelAnswer = (correctAnswer) => {
+                const userAnswer = document.getElementById('wheelAnswer').value.toLowerCase();
+                const correct = correctAnswer.toLowerCase();
+                
+                if (userAnswer.includes(correct.substring(0, 5)) || userAnswer.includes('public') && correct.includes('public')) {
+                    alert('Richtig! ' + correctAnswer);
                     score += 2;
                 } else {
-                    alert('SA bedeutet Share Alike - Weitergabe unter gleichen Bedingungen.');
-                    questionScores[currentQuestion] = 0;
+                    alert('Die richtige Antwort war: ' + correctAnswer);
                 }
+                
                 document.getElementById('nextBtn').disabled = false;
-                updateDisplay();
             };
         }
 
-        // Memory (vereinfacht) 
+        // Memory Game - Reduziert auf 4 Paare
         function loadMemoryQuestion(question, container) {
-            const pairs = [
-                { symbol: 'CC', meaning: 'Creative Commons' },
-                { symbol: 'BY', meaning: 'Namensnennung' },
-                { symbol: 'SA', meaning: 'Gleiche Bedingungen' },
-                { symbol: 'NC', meaning: 'Nicht kommerziell' }
-            ];
+            const cards = [];
+            question.pairs.forEach(pair => {
+                cards.push({ type: 'symbol', value: pair.symbol, match: pair.meaning });
+                cards.push({ type: 'meaning', value: pair.meaning, match: pair.symbol });
+            });
             
-            let found = 0;
+            cards.sort(() => Math.random() - 0.5);
+            
+            let flippedCards = [];
+            let matchedPairs = 0;
+            let attempts = 0;
             
             container.innerHTML = `
                 <div class="question-header">
                     <div class="question-type">Memory-Spiel</div>
                     <div class="question-text">${question.title}</div>
+                    <p>${question.intro}</p>
                 </div>
-                <div style="padding: 30px;">
-                    <p style="text-align: center; margin-bottom: 30px;">Ordne die CC-Module ihrer Bedeutung zu:</p>
-                    ${pairs.map((pair, i) => `
-                        <div style="display: flex; align-items: center; margin: 15px 0; gap: 20px;">
-                            <div style="background: #0050a0; color: white; padding: 10px 20px; border-radius: 5px; width: 80px; text-align: center; font-weight: bold;">
-                                ${pair.symbol}
-                            </div>
-                            <select id="select${i}" onchange="checkMemoryPair(${i}, '${pair.meaning}')" style="flex: 1; padding: 10px; border: 2px solid #ddd; border-radius: 5px;">
-                                <option value="">Wähle...</option>
-                                <option value="Creative Commons">Creative Commons</option>
-                                <option value="Namensnennung">Namensnennung</option>
-                                <option value="Gleiche Bedingungen">Gleiche Bedingungen</option>
-                                <option value="Nicht kommerziell">Nicht kommerziell</option>
-                            </select>
+                <div class="memory-grid">
+                    ${cards.map((card, i) => `
+                        <div class="memory-card" data-index="${i}" onclick="flipCard(${i})">
+                            <div class="card-front">?</div>
+                            <div class="card-back">${card.value}</div>
                         </div>
                     `).join('')}
                 </div>
+                <div style="text-align: center; margin-top: 20px;">
+                    <p>Gefundene Paare: <span id="pairsFound">0</span> / ${question.pairs.length}</p>
+                    <p>Versuche: <span id="attempts">0</span></p>
+                </div>
             `;
             
-            window.checkMemoryPair = (index, correct) => {
-                const select = document.getElementById(`select${index}`);
-                if (select.value === correct) {
-                    select.style.background = '#e8f5e9';
-                    select.disabled = true;
-                    found++;
+            window.flipCard = (index) => {
+                const card = document.querySelector(`[data-index="${index}"]`);
+                if (card.classList.contains('flipped') || card.classList.contains('matched')) return;
+                if (flippedCards.length >= 2) return;
+                
+                card.classList.add('flipped');
+                flippedCards.push({ index, card: cards[index], element: card });
+                
+                if (flippedCards.length === 2) {
+                    attempts++;
+                    document.getElementById('attempts').textContent = attempts;
                     
-                    if (found === pairs.length) {
-                        alert('Alle Paare gefunden!');
-                        questionScores[currentQuestion] = 2;
-                        score += 2;
-                        document.getElementById('nextBtn').disabled = false;
-                        updateDisplay();
-                    }
+                    setTimeout(() => {
+                        const [first, second] = flippedCards;
+                        
+                        if (first.card.match === second.card.value) {
+                            first.element.classList.add('matched');
+                            second.element.classList.add('matched');
+                            matchedPairs++;
+                            document.getElementById('pairsFound').textContent = matchedPairs;
+                            
+                            if (matchedPairs === question.pairs.length) {
+                                score += Math.max(1, 3 - Math.floor(attempts / 10));
+                                setTimeout(() => {
+                                    alert(`Geschafft in ${attempts} Versuchen!`);
+                                    document.getElementById('nextBtn').disabled = false;
+                                }, 500);
+                            }
+                        } else {
+                            first.element.classList.remove('flipped');
+                            second.element.classList.remove('flipped');
+                        }
+                        
+                        flippedCards = [];
+                    }, 1000);
                 }
             };
         }
 
-        // Puzzle
-        function loadPuzzleQuestion(question, container) {
-            container.innerHTML = `
-                <div class="question-header">
-                    <div class="question-type">Puzzle</div>
-                    <div class="question-text">${question.title}</div>
-                    <p>${question.intro}</p>
-                </div>
-                <div style="padding: 30px;">
-                    <p style="text-align: center; margin-bottom: 20px;">Die richtige Reihenfolge ist bereits vorgegeben:</p>
-                    <div class="puzzle-container">
-                        ${question.correct.map(piece => `
-                            <div class="puzzle-piece correct">
-                                ${piece}
-                            </div>
-                        `).join('')}
-                    </div>
-                    <button class="nav-button" onclick="completePuzzle()" style="margin: 20px auto; display: block;">
-                        Verstanden!
-                    </button>
-                </div>
-            `;
-            
-            window.completePuzzle = () => {
-                questionScores[currentQuestion] = 2;
-                score += 2;
-                document.getElementById('nextBtn').disabled = false;
-                updateDisplay();
-            };
-        }
-
-        // Detective
+        // Detective Question
         function loadDetectiveQuestion(question, container) {
             container.innerHTML = `
                 <div class="question-header">
                     <div class="question-type">Lizenz-Detektiv</div>
                     <div class="question-text">${question.title}</div>
+                    <p>${question.intro}</p>
                 </div>
-                <div class="detective-scene">
+                <div class="detective-scene" style="background: #f5f5f5; padding: 30px; border-radius: 10px; margin: 20px 0;">
                     <h3 style="color: #0050a0; margin-bottom: 15px;">🔍 ${question.case}</h3>
                     <div style="margin: 20px 0;">
                         ${question.evidence.map((evidence, i) => `
-                            <div class="evidence-item">
+                            <div style="background: white; padding: 15px; margin: 10px 0; border-radius: 8px; border: 2px solid #ddd;">
                                 Hinweis ${i + 1}: ${evidence}
                             </div>
                         `).join('')}
@@ -1046,7 +914,7 @@
                     <h4 style="margin-top: 30px; margin-bottom: 15px;">Welche Lizenz ist es?</h4>
                     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px;">
                         ${question.options.map(option => `
-                            <button class="nav-button" onclick="checkDetective('${option}', '${question.correct}')" style="margin: 0;">
+                            <button class="nav-button" data-option="${option}" style="margin: 0;">
                                 ${option}
                             </button>
                         `).join('')}
@@ -1054,25 +922,104 @@
                 </div>
             `;
             
-            window.checkDetective = (selected, correct) => {
+            // Event Listener für alle Buttons hinzufügen
+            setTimeout(() => {
+                const buttons = container.querySelectorAll('[data-option]');
+                buttons.forEach(button => {
+                    button.addEventListener('click', () => {
+                        const selected = button.dataset.option;
+                        if (selected === question.correct) {
+                            alert('Richtig! Gut kombiniert, Detektiv!');
+                            score += 2;
+                        } else {
+                            alert(`Die richtige Antwort war ${question.correct}. Die Hinweise zeigten: Namensnennung nötig (BY), keine Bearbeitung erlaubt (ND), aber kommerzielle Nutzung OK (kein NC).`);
+                        }
+                        document.getElementById('currentScore').textContent = score;
+                        document.getElementById('nextBtn').disabled = false;
+                    });
+                });
+            }, 100);
+        }
+
+        // Speed Round
+        function loadSpeedQuestion(question, container) {
+            let currentQ = 0;
+            let speedScore = 0;
+            
+            function showQuestion() {
+                const q = question.questions[currentQ];
+                let timeLeft = q.time;
+                
+                container.innerHTML = `
+                    <div class="question-header">
+                        <div class="question-type">⚡ Speed Round</div>
+                        <div class="question-text">${question.title}</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="font-size: 48px; color: ${timeLeft > 2 ? '#0050a0' : '#f44336'};" id="timer">
+                            ${timeLeft}
+                        </div>
+                        <h3 style="margin: 20px 0; font-size: 24px;">${q.q}</h3>
+                        <div style="display: grid; gap: 10px; max-width: 400px; margin: 20px auto;">
+                            ${q.options.map((opt, i) => `
+                                <button class="nav-button" onclick="speedAnswer(${i}, ${q.correct})" style="margin: 0;">
+                                    ${opt}
+                                </button>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+                
+                const timer = setInterval(() => {
+                    timeLeft--;
+                    const timerEl = document.getElementById('timer');
+                    if (timerEl) {
+                        timerEl.textContent = timeLeft;
+                        timerEl.style.color = timeLeft > 2 ? '#0050a0' : '#f44336';
+                    }
+                    if (timeLeft <= 0) {
+                        clearInterval(timer);
+                        nextSpeed();
+                    }
+                }, 1000);
+                
+                window.currentTimer = timer;
+            }
+            
+            window.speedAnswer = (selected, correct) => {
+                clearInterval(window.currentTimer);
                 if (selected === correct) {
-                    alert('Richtig! Gut kombiniert, Detektiv!');
-                    questionScores[currentQuestion] = 2;
-                    score += 2;
-                } else {
-                    alert(`Die richtige Antwort war ${correct}.`);
-                    questionScores[currentQuestion] = 0;
+                    speedScore++;
                 }
-                document.getElementById('nextBtn').disabled = false;
-                updateDisplay();
+                nextSpeed();
             };
+            
+            function nextSpeed() {
+                currentQ++;
+                if (currentQ < question.questions.length) {
+                    showQuestion();
+                } else {
+                    score += speedScore;
+                    container.innerHTML = `
+                        <div style="text-align: center; padding: 40px;">
+                            <h2>Speed Round beendet!</h2>
+                            <p style="font-size: 24px; margin: 20px 0;">${speedScore} von ${question.questions.length} richtig!</p>
+                        </div>
+                    `;
+                    document.getElementById('nextBtn').disabled = false;
+                }
+            }
+            
+            showQuestion();
         }
 
         // Navigation
         function nextQuestion() {
-            if (currentQuestion < questions.length - 1) {
-                currentQuestion++;
+            currentQuestion++;
+            if (currentQuestion < questions.length) {
                 loadQuestion();
+                document.getElementById('nextBtn').disabled = true;
+                document.getElementById('prevBtn').disabled = false;
             } else {
                 showResults();
             }
@@ -1082,6 +1029,7 @@
             if (currentQuestion > 0) {
                 currentQuestion--;
                 loadQuestion();
+                document.getElementById('nextBtn').disabled = currentQuestion === 0;
             }
         }
 
@@ -1089,91 +1037,46 @@
             const progress = ((currentQuestion + 1) / questions.length) * 100;
             document.getElementById('progressBar').style.width = progress + '%';
             document.getElementById('progressBar').innerHTML = `<span>${currentQuestion + 1} / ${questions.length}</span>`;
-        }
-
-        function updateDisplay() {
             document.getElementById('currentScore').textContent = score;
-            document.getElementById('totalQuestions').textContent = maxScore;
-        }
-
-        function updateNavigationButtons() {
+            document.getElementById('totalQuestions').textContent = questions.length * 2;
+            
             document.getElementById('prevBtn').disabled = currentQuestion === 0;
-            document.getElementById('nextBtn').disabled = true; // Will be enabled after answering
         }
 
         function showResults() {
+            const maxScore = questions.length * 2;
             const percentage = Math.round((score / maxScore) * 100);
             
-            // Save progress for main page
-            saveProgress(percentage);
+            // Speichere Fortschritt für Startseite
+            localStorage.setItem('quiz_cc_progress', percentage);
             
-            document.getElementById('questionContainer').style.display = 'none';
-            document.getElementById('navigationButtons').style.display = 'none';
-            
-            const resultsContainer = document.getElementById('resultsContainer');
-            resultsContainer.style.display = 'block';
-            
-            let icon = '🏆';
-            let message = 'Gut gemacht!';
-            
-            if (percentage === 100) {
-                icon = '🏆';
-                message = 'Perfekt! Du beherrschst Creative Commons vollständig!';
-            } else if (percentage >= 80) {
-                icon = '⭐';
-                message = 'Sehr gut! Du kennst dich gut mit CC-Lizenzen aus.';
-            } else if (percentage >= 60) {
-                icon = '👍';
-                message = 'Gut gemacht! Mit etwas Übung wirst du zum CC-Experten.';
-            } else {
-                icon = '📚';
-                message = 'Wiederhole gerne die Lernmodule zu Creative Commons.';
-            }
-            
-            resultsContainer.innerHTML = `
-                <div class="results-icon">${icon}</div>
-                <h2 class="results-title">Test abgeschlossen!</h2>
-                <div class="results-score">${percentage}%</div>
-                <p style="font-size: 18px; color: #666; margin: 20px 0;">${message}</p>
-                <p style="color: #999;">Du hast ${score} von ${maxScore} Punkten erreicht</p>
-                
-                <div class="action-buttons">
-                    <button class="nav-button" onclick="location.reload()">
-                        🔄 Test wiederholen
-                    </button>
-                    <a href="../index.html" class="nav-button secondary" style="text-decoration: none;">
-                        🏠 Zur Startseite
-                    </a>
+            document.querySelector('.quiz-card').innerHTML = `
+                <div style="text-align: center; padding: 40px;">
+                    <h2 style="color: #0050a0; font-size: 36px;">Quiz abgeschlossen! 🎉</h2>
+                    <div style="font-size: 48px; margin: 20px 0; color: #0050a0;">
+                        ${score} / ${maxScore} Punkte
+                    </div>
+                    <p style="font-size: 24px; margin: 20px 0;">
+                        ${percentage}% richtig!
+                    </p>
+                    <p style="font-size: 18px; margin: 20px 0;">
+                        ${percentage >= 80 ? 'Ausgezeichnet! Du kennst dich mit Creative Commons aus!' :
+                          percentage >= 60 ? 'Gut gemacht! Mit etwas Übung wirst du zum CC-Experten.' :
+                          'Weiter lernen! Die Creative Commons Lizenzen sind wichtig für den Schulalltag.'}
+                    </p>
+                    <div style="display: flex; gap: 20px; justify-content: center; margin-top: 30px;">
+                        <button class="nav-button" onclick="location.reload()">
+                            Quiz wiederholen
+                        </button>
+                        <button class="nav-button" onclick="location.href='../../index.html'">
+                            Zur Übersicht
+                        </button>
+                    </div>
                 </div>
             `;
         }
 
-        // Save Progress
-        function saveProgress(percentage) {
-            // Save for quiz overview
-            localStorage.setItem('quiz_cc_progress', percentage);
-            
-            // Update module progress
-            const moduleData = {
-                completed: 1,
-                total: 1,
-                percentage: 100,
-                lastUpdated: new Date().toISOString()
-            };
-            localStorage.setItem('module_quiz_progress', JSON.stringify(moduleData));
-            
-            // Save detailed results
-            const detailedResults = {
-                score: score,
-                maxScore: maxScore,
-                percentage: percentage,
-                questionScores: questionScores,
-                timestamp: new Date().toISOString()
-            };
-            localStorage.setItem('cc_quiz_detailed', JSON.stringify(detailedResults));
-        }
-
-        // Initialize when page loads
+        // Initialize
         window.onload = init;
     </script>
 </body>
