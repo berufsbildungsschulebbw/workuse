@@ -187,56 +187,77 @@
             color: #333;
         }
 
-        /* Scenario Choice Question */
-        .scenario-choices {
+        /* License Builder */
+        .license-builder {
             display: grid;
-            gap: 15px;
-            margin-top: 20px;
+            gap: 20px;
+            margin: 30px 0;
         }
 
-        .choice-button {
+        .builder-section {
+            background: #f5f5f5;
             padding: 20px;
+            border-radius: 10px;
+        }
+
+        .builder-title {
+            font-weight: 600;
+            color: #0050a0;
+            margin-bottom: 15px;
+        }
+
+        .builder-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+        }
+
+        .builder-option {
+            padding: 15px;
             background: white;
             border: 2px solid #ddd;
             border-radius: 8px;
             cursor: pointer;
-            text-align: left;
+            text-align: center;
             transition: all 0.3s;
-            width: 100%;
-            font-size: 16px;
         }
 
-        .choice-button:hover:not(:disabled) {
+        .builder-option:hover {
             transform: translateY(-2px);
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .builder-option.selected {
+            background: #e8f2ff;
             border-color: #0050a0;
         }
 
-        .choice-button:disabled {
-            cursor: not-allowed;
-            opacity: 0.7;
+        .license-preview {
+            background: white;
+            padding: 20px;
+            border: 3px solid #0050a0;
+            border-radius: 10px;
+            text-align: center;
+            margin-top: 20px;
         }
 
-        .choice-button.correct {
-            background: #e6f7e6;
-            border-color: #00994d;
+        .license-icons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 15px 0;
         }
 
-        .choice-button.incorrect {
-            background: #ffebee;
-            border-color: #f44336;
-        }
-
-        .choice-button .license-name {
+        .license-icon {
+            width: 50px;
+            height: 50px;
+            background: #f5f5f5;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
             font-weight: bold;
-            color: #0050a0;
-            font-size: 18px;
-            margin-bottom: 5px;
-        }
-
-        .choice-button .license-description {
-            color: #666;
-            font-size: 14px;
         }
 
         /* Wheel of Licenses */
@@ -503,39 +524,31 @@
     <script>
         // Quiz Questions - 10 questions, 2 points each.
         const questions = [
-            // --- Scenario Questions ---
+            // --- Builder Questions ---
             {
-                type: 'scenario_choice',
-                title: 'Lizenz-Szenario (1/2)',
-                intro: 'Wähle die passende Lizenz für die folgende Situation:',
+                type: 'builder',
+                title: 'Lizenz-Baukasten (1/2)',
+                intro: 'Baue die richtige CC-Lizenz für folgende Situation:',
                 scenario: 'Du erstellst Lernmaterialien, die andere Lehrer verwenden und verändern dürfen, aber nicht kommerziell nutzen sollen.',
-                choices: [
-                    { name: "CC BY", description: "Namensnennung" },
-                    { name: "CC BY-SA", description: "Namensnennung, Weitergabe unter gleichen Bedingungen" },
-                    { name: "CC BY-NC", description: "Namensnennung, Nicht-kommerziell" },
-                    { name: "CC BY-NC-ND", description: "Namensnennung, Nicht-kommerziell, Keine Bearbeitung" }
-                ],
-                correct: "CC BY-NC",
+                options: { base: ['CC'], attribution: ['BY', 'Ohne BY'], commercial: ['NC (Nicht kommerziell)', 'Kommerziell OK'], derivatives: ['SA (Gleiche Bedingungen)', 'ND (Keine Bearbeitung)', 'Bearbeitung OK'] },
+                correct: ['CC', 'BY', 'NC (Nicht kommerziell)', 'Bearbeitung OK'],
+                correctString: "CC BY-NC",
                 feedback: {
-                    correct: 'Perfekt! CC BY-NC ist genau richtig. Sie erlaubt die Weitergabe und Bearbeitung, aber nur für nicht-kommerzielle Zwecke.',
-                    incorrect: 'Nicht ganz. Die richtige Wahl wäre CC BY-NC gewesen, da die kommerzielle Nutzung ausgeschlossen werden sollte.'
+                    correct: 'Perfekt! CC BY-NC erlaubt Namensnennung, verbietet kommerzielle Nutzung und erlaubt Bearbeitungen.',
+                    incorrect: 'Nicht ganz. Für dieses Szenario wäre CC BY-NC die richtige Wahl.'
                 }
             },
-            {
-                type: 'scenario_choice',
-                title: 'Lizenz-Szenario (2/2)',
-                intro: 'Wähle die passende Lizenz für eine neue Situation:',
+             {
+                type: 'builder',
+                title: 'Lizenz-Baukasten (2/2)',
+                intro: 'Baue die richtige CC-Lizenz für eine neue Situation:',
                 scenario: 'Du hast ein Foto gemacht und möchtest, dass jeder es für jeden Zweck verwenden darf, solange sie dich nennen und alle Änderungen unter der gleichen Lizenz weitergeben.',
-                choices: [
-                    { name: "CC BY-ND", description: "Namensnennung, Keine Bearbeitung" },
-                    { name: "CC BY-SA", description: "Namensnennung, Weitergabe unter gleichen Bedingungen" },
-                    { name: "CC BY-NC-SA", description: "Namensnennung, Nicht-kommerziell, Gleiche Bedingungen" },
-                    { name: "CC0", description: "Keine Rechte vorbehalten (Public Domain)" }
-                ],
-                correct: "CC BY-SA",
+                options: { base: ['CC'], attribution: ['BY', 'Ohne BY'], commercial: ['NC (Nicht kommerziell)', 'Kommerziell OK'], derivatives: ['SA (Gleiche Bedingungen)', 'ND (Keine Bearbeitung)', 'Bearbeitung OK'] },
+                correct: ['CC', 'BY', 'Kommerziell OK', 'SA (Gleiche Bedingungen)'],
+                correctString: "CC BY-SA",
                 feedback: {
-                    correct: 'Genau richtig! CC BY-SA stellt sicher, dass dein Werk offen bleibt, während du als Urheber genannt wirst.',
-                    incorrect: 'Knapp daneben. Die korrekte Lizenz ist CC BY-SA, da die Bedingung "Weitergabe unter gleichen Bedingungen" (Share Alike) entscheidend war.'
+                    correct: 'Genau richtig! CC BY-SA ist perfekt, um Inhalte offen zu teilen und gleichzeitig sicherzustellen, dass Ableitungen ebenfalls offen bleiben.',
+                    incorrect: 'Knapp daneben. Die korrekte Lizenz für dieses Szenario ist CC BY-SA (Namensnennung und Weitergabe unter gleichen Bedingungen).'
                 }
             },
             // --- Wheel Questions ---
@@ -639,7 +652,7 @@
             questionAnswered = false;
             
             switch(question.type) {
-                case 'scenario_choice': loadScenarioChoiceQuestion(question, container); break;
+                case 'builder': loadBuilderQuestion(question, container); break;
                 case 'wheel': loadWheelQuestion(question, container); break;
                 case 'memory': loadMemoryQuestion(question, container); break;
                 case 'detective': loadDetectiveQuestion(question, container); break;
@@ -658,49 +671,72 @@
             document.getElementById('nextBtn').disabled = false;
             updateProgress();
         }
-
-        function loadScenarioChoiceQuestion(question, container) {
+        
+        function loadBuilderQuestion(question, container) {
+            let selectedOptions = {};
             container.innerHTML = `
-                <div class="question-header">
-                    <div class="question-type">${question.title}</div>
-                    <p>${question.intro}</p>
+                <div class="question-header"><div class="question-type">${question.title}</div><p>${question.intro}</p></div>
+                <div style="background: #fff3cd; padding: 20px; border-radius: 10px; margin: 20px 0;"><strong>Szenario:</strong> ${question.scenario}</div>
+                <div class="license-builder">
+                    ${Object.keys(question.options).map(category => `
+                        <div class="builder-section">
+                            <div class="builder-title">${category.charAt(0).toUpperCase() + category.slice(1)}:</div>
+                            <div class="builder-options">
+                                ${question.options[category].map(option => `<div class="builder-option" data-category="${category}" data-value="${option}">${option}</div>`).join('')}
+                            </div>
+                        </div>`).join('')}
                 </div>
-                <div style="background: #fff3cd; padding: 20px; border-radius: 10px; margin: 20px 0;">
-                    <strong>Szenario:</strong> ${question.scenario}
+                <div class="license-preview">
+                    <h3>Deine Lizenz:</h3>
+                    <div class="license-icons" id="licensePreview"><div class="license-icon">?</div></div>
+                    <p id="licenseText">Wähle die Komponenten oben</p>
                 </div>
-                <div class="scenario-choices" id="choiceContainer">
-                    ${question.choices.map(choice => `
-                        <button class="choice-button" data-value="${choice.name}">
-                            <div class="license-name">${choice.name}</div>
-                            <div class="license-description">${choice.description}</div>
-                        </button>
-                    `).join('')}
-                </div>`;
+                <button id="checkBtn" class="nav-button" style="margin: 20px auto; display: block;">Lizenz prüfen</button>`;
 
-            const choiceContainer = document.getElementById('choiceContainer');
-            choiceContainer.addEventListener('click', e => {
-                const selectedButton = e.target.closest('.choice-button');
-                if (!selectedButton || questionAnswered) return;
-
-                const selectedValue = selectedButton.dataset.value;
-                const isCorrect = selectedValue === question.correct;
-
-                choiceContainer.querySelectorAll('.choice-button').forEach(button => {
-                    button.disabled = true;
-                });
-
-                if (isCorrect) {
-                    selectedButton.classList.add('correct');
-                    alert(question.feedback.correct);
-                } else {
-                    selectedButton.classList.add('incorrect');
-                    const correctButton = choiceContainer.querySelector(`[data-value="${question.correct}"]`);
-                    if (correctButton) {
-                        correctButton.classList.add('correct');
-                    }
-                    alert(question.feedback.incorrect);
+            const updateLicensePreview = () => {
+                const preview = document.getElementById('licensePreview'), text = document.getElementById('licenseText');
+                let icons = [], licenseText = '';
+                if (selectedOptions.base === 'CC') {
+                    icons.push('<div class="license-icon">CC</div>'); licenseText = 'CC';
+                    if (selectedOptions.attribution === 'BY') { icons.push('<div class="license-icon">BY</div>'); licenseText += ' BY'; }
+                    if (selectedOptions.commercial === 'NC (Nicht kommerziell)') { icons.push('<div class="license-icon">NC</div>'); licenseText += '-NC'; }
+                    if (selectedOptions.derivatives === 'SA (Gleiche Bedingungen)') { icons.push('<div class="license-icon">SA</div>'); licenseText += '-SA'; }
+                    else if (selectedOptions.derivatives === 'ND (Keine Bearbeitung)') { icons.push('<div class="license-icon">ND</div>'); licenseText += '-ND'; }
                 }
+                preview.innerHTML = icons.join('') || '<div class="license-icon">?</div>';
+                text.textContent = licenseText || 'Wähle die Komponenten oben';
+            };
+
+            // Automatically select categories with only one option
+            Object.keys(question.options).forEach(category => {
+                if (question.options[category].length === 1) {
+                    const value = question.options[category][0];
+                    selectedOptions[category] = value;
+                    const optionElement = container.querySelector(`[data-category="${category}"][data-value="${value}"]`);
+                    if (optionElement) optionElement.classList.add('selected');
+                }
+            });
+            updateLicensePreview();
+
+            document.querySelectorAll('.builder-option').forEach(el => el.addEventListener('click', e => {
+                if (questionAnswered || question.options[e.target.dataset.category].length === 1) return;
+                const { category, value } = e.target.dataset;
+                document.querySelectorAll(`[data-category="${category}"]`).forEach(opt => opt.classList.remove('selected'));
+                e.target.classList.add('selected');
+                selectedOptions[category] = value;
+                updateLicensePreview();
+            }));
+            
+            document.getElementById('checkBtn').addEventListener('click', () => {
+                if (questionAnswered) return;
+                if (Object.keys(selectedOptions).length !== Object.keys(question.options).length) {
+                    alert("Bitte wähle eine Option aus jeder Kategorie aus.");
+                    return;
+                }
+                const selected = Object.values(selectedOptions);
+                const isCorrect = question.correct.length === selected.length && question.correct.every(item => selected.includes(item));
                 
+                alert(isCorrect ? question.feedback.correct : `${question.feedback.incorrect}\nDie richtige Lizenz wäre: ${question.correctString}`);
                 handleAnswer(isCorrect);
             });
         }
