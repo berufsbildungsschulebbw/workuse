@@ -285,15 +285,14 @@
             width: 100%;
             height: 100%;
             transform-origin: center;
-            /* This clip-path creates a 60-degree wedge (360/6 segments) */
-            clip-path: polygon(50% 50%, 50% 0, 86.6% 25%);
+            clip-path: polygon(50% 50%, 50% 0, 86.6% 25%); /* Creates a 60-degree wedge */
         }
 
         .segment-text {
             position: absolute;
             top: 15%;
             left: 55%;
-            transform: rotate(30deg); /* Centers text inside the 60-degree wedge */
+            transform: rotate(30deg);
             color: white;
             font-weight: bold;
             font-size: 14px;
@@ -368,7 +367,7 @@
         .memory-card.matched {
             opacity: 0.6;
             pointer-events: none;
-            transform: rotateY(180deg); /* Keep it flipped */
+            transform: rotateY(180deg);
         }
 
         .card-front, .card-back {
@@ -401,7 +400,7 @@
         /* Quiz Navigation */
         .quiz-navigation {
             display: flex;
-            justify-content: flex-end; /* Only show next button */
+            justify-content: flex-end;
             align-items: center;
             margin-top: 30px;
             padding-top: 30px;
@@ -456,12 +455,13 @@
             }
 
             .memory-grid {
-                grid-template-columns: repeat(2, 1fr);
+                grid-template-columns: repeat(4, 1fr);
             }
         }
     </style>
 </head>
 <body>
+    <!-- Header -->
     <header class="header">
         <div class="header-content">
             <div class="header-left">
@@ -469,19 +469,20 @@
                 <h1>Creative Commons Quiz</h1>
             </div>
             <div class="score-display">
-                <span id="currentScore">0</span> / <span id="totalQuestions">10</span> Punkte
+                <span id="currentScore">0</span> / <span id="totalPoints">20</span> Punkte
             </div>
         </div>
     </header>
 
+    <!-- Navigation -->
     <nav class="nav-bar">
         <div class="nav-content">
-            <a href="../../index.html" class="nav-link">
+            <a href="../index.html" class="nav-link">
                 <span>←</span>
                 <span>Zurück zur Übersicht</span>
             </a>
             <div class="breadcrumb">
-                <a href="../../index.html">Startseite</a>
+                <a href="../index.html">Startseite</a>
                 <span>›</span>
                 <span>Wissenstest</span>
                 <span>›</span>
@@ -490,6 +491,7 @@
         </div>
     </nav>
 
+    <!-- Main Content -->
     <main class="main">
         <div class="quiz-card">
             <div class="quiz-header">
@@ -497,20 +499,20 @@
                 <p class="quiz-subtitle">Baue, drehe, puzzle - entdecke die CC-Welt!</p>
             </div>
 
+            <!-- Progress Bar -->
             <div class="progress-container">
                 <div class="progress-bar" id="progressBar" style="width: 0%">
-                    <span>0 / 5</span>
+                    <span>0 / 10</span>
                 </div>
             </div>
 
+            <!-- Question Container -->
             <div class="question-container" id="questionContainer">
-                </div>
+                <!-- Questions will be dynamically loaded here -->
+            </div>
 
+            <!-- Navigation -->
             <div class="quiz-navigation">
-                <button class="nav-button" id="prevBtn" style="display: none;">
-                    <span>←</span>
-                    <span>Zurück</span>
-                </button>
                 <button class="nav-button" id="nextBtn" onclick="nextQuestion()" disabled>
                     <span>Weiter</span>
                     <span>→</span>
@@ -520,28 +522,25 @@
     </main>
 
     <script>
-        // Quiz Questions - Each question is worth 2 points for a total of 10.
+        // Quiz Questions - 10 questions, 2 points each.
         const questions = [
+            // --- Round 1 ---
             {
                 type: 'builder',
-                title: 'Lizenz-Baukasten',
+                title: 'Lizenz-Baukasten (1/2)',
                 intro: 'Baue die richtige CC-Lizenz für folgende Situation:',
-                scenario: 'Du erstellst Lernmaterialien, die andere Lehrer verwenden und verändern dürfen sollen, aber nicht kommerziell nutzen.',
-                options: {
-                    base: ['CC'],
-                    attribution: ['BY', 'Ohne BY'],
-                    commercial: ['NC (Nicht kommerziell)', 'Kommerziell OK'],
-                    derivatives: ['SA (Gleiche Bedingungen)', 'ND (Keine Bearbeitung)', 'Bearbeitung OK']
-                },
+                scenario: 'Du erstellst Lernmaterialien, die andere Lehrer verwenden und verändern dürfen, aber nicht kommerziell nutzen sollen.',
+                options: { base: ['CC'], attribution: ['BY', 'Ohne BY'], commercial: ['NC (Nicht kommerziell)', 'Kommerziell OK'], derivatives: ['SA (Gleiche Bedingungen)', 'ND (Keine Bearbeitung)', 'Bearbeitung OK'] },
                 correct: ['CC', 'BY', 'NC (Nicht kommerziell)', 'Bearbeitung OK'],
+                correctString: "CC BY-NC",
                 feedback: {
                     correct: 'Perfekt! CC BY-NC erlaubt Namensnennung, verbietet kommerzielle Nutzung und erlaubt Bearbeitungen.',
-                    incorrect: 'Nicht ganz. Denk daran: Namensnennung (BY) ist fast immer nötig, und NC verhindert kommerzielle Nutzung.'
+                    incorrect: 'Nicht ganz. Für dieses Szenario wäre CC BY-NC die richtige Wahl.'
                 }
             },
             {
                 type: 'wheel',
-                title: 'Glücksrad der Lizenzen',
+                title: 'Glücksrad der Lizenzen (1/2)',
                 intro: 'Drehe das Rad und beantworte die Frage zur getroffenen Lizenz!',
                 segments: [
                     { name: 'CC0', color: '#4caf50', question: 'Was bedeutet CC0?', answer: 'Public Domain - keine Rechte vorbehalten' },
@@ -554,37 +553,79 @@
             },
             {
                 type: 'memory',
-                title: 'CC-Memory',
+                title: 'CC-Memory (1/2)',
                 intro: 'Finde die passenden Paare von Lizenz-Symbol und Bedeutung!',
-                pairs: [
-                    { symbol: 'BY', meaning: 'Namensnennung' },
-                    { symbol: 'SA', meaning: 'Gleiche Bedingungen' },
-                    { symbol: 'NC', meaning: 'Nicht kommerziell' },
-                    { symbol: 'ND', meaning: 'Keine Bearbeitung' }
-                ]
+                pairs: [ { symbol: 'BY', meaning: 'Namensnennung' }, { symbol: 'SA', meaning: 'Gleiche Bedingungen' }, { symbol: 'NC', meaning: 'Nicht kommerziell' }, { symbol: 'ND', meaning: 'Keine Bearbeitung' } ]
             },
             {
                 type: 'detective',
-                title: 'Lizenz-Detektiv',
+                title: 'Lizenz-Detektiv (1/2)',
                 intro: 'Untersuche die Beweise und finde die richtige Lizenz!',
                 case: 'Ein Foto auf einer Website hat folgende Hinweise:',
-                evidence: [
-                    '✓ Du darfst es verwenden',
-                    '✓ Du musst den Fotografen nennen',
-                    '✗ Du darfst es nicht verändern',
-                    '✓ Du darfst es kommerziell nutzen'
-                ],
+                evidence: [ '✓ Du darfst es verwenden', '✓ Du musst den Fotografen nennen', '✗ Du darfst es nicht verändern', '✓ Du darfst es kommerziell nutzen' ],
                 options: ['CC0', 'CC BY', 'CC BY-ND', 'CC BY-SA', 'CC BY-NC-ND'],
                 correct: 'CC BY-ND'
             },
             {
                 type: 'speedround',
-                title: 'Blitz-Lizenzen',
+                title: 'Blitz-Lizenzen (1/2)',
                 intro: 'Beantworte so schnell wie möglich! Für die volle Punktzahl brauchst du mindestens 2 richtige Antworten.',
                 questions: [
                     { q: 'Wikipedia nutzt hauptsächlich welche Lizenz?', options: ['CC BY-SA', 'CC0', 'CC BY-NC'], correct: 0, time: 8 },
                     { q: 'Welche ist die freieste Lizenz (abgesehen von Public Domain)?', options: ['CC BY-NC-ND', 'CC BY', 'CC BY-SA'], correct: 1, time: 8 },
                     { q: 'SA bedeutet?', options: ['Safe Article', 'Share Alike', 'Standard Author'], correct: 1, time: 5 }
+                ]
+            },
+            // --- Round 2 ---
+             {
+                type: 'builder',
+                title: 'Lizenz-Baukasten (2/2)',
+                intro: 'Baue die richtige CC-Lizenz für eine neue Situation:',
+                scenario: 'Du hast ein Foto gemacht und möchtest, dass jeder es für jeden Zweck verwenden darf, solange sie dich nennen und alle Änderungen unter der gleichen Lizenz weitergeben.',
+                options: { base: ['CC'], attribution: ['BY', 'Ohne BY'], commercial: ['NC (Nicht kommerziell)', 'Kommerziell OK'], derivatives: ['SA (Gleiche Bedingungen)', 'ND (Keine Bearbeitung)', 'Bearbeitung OK'] },
+                correct: ['CC', 'BY', 'Kommerziell OK', 'SA (Gleiche Bedingungen)'],
+                correctString: "CC BY-SA",
+                feedback: {
+                    correct: 'Genau richtig! CC BY-SA ist perfekt, um Inhalte offen zu teilen und gleichzeitig sicherzustellen, dass Ableitungen ebenfalls offen bleiben.',
+                    incorrect: 'Knapp daneben. Die korrekte Lizenz für dieses Szenario ist CC BY-SA (Namensnennung und Weitergabe unter gleichen Bedingungen).'
+                }
+            },
+            {
+                type: 'wheel',
+                title: 'Glücksrad der Lizenzen (2/2)',
+                intro: 'Drehe das Rad noch einmal und teste dein Wissen!',
+                segments: [ // Same segments, new spin
+                    { name: 'CC0', color: '#4caf50', question: 'Ist bei CC0 eine Namensnennung erforderlich?', answer: 'Nein, aber es ist eine nette Geste' },
+                    { name: 'CC BY', color: '#2196f3', question: 'Darf man ein CC BY Werk kommerziell nutzen?', answer: 'Ja, solange der Urheber genannt wird' },
+                    { name: 'CC BY-SA', color: '#ff9800', question: 'Du mischst ein CC BY-SA Lied in deinem Video. Welche Lizenz muss dein Video haben?', answer: 'Auch CC BY-SA' },
+                    { name: 'CC BY-NC', color: '#9c27b0', question: 'Darfst du ein CC BY-NC Bild in einer kostenpflichtigen App verwenden?', answer: 'Nein, das wäre kommerzielle Nutzung' },
+                    { name: 'CC BY-ND', color: '#f44336', question: 'Darfst du ein CC BY-ND Foto zuschneiden?', answer: 'Ja, zuschneiden ist meistens keine Bearbeitung' },
+                    { name: 'CC BY-NC-ND', color: '#795548', question: 'Welche ist die restriktivste CC-Lizenz?', answer: 'CC BY-NC-ND' }
+                ]
+            },
+            {
+                type: 'memory',
+                title: 'CC-Memory (2/2)',
+                intro: 'Finde die neuen passenden Paare!',
+                pairs: [ { symbol: 'CC0', meaning: 'Gemeinfreiheit' }, { symbol: 'BY-SA', meaning: 'Namensnennung, Gleiche Bedingungen' }, { symbol: 'BY-NC', meaning: 'Namensnennung, Nicht-kommerziell' }, { symbol: 'BY-NC-ND', meaning: 'Restriktivste Lizenz' } ]
+            },
+            {
+                type: 'detective',
+                title: 'Lizenz-Detektiv (2/2)',
+                intro: 'Ein neuer Fall für dich, Detektiv!',
+                case: 'Ein Musiktitel in einem Video-Tutorial hat folgende Hinweise:',
+                evidence: [ '✓ Darf frei verwendet werden', '✓ Urheber muss genannt werden', '✓ Darf für kommerzielle Projekte genutzt werden', '✓ Wenn du es neu abmischst, muss dein Remix dieselbe Lizenz haben' ],
+                options: ['CC BY', 'CC BY-NC', 'CC BY-SA', 'CC BY-NC-SA', 'CC BY-ND'],
+                correct: 'CC BY-SA'
+            },
+            {
+                type: 'speedround',
+                title: 'Blitz-Lizenzen (2/2)',
+                intro: 'Letzte Runde! Gib alles!',
+                questions: [
+                    { q: 'Was ist die Grundvoraussetzung bei fast allen CC-Lizenzen (ausser CC0)?', options: ['SA', 'NC', 'BY'], correct: 2, time: 8 },
+                    { q: 'Welches Modul verbietet die Veränderung eines Werks?', options: ['NC', 'ND', 'SA'], correct: 1, time: 8 },
+                    { q: 'Darf man ein CC0-Bild ohne Quellenangabe auf einer Schulwebsite nutzen?', options: ['Ja', 'Nein', 'Nur mit Erlaubnis'], correct: 0, time: 5 }
                 ]
             }
         ];
@@ -593,13 +634,15 @@
         let score = 0;
         let questionAnswered = false;
 
-        // Initialize
         function init() {
             loadQuestion();
         }
 
-        // Load Question
         function loadQuestion() {
+            if (currentQuestion >= questions.length) {
+                showResults();
+                return;
+            }
             const question = questions[currentQuestion];
             const container = document.getElementById('questionContainer');
             container.innerHTML = '';
@@ -616,30 +659,29 @@
             updateProgress();
         }
 
-        // License Builder
+        function handleAnswer(isCorrect) {
+            if (questionAnswered) return;
+            if (isCorrect) {
+                score += 2;
+            }
+            questionAnswered = true;
+            document.getElementById('nextBtn').disabled = false;
+            updateProgress();
+        }
+
         function loadBuilderQuestion(question, container) {
             let selectedOptions = {};
             container.innerHTML = `
-                <div class="question-header">
-                    <div class="question-type">${question.title}</div>
-                    <p>${question.intro}</p>
-                </div>
-                <div style="background: #fff3cd; padding: 20px; border-radius: 10px; margin: 20px 0;">
-                    <strong>Szenario:</strong> ${question.scenario}
-                </div>
+                <div class="question-header"><div class="question-type">${question.title}</div><p>${question.intro}</p></div>
+                <div style="background: #fff3cd; padding: 20px; border-radius: 10px; margin: 20px 0;"><strong>Szenario:</strong> ${question.scenario}</div>
                 <div class="license-builder">
                     ${Object.keys(question.options).map(category => `
                         <div class="builder-section">
                             <div class="builder-title">${category.charAt(0).toUpperCase() + category.slice(1)}:</div>
                             <div class="builder-options">
-                                ${question.options[category].map(option => `
-                                    <div class="builder-option" data-category="${category}" data-value="${option}">
-                                        ${option}
-                                    </div>
-                                `).join('')}
+                                ${question.options[category].map(option => `<div class="builder-option" data-category="${category}" data-value="${option}">${option}</div>`).join('')}
                             </div>
-                        </div>
-                    `).join('')}
+                        </div>`).join('')}
                 </div>
                 <div class="license-preview">
                     <h3>Deine Lizenz:</h3>
@@ -648,81 +690,62 @@
                 </div>
                 <button id="checkBtn" class="nav-button" style="margin: 20px auto; display: block;">Lizenz prüfen</button>`;
 
-            document.querySelectorAll('.builder-option').forEach(el => {
-                el.addEventListener('click', (event) => {
-                    const category = event.target.dataset.category;
-                    const value = event.target.dataset.value;
-                    document.querySelectorAll(`[data-category="${category}"]`).forEach(opt => opt.classList.remove('selected'));
-                    event.target.classList.add('selected');
-                    selectedOptions[category] = value;
-                    updateLicensePreview();
-                });
-            });
-
             const updateLicensePreview = () => {
-                const preview = document.getElementById('licensePreview');
-                const text = document.getElementById('licenseText');
-                let icons = [];
-                let licenseText = '';
-                
+                const preview = document.getElementById('licensePreview'), text = document.getElementById('licenseText');
+                let icons = [], licenseText = '';
                 if (selectedOptions.base === 'CC') {
-                    icons.push('<div class="license-icon">CC</div>');
-                    licenseText = 'CC';
-                    if (selectedOptions.attribution === 'BY') {
-                        icons.push('<div class="license-icon">BY</div>');
-                        licenseText += ' BY';
-                    }
-                    if (selectedOptions.commercial === 'NC (Nicht kommerziell)') {
-                        icons.push('<div class="license-icon">NC</div>');
-                        licenseText += '-NC';
-                    }
-                    if (selectedOptions.derivatives) {
-                         if (selectedOptions.derivatives === 'SA (Gleiche Bedingungen)') {
-                            icons.push('<div class="license-icon">SA</div>');
-                            licenseText += '-SA';
-                        } else if (selectedOptions.derivatives === 'ND (Keine Bearbeitung)') {
-                            icons.push('<div class="license-icon">ND</div>');
-                            licenseText += '-ND';
-                        }
-                    }
+                    icons.push('<div class="license-icon">CC</div>'); licenseText = 'CC';
+                    if (selectedOptions.attribution === 'BY') { icons.push('<div class="license-icon">BY</div>'); licenseText += ' BY'; }
+                    if (selectedOptions.commercial === 'NC (Nicht kommerziell)') { icons.push('<div class="license-icon">NC</div>'); licenseText += '-NC'; }
+                    if (selectedOptions.derivatives === 'SA (Gleiche Bedingungen)') { icons.push('<div class="license-icon">SA</div>'); licenseText += '-SA'; }
+                    else if (selectedOptions.derivatives === 'ND (Keine Bearbeitung)') { icons.push('<div class="license-icon">ND</div>'); licenseText += '-ND'; }
                 }
                 preview.innerHTML = icons.join('') || '<div class="license-icon">?</div>';
                 text.textContent = licenseText || 'Wähle die Komponenten oben';
             };
+
+            // Automatically select categories with only one option
+            Object.keys(question.options).forEach(category => {
+                if (question.options[category].length === 1) {
+                    const value = question.options[category][0];
+                    selectedOptions[category] = value;
+                    const optionElement = container.querySelector(`[data-category="${category}"][data-value="${value}"]`);
+                    if (optionElement) optionElement.classList.add('selected');
+                }
+            });
+            updateLicensePreview();
+
+            document.querySelectorAll('.builder-option').forEach(el => el.addEventListener('click', e => {
+                if (questionAnswered || question.options[e.target.dataset.category].length === 1) return;
+                const { category, value } = e.target.dataset;
+                document.querySelectorAll(`[data-category="${category}"]`).forEach(opt => opt.classList.remove('selected'));
+                e.target.classList.add('selected');
+                selectedOptions[category] = value;
+                updateLicensePreview();
+            }));
             
             document.getElementById('checkBtn').addEventListener('click', () => {
                 if (questionAnswered) return;
+                if (Object.keys(selectedOptions).length !== Object.keys(question.options).length) {
+                    alert("Bitte wähle eine Option aus jeder Kategorie aus.");
+                    return;
+                }
                 const selected = Object.values(selectedOptions);
                 const isCorrect = question.correct.length === selected.length && question.correct.every(item => selected.includes(item));
                 
-                if (isCorrect) {
-                    alert(question.feedback.correct);
-                    score += 2;
-                } else {
-                    alert(question.feedback.incorrect);
-                }
-                questionAnswered = true;
-                document.getElementById('nextBtn').disabled = false;
-                updateProgress();
+                alert(isCorrect ? question.feedback.correct : `${question.feedback.incorrect}\nDie richtige Lizenz wäre: ${question.correctString}`);
+                handleAnswer(isCorrect);
             });
         }
         
-        // Wheel of Fortune
         function loadWheelQuestion(question, container) {
             const segmentAngle = 360 / question.segments.length;
             container.innerHTML = `
-                <div class="question-header">
-                    <div class="question-type">${question.title}</div>
-                    <p>${question.intro}</p>
-                </div>
+                <div class="question-header"><div class="question-type">${question.title}</div><p>${question.intro}</p></div>
                 <div class="wheel-container">
                     <div class="wheel-pointer"></div>
                     <div class="wheel" id="wheel">
-                        ${question.segments.map((seg, i) => `
-                            <div class="wheel-segment" style="background: ${seg.color}; transform: rotate(${i * segmentAngle}deg);">
-                                <div class="segment-text">${seg.name}</div>
-                            </div>
-                        `).join('')}
+                        ${question.segments.map((seg, i) => `<div class="wheel-segment" style="background: ${seg.color}; transform: rotate(${i * segmentAngle}deg);"><div class="segment-text">${seg.name}</div></div>`).join('')}
                     </div>
                     <button class="spin-button" id="spinBtn">DREHEN!</button>
                 </div>
@@ -730,17 +753,14 @@
 
             document.getElementById('spinBtn').addEventListener('click', () => {
                 if (questionAnswered) return;
-                const wheel = document.getElementById('wheel');
-                const button = document.getElementById('spinBtn');
+                const wheel = document.getElementById('wheel'), button = document.getElementById('spinBtn');
                 button.disabled = true;
 
-                // Add 3-5 full spins plus a random part
-                const randomRotation = (Math.floor(Math.random() * 3) + 3) * 360 + Math.random() * 360;
+                const randomRotation = (Math.floor(Math.random() * 3) + 4) * 360 + Math.random() * 360;
                 wheel.style.transform = `rotate(${randomRotation}deg)`;
 
                 setTimeout(() => {
                     const finalRotation = randomRotation % 360;
-                    // The pointer is at the top (270 degrees). We find which angle on the static wheel is now at the top.
                     const winningAngle = (270 - finalRotation + 360) % 360;
                     const selectedIndex = Math.floor(winningAngle / segmentAngle);
                     const segment = question.segments[selectedIndex];
@@ -759,46 +779,27 @@
                         const correctKeywords = segment.answer.toLowerCase().split(' - ')[0].split(' ');
                         const isCorrect = correctKeywords.some(keyword => userAnswer.includes(keyword) && keyword.length > 2);
 
-                        if (isCorrect) {
-                            alert('Richtig! ' + segment.answer);
-                            score += 2;
-                        } else {
-                            alert('Leider nicht ganz. Die richtige Antwort war: ' + segment.answer);
-                        }
-                        questionAnswered = true;
-                        document.getElementById('nextBtn').disabled = false;
-                        updateProgress();
+                        alert(isCorrect ? 'Richtig! ' + segment.answer : 'Leider nicht ganz. Die richtige Antwort war: ' + segment.answer);
+                        handleAnswer(isCorrect);
                     });
                 }, 4100);
             });
         }
         
-        // Memory Game
         function loadMemoryQuestion(question, container) {
-            const cards = [];
+            const cardsData = [];
             question.pairs.forEach(pair => {
-                cards.push({ type: 'symbol', value: pair.symbol, match: pair.meaning });
-                cards.push({ type: 'meaning', value: pair.meaning, match: pair.symbol });
+                cardsData.push({ value: pair.symbol, match: pair.meaning });
+                cardsData.push({ value: pair.meaning, match: pair.symbol });
             });
-            cards.sort(() => Math.random() - 0.5);
+            cardsData.sort(() => Math.random() - 0.5);
             
-            let flippedCards = [];
-            let matchedPairs = 0;
-            let attempts = 0;
-            let lockBoard = false;
+            let flippedCards = [], matchedPairs = 0, attempts = 0, lockBoard = false;
 
             container.innerHTML = `
-                <div class="question-header">
-                    <div class="question-type">${question.title}</div>
-                    <p>${question.intro}</p>
-                </div>
+                <div class="question-header"><div class="question-type">${question.title}</div><p>${question.intro}</p></div>
                 <div class="memory-grid" id="memoryGrid">
-                    ${cards.map((card, i) => `
-                        <div class="memory-card" data-index="${i}">
-                            <div class="card-front">?</div>
-                            <div class="card-back">${card.value}</div>
-                        </div>
-                    `).join('')}
+                    ${cardsData.map((card, i) => `<div class="memory-card" data-index="${i}"><div class="card-front">?</div><div class="card-back">${card.value}</div></div>`).join('')}
                 </div>
                 <div style="text-align: center; margin-top: 20px;">
                     <p>Gefundene Paare: <span id="pairsFound">0</span> / ${question.pairs.length}</p>
@@ -807,35 +808,28 @@
             
             document.getElementById('memoryGrid').addEventListener('click', e => {
                 const cardElement = e.target.closest('.memory-card');
-                if (!cardElement || lockBoard || cardElement.classList.contains('flipped')) return;
+                if (!cardElement || lockBoard || cardElement.classList.contains('flipped') || questionAnswered) return;
 
                 cardElement.classList.add('flipped');
-                flippedCards.push({ card: cards[cardElement.dataset.index], element: cardElement });
+                flippedCards.push({ data: cardsData[cardElement.dataset.index], element: cardElement });
                 
                 if (flippedCards.length === 2) {
                     lockBoard = true;
-                    attempts++;
-                    document.getElementById('attempts').textContent = attempts;
+                    document.getElementById('attempts').textContent = ++attempts;
                     
                     const [first, second] = flippedCards;
-                    if (first.card.match === second.card.value) {
+                    if (first.data.match === second.data.value) {
                         first.element.classList.add('matched');
                         second.element.classList.add('matched');
-                        matchedPairs++;
-                        document.getElementById('pairsFound').textContent = matchedPairs;
+                        document.getElementById('pairsFound').textContent = ++matchedPairs;
                         flippedCards = [];
                         lockBoard = false;
 
                         if (matchedPairs === question.pairs.length) {
-                            if (!questionAnswered) {
-                                score += 2;
-                                questionAnswered = true;
-                                setTimeout(() => {
-                                    alert(`Super! Alle Paare in ${attempts} Versuchen gefunden.`);
-                                    document.getElementById('nextBtn').disabled = false;
-                                    updateProgress();
-                                }, 600);
-                            }
+                            setTimeout(() => {
+                                alert(`Super! Alle Paare in ${attempts} Versuchen gefunden.`);
+                                handleAnswer(true);
+                            }, 600);
                         }
                     } else {
                         setTimeout(() => {
@@ -849,13 +843,9 @@
             });
         }
         
-        // Detective Question
         function loadDetectiveQuestion(question, container) {
             container.innerHTML = `
-                <div class="question-header">
-                    <div class="question-type">${question.title}</div>
-                    <p>${question.intro}</p>
-                </div>
+                <div class="question-header"><div class="question-type">${question.title}</div><p>${question.intro}</p></div>
                 <div class="detective-scene" style="background: #f5f5f5; padding: 30px; border-radius: 10px; margin: 20px 0;">
                     <h3 style="color: #0050a0; margin-bottom: 15px;">🔍 ${question.case}</h3>
                     <div>${question.evidence.map(e => `<div style="background: white; padding: 10px; margin: 8px 0; border-radius: 8px;">${e}</div>`).join('')}</div>
@@ -867,25 +857,15 @@
                 
             document.getElementById('detectiveOptions').addEventListener('click', e => {
                 if (questionAnswered || !e.target.matches('button')) return;
-                
                 const selected = e.target.textContent;
-                if (selected === question.correct) {
-                    alert('Richtig! Gut kombiniert, Detektiv!');
-                    score += 2;
-                } else {
-                    alert(`Die richtige Antwort war ${question.correct}.`);
-                }
-                questionAnswered = true;
-                document.getElementById('nextBtn').disabled = false;
-                updateProgress();
+                const isCorrect = selected === question.correct;
+                alert(isCorrect ? 'Richtig! Gut kombiniert, Detektiv!' : `Die richtige Antwort war ${question.correct}.`);
+                handleAnswer(isCorrect);
             });
         }
         
-        // Speed Round
         function loadSpeedQuestion(question, container) {
-            let currentQ = 0;
-            let speedScore = 0;
-            let timer;
+            let currentQ = 0, speedScore = 0, timer;
 
             const showQuestion = () => {
                 if (timer) clearInterval(timer);
@@ -893,10 +873,7 @@
                 let timeLeft = q.time;
                 
                 container.innerHTML = `
-                    <div class="question-header">
-                        <div class="question-type">⚡ Speed Round</div>
-                        <p>${question.intro}</p>
-                    </div>
+                    <div class="question-header"><div class="question-type">${question.title}</div><p>${question.intro}</p></div>
                     <div style="text-align: center;">
                         <div style="font-size: 48px; color: #0050a0;" id="timer">${timeLeft}</div>
                         <h3 style="margin: 20px 0; font-size: 24px;">${q.q}</h3>
@@ -907,56 +884,40 @@
 
                 const timerEl = document.getElementById('timer');
                 timer = setInterval(() => {
-                    timeLeft--;
+                    if (--timeLeft <= 0) nextSpeed();
                     if (timerEl) {
                         timerEl.textContent = timeLeft;
                         timerEl.style.color = timeLeft > 3 ? '#0050a0' : '#f44336';
                     }
-                    if (timeLeft <= 0) {
-                        nextSpeed();
-                    }
                 }, 1000);
 
                 document.getElementById('speedOptions').addEventListener('click', e => {
-                     if (!e.target.matches('button')) return;
-                     if (e.target.textContent === q.options[q.correct]) {
-                         speedScore++;
+                     if (e.target.matches('button')) {
+                         if (e.target.textContent === q.options[q.correct]) speedScore++;
+                         nextSpeed();
                      }
-                     nextSpeed();
                 });
             };
             
             const nextSpeed = () => {
                 clearInterval(timer);
-                currentQ++;
-                if (currentQ < question.questions.length) {
+                if (++currentQ < question.questions.length) {
                     showQuestion();
                 } else {
-                    if (speedScore >= 2) score += 2; // Full points for 2 or more correct
-                    else if (speedScore === 1) score += 1; // Partial points
-                    
-                    container.innerHTML = `
-                        <div style="text-align: center; padding: 40px;">
-                            <h2>Speed Round beendet!</h2>
-                            <p style="font-size: 24px; margin: 20px 0;">${speedScore} von ${question.questions.length} richtig!</p>
-                        </div>`;
-                    questionAnswered = true;
-                    document.getElementById('nextBtn').disabled = false;
-                    updateProgress();
+                    let points = 0;
+                    if (speedScore >= 2) points = 2;
+                    else if (speedScore === 1) points = 1;
+                    score += points;
+                    container.innerHTML = `<div style="text-align: center; padding: 40px;"><h2>Speed Round beendet!</h2><p style="font-size: 24px; margin: 20px 0;">${speedScore} von ${question.questions.length} richtig!</p></div>`;
+                    handleAnswer(true); // Mark as answered to enable next button
                 }
             };
             showQuestion();
         }
 
-        // Navigation
         function nextQuestion() {
             currentQuestion++;
-            if (currentQuestion < questions.length) {
-                loadQuestion();
-                document.getElementById('nextBtn').disabled = true;
-            } else {
-                showResults();
-            }
+            loadQuestion();
         }
 
         function updateProgress() {
@@ -964,10 +925,11 @@
             document.getElementById('progressBar').style.width = progress + '%';
             document.getElementById('progressBar').querySelector('span').textContent = `${currentQuestion} / ${questions.length}`;
             document.getElementById('currentScore').textContent = score;
+            document.getElementById('nextBtn').disabled = true;
         }
 
         function showResults() {
-            const maxScore = 10;
+            const maxScore = 20;
             const percentage = Math.round((score / maxScore) * 100);
             
             localStorage.setItem('quiz_cc_progress', percentage);
@@ -984,7 +946,7 @@
                     </p>
                     <div style="display: flex; gap: 20px; justify-content: center; margin-top: 30px;">
                         <button class="nav-button" onclick="location.reload()">Quiz wiederholen</button>
-                        <a href="../../index.html" class="nav-button" style="text-decoration:none;">Zur Übersicht</a>
+                        <a href="../index.html" class="nav-button" style="text-decoration:none;">Zur Übersicht</a>
                     </div>
                 </div>`;
         }
@@ -993,3 +955,4 @@
     </script>
 </body>
 </html>
+
