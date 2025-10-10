@@ -375,12 +375,9 @@
         .memory-card.flipped {
             transform: rotateY(180deg);
         }
-
-        .memory-card.matched {
-            opacity: 0.6;
-            pointer-events: none;
-            transform: rotateY(180deg);
-        }
+        
+        /* Das alte .matched Styling ist nicht mehr nötig */
+        /* .memory-card.matched { ... } */
 
         .card-front, .card-back {
             position: absolute;
@@ -391,6 +388,7 @@
             justify-content: center;
             border-radius: 10px;
             backface-visibility: hidden;
+            transition: background-color 0.5s; /* Sanfter Farbwechsel für Memory */
         }
 
         .card-front {
@@ -537,10 +535,6 @@
                 scenario: 'Du erstellst Lernmaterialien, die andere Lehrer verwenden und verändern dürfen, aber nicht kommerziell nutzen sollen.',
                 options: { base: ['CC'], attribution: ['BY'], commercial: ['NC (Nicht kommerziell)', 'Kommerziell OK'], derivatives: ['SA (Gleiche Bedingungen)', 'ND (Keine Bearbeitung)', 'Bearbeitung OK'] },
                 correct: ['CC', 'BY', 'NC (Nicht kommerziell)', 'Bearbeitung OK'],
-                feedback: {
-                    correct: 'Perfekt! CC BY-NC erlaubt Namensnennung, verbietet kommerzielle Nutzung und erlaubt Bearbeitungen.',
-                    incorrect: 'Nicht ganz. Für dieses Szenario wäre CC BY-NC die richtige Wahl.'
-                }
             },
              {
                 type: 'builder',
@@ -549,10 +543,6 @@
                 scenario: 'Du hast ein Foto gemacht und möchtest, dass jeder es für jeden Zweck verwenden darf, solange sie dich nennen und alle Änderungen unter der gleichen Lizenz weitergeben.',
                 options: { base: ['CC'], attribution: ['BY'], commercial: ['NC (Nicht kommerziell)', 'Kommerziell OK'], derivatives: ['SA (Gleiche Bedingungen)', 'ND (Keine Bearbeitung)', 'Bearbeitung OK'] },
                 correct: ['CC', 'BY', 'Kommerziell OK', 'SA (Gleiche Bedingungen)'],
-                feedback: {
-                    correct: 'Genau richtig! CC BY-SA ist perfekt, um Inhalte offen zu teilen und gleichzeitig sicherzustellen, dass Ableitungen ebenfalls offen bleiben.',
-                    incorrect: 'Knapp daneben. Die korrekte Lizenz für dieses Szenario ist CC BY-SA (Namensnennung und Weitergabe unter gleichen Bedingungen).'
-                }
             },
             // --- Wheel Questions ---
             {
@@ -577,7 +567,7 @@
                     { name: 'CC BY', color: '#2196f3', question: 'Darf man ein CC BY Werk kommerziell nutzen?', answer: 'Ja, solange der Urheber genannt wird' },
                     { name: 'CC BY-SA', color: '#ff9800', question: 'Du mischst ein CC BY-SA Lied in deinem Video. Welche Lizenz muss dein Video haben?', answer: 'Auch CC BY-SA' },
                     { name: 'CC BY-NC', color: '#9c27b0', question: 'Darfst du ein CC BY-NC Bild in einer kostenpflichtigen App verwenden?', answer: 'Nein, das wäre kommerzielle Nutzung' },
-                    { name: 'CC BY-ND', color: '#f44336', question: 'Darfst du ein CC BY-ND Foto zuschneiden?', answer: 'Ja, zuschneiden ist meistens keine Bearbeitung' },
+                    { name: 'CC BY-ND', color: '#f44336', question: 'Darfst du ein CC BY-ND Foto zuschneiden?', answer: 'Nein, das gilt bereits als Bearbeitung' },
                     { name: 'CC BY-NC-ND', color: '#795548', question: 'Welche ist die restriktivste CC-Lizenz?', answer: 'CC BY-NC-ND' }
                 ]
             },
@@ -630,7 +620,7 @@
                 intro: 'Letzte Runde! Gib alles!',
                 questions: [
                     { q: 'Was ist die Grundvoraussetzung bei fast allen CC-Lizenzen (ausser CC0)?', options: ['SA', 'NC', 'BY'], correct: 2, time: 8 },
-                    { q: 'Welches Modul verbietet die Veränderung eines Werks?', options: ['NC', 'ND', 'SA'], correct: 1, time: 8 },
+                    { q: 'Welches Modul verbietet die Veränderung eines Werks?', options: ['ND', 'NC', 'SA'], correct: 0, time: 8 },
                     { q: 'Darf man ein CC0-Bild ohne Quellenangabe auf einer Schulwebsite nutzen?', options: ['Ja', 'Nein', 'Nur mit Erlaubnis'], correct: 0, time: 5 }
                 ]
             }
@@ -710,9 +700,6 @@
                 text.textContent = licenseText || 'Wähle die Komponenten oben';
             };
 
-            // KEINE VORAUSWAHL MEHR
-            // updateLicensePreview(); // Wird jetzt erst nach Klick ausgeführt
-
             document.querySelectorAll('.builder-option').forEach(el => el.addEventListener('click', e => {
                 if (questionAnswered) return;
                 const { category, value } = e.target.dataset;
@@ -750,6 +737,7 @@
             });
         }
         
+        // --- ÜBERARBEITETE GLÜCKSRAD FUNKTION ---
         function loadWheelQuestion(question, container) {
             const segmentAngle = 360 / question.segments.length;
             container.innerHTML = `
@@ -773,31 +761,43 @@
 
                 setTimeout(() => {
                     const finalRotation = randomRotation % 360;
-                    const winningAngle = (270 - finalRotation + 360) % 360;
+                    // KORRIGIERTE LOGIK: Berechnet den Winkel, der oben gelandet ist.
+                    const winningAngle = (360 - finalRotation + (segmentAngle / 2)) % 360;
                     const selectedIndex = Math.floor(winningAngle / segmentAngle);
                     const segment = question.segments[selectedIndex];
                     
+                    // Alle möglichen Antworten sammeln und mischen für die Dropdown-Liste
+                    const allAnswers = question.segments.map(s => s.answer);
+                    allAnswers.sort(() => Math.random() - 0.5);
+
                     const questionDiv = document.getElementById('wheelQuestion');
                     questionDiv.innerHTML = `
                         <h3 style="color: ${segment.color}; margin-bottom: 15px;">Gewählt: ${segment.name}</h3>
                         <p style="font-size: 18px; margin-bottom: 20px; font-weight: bold;">${segment.question}</p>
-                        <input type="text" id="wheelAnswer" placeholder="Deine Antwort..." style="width: 100%; padding: 10px; border: 2px solid #ddd; border-radius: 5px; margin-bottom: 15px; font-size: 16px;">
+                        <select id="wheelAnswer" style="width: 100%; padding: 10px; border: 2px solid #ddd; border-radius: 5px; margin-bottom: 15px; font-size: 16px;">
+                            <option value="">Bitte auswählen...</option>
+                            ${allAnswers.map(ans => `<option value="${ans}">${ans}</option>`).join('')}
+                        </select>
                         <button id="checkWheelAnswerBtn" class="nav-button" style="margin: 0 auto; display: block;">Antwort prüfen</button>`;
                     questionDiv.style.display = 'block';
 
                     document.getElementById('checkWheelAnswerBtn').addEventListener('click', () => {
                         if (questionAnswered) return;
-                        const userAnswer = document.getElementById('wheelAnswer').value.toLowerCase().trim();
-                        const correctKeywords = segment.answer.toLowerCase().split(' - ')[0].split(' ');
-                        const isCorrect = correctKeywords.some(keyword => userAnswer.includes(keyword) && keyword.length > 2);
+                        const userAnswer = document.getElementById('wheelAnswer').value;
+                        if (!userAnswer) {
+                            alert('Bitte wähle eine Antwort aus.');
+                            return;
+                        }
+                        const isCorrect = userAnswer === segment.answer;
 
-                        alert(isCorrect ? 'Richtig! ' + segment.answer : 'Leider nicht ganz. Die richtige Antwort war: ' + segment.answer);
+                        alert(isCorrect ? 'Richtig!' : `Leider nicht ganz. Die richtige Antwort war: "${segment.answer}"`);
                         handleAnswer(isCorrect);
                     });
                 }, 4100);
             });
         }
         
+        // --- ÜBERARBEITETE MEMORY FUNKTION ---
         function loadMemoryQuestion(question, container) {
             const cardsData = [];
             question.pairs.forEach(pair => {
@@ -806,6 +806,7 @@
             });
             cardsData.sort(() => Math.random() - 0.5);
             
+            const matchColors = ['#a2d2ff', '#bde0fe', '#ffafcc', '#ffc8dd', '#cdb4db', '#b7e4c7'];
             let flippedCards = [], matchedPairs = 0, attempts = 0, lockBoard = false;
 
             container.innerHTML = `
@@ -831,8 +832,13 @@
                     
                     const [first, second] = flippedCards;
                     if (first.data.match === second.data.value) {
-                        first.element.classList.add('matched');
-                        second.element.classList.add('matched');
+                        // KORRIGIERTE LOGIK: Farbe zuweisen und Karte deaktivieren
+                        const color = matchColors[matchedPairs % matchColors.length];
+                        first.element.querySelector('.card-back').style.backgroundColor = color;
+                        second.element.querySelector('.card-back').style.backgroundColor = color;
+                        first.element.style.pointerEvents = 'none';
+                        second.element.style.pointerEvents = 'none';
+                        
                         document.getElementById('pairsFound').textContent = ++matchedPairs;
                         flippedCards = [];
                         lockBoard = false;
