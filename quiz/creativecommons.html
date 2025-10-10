@@ -524,7 +524,7 @@
     <script>
         // Quiz Questions - 10 questions, 2 points each.
         const questions = [
-            // --- Round 1 ---
+            // --- Builder Questions ---
             {
                 type: 'builder',
                 title: 'Lizenz-Baukasten (1/2)',
@@ -538,6 +538,20 @@
                     incorrect: 'Nicht ganz. Für dieses Szenario wäre CC BY-NC die richtige Wahl.'
                 }
             },
+             {
+                type: 'builder',
+                title: 'Lizenz-Baukasten (2/2)',
+                intro: 'Baue die richtige CC-Lizenz für eine neue Situation:',
+                scenario: 'Du hast ein Foto gemacht und möchtest, dass jeder es für jeden Zweck verwenden darf, solange sie dich nennen und alle Änderungen unter der gleichen Lizenz weitergeben.',
+                options: { base: ['CC'], attribution: ['BY', 'Ohne BY'], commercial: ['NC (Nicht kommerziell)', 'Kommerziell OK'], derivatives: ['SA (Gleiche Bedingungen)', 'ND (Keine Bearbeitung)', 'Bearbeitung OK'] },
+                correct: ['CC', 'BY', 'Kommerziell OK', 'SA (Gleiche Bedingungen)'],
+                correctString: "CC BY-SA",
+                feedback: {
+                    correct: 'Genau richtig! CC BY-SA ist perfekt, um Inhalte offen zu teilen und gleichzeitig sicherzustellen, dass Ableitungen ebenfalls offen bleiben.',
+                    incorrect: 'Knapp daneben. Die korrekte Lizenz für dieses Szenario ist CC BY-SA (Namensnennung und Weitergabe unter gleichen Bedingungen).'
+                }
+            },
+            // --- Wheel Questions ---
             {
                 type: 'wheel',
                 title: 'Glücksrad der Lizenzen (1/2)',
@@ -552,11 +566,32 @@
                 ]
             },
             {
+                type: 'wheel',
+                title: 'Glücksrad der Lizenzen (2/2)',
+                intro: 'Drehe das Rad noch einmal und teste dein Wissen!',
+                segments: [ 
+                    { name: 'CC0', color: '#4caf50', question: 'Ist bei CC0 eine Namensnennung erforderlich?', answer: 'Nein, aber es ist eine nette Geste' },
+                    { name: 'CC BY', color: '#2196f3', question: 'Darf man ein CC BY Werk kommerziell nutzen?', answer: 'Ja, solange der Urheber genannt wird' },
+                    { name: 'CC BY-SA', color: '#ff9800', question: 'Du mischst ein CC BY-SA Lied in deinem Video. Welche Lizenz muss dein Video haben?', answer: 'Auch CC BY-SA' },
+                    { name: 'CC BY-NC', color: '#9c27b0', question: 'Darfst du ein CC BY-NC Bild in einer kostenpflichtigen App verwenden?', answer: 'Nein, das wäre kommerzielle Nutzung' },
+                    { name: 'CC BY-ND', color: '#f44336', question: 'Darfst du ein CC BY-ND Foto zuschneiden?', answer: 'Ja, zuschneiden ist meistens keine Bearbeitung' },
+                    { name: 'CC BY-NC-ND', color: '#795548', question: 'Welche ist die restriktivste CC-Lizenz?', answer: 'CC BY-NC-ND' }
+                ]
+            },
+            // --- Memory Questions ---
+            {
                 type: 'memory',
                 title: 'CC-Memory (1/2)',
                 intro: 'Finde die passenden Paare von Lizenz-Symbol und Bedeutung!',
                 pairs: [ { symbol: 'BY', meaning: 'Namensnennung' }, { symbol: 'SA', meaning: 'Gleiche Bedingungen' }, { symbol: 'NC', meaning: 'Nicht kommerziell' }, { symbol: 'ND', meaning: 'Keine Bearbeitung' } ]
             },
+            {
+                type: 'memory',
+                title: 'CC-Memory (2/2)',
+                intro: 'Finde die neuen passenden Paare!',
+                pairs: [ { symbol: 'CC0', meaning: 'Gemeinfreiheit' }, { symbol: 'BY-SA', meaning: 'Namensnennung, Gleiche Bedingungen' }, { symbol: 'BY-NC', meaning: 'Namensnennung, Nicht-kommerziell' }, { symbol: 'BY-NC-ND', meaning: 'Restriktivste Lizenz' } ]
+            },
+            // --- Detective Questions ---
             {
                 type: 'detective',
                 title: 'Lizenz-Detektiv (1/2)',
@@ -567,6 +602,16 @@
                 correct: 'CC BY-ND'
             },
             {
+                type: 'detective',
+                title: 'Lizenz-Detektiv (2/2)',
+                intro: 'Ein neuer Fall für dich, Detektiv!',
+                case: 'Ein Musiktitel in einem Video-Tutorial hat folgende Hinweise:',
+                evidence: [ '✓ Darf frei verwendet werden', '✓ Urheber muss genannt werden', '✓ Darf für kommerzielle Projekte genutzt werden', '✓ Wenn du es neu abmischst, muss dein Remix dieselbe Lizenz haben' ],
+                options: ['CC BY', 'CC BY-NC', 'CC BY-SA', 'CC BY-NC-SA', 'CC BY-ND'],
+                correct: 'CC BY-SA'
+            },
+            // --- Speedround Questions ---
+            {
                 type: 'speedround',
                 title: 'Blitz-Lizenzen (1/2)',
                 intro: 'Beantworte so schnell wie möglich! Für die volle Punktzahl brauchst du mindestens 2 richtige Antworten.',
@@ -575,48 +620,6 @@
                     { q: 'Welche ist die freieste Lizenz (abgesehen von Public Domain)?', options: ['CC BY-NC-ND', 'CC BY', 'CC BY-SA'], correct: 1, time: 8 },
                     { q: 'SA bedeutet?', options: ['Safe Article', 'Share Alike', 'Standard Author'], correct: 1, time: 5 }
                 ]
-            },
-            // --- Round 2 ---
-             {
-                type: 'builder',
-                title: 'Lizenz-Baukasten (2/2)',
-                intro: 'Baue die richtige CC-Lizenz für eine neue Situation:',
-                scenario: 'Du hast ein Foto gemacht und möchtest, dass jeder es für jeden Zweck verwenden darf, solange sie dich nennen und alle Änderungen unter der gleichen Lizenz weitergeben.',
-                options: { base: ['CC'], attribution: ['BY', 'Ohne BY'], commercial: ['NC (Nicht kommerziell)', 'Kommerziell OK'], derivatives: ['SA (Gleiche Bedingungen)', 'ND (Keine Bearbeitung)', 'Bearbeitung OK'] },
-                correct: ['CC', 'BY', 'Kommerziell OK', 'SA (Gleiche Bedingungen)'],
-                correctString: "CC BY-SA",
-                feedback: {
-                    correct: 'Genau richtig! CC BY-SA ist perfekt, um Inhalte offen zu teilen und gleichzeitig sicherzustellen, dass Ableitungen ebenfalls offen bleiben.',
-                    incorrect: 'Knapp daneben. Die korrekte Lizenz für dieses Szenario ist CC BY-SA (Namensnennung und Weitergabe unter gleichen Bedingungen).'
-                }
-            },
-            {
-                type: 'wheel',
-                title: 'Glücksrad der Lizenzen (2/2)',
-                intro: 'Drehe das Rad noch einmal und teste dein Wissen!',
-                segments: [ // Same segments, new spin
-                    { name: 'CC0', color: '#4caf50', question: 'Ist bei CC0 eine Namensnennung erforderlich?', answer: 'Nein, aber es ist eine nette Geste' },
-                    { name: 'CC BY', color: '#2196f3', question: 'Darf man ein CC BY Werk kommerziell nutzen?', answer: 'Ja, solange der Urheber genannt wird' },
-                    { name: 'CC BY-SA', color: '#ff9800', question: 'Du mischst ein CC BY-SA Lied in deinem Video. Welche Lizenz muss dein Video haben?', answer: 'Auch CC BY-SA' },
-                    { name: 'CC BY-NC', color: '#9c27b0', question: 'Darfst du ein CC BY-NC Bild in einer kostenpflichtigen App verwenden?', answer: 'Nein, das wäre kommerzielle Nutzung' },
-                    { name: 'CC BY-ND', color: '#f44336', question: 'Darfst du ein CC BY-ND Foto zuschneiden?', answer: 'Ja, zuschneiden ist meistens keine Bearbeitung' },
-                    { name: 'CC BY-NC-ND', color: '#795548', question: 'Welche ist die restriktivste CC-Lizenz?', answer: 'CC BY-NC-ND' }
-                ]
-            },
-            {
-                type: 'memory',
-                title: 'CC-Memory (2/2)',
-                intro: 'Finde die neuen passenden Paare!',
-                pairs: [ { symbol: 'CC0', meaning: 'Gemeinfreiheit' }, { symbol: 'BY-SA', meaning: 'Namensnennung, Gleiche Bedingungen' }, { symbol: 'BY-NC', meaning: 'Namensnennung, Nicht-kommerziell' }, { symbol: 'BY-NC-ND', meaning: 'Restriktivste Lizenz' } ]
-            },
-            {
-                type: 'detective',
-                title: 'Lizenz-Detektiv (2/2)',
-                intro: 'Ein neuer Fall für dich, Detektiv!',
-                case: 'Ein Musiktitel in einem Video-Tutorial hat folgende Hinweise:',
-                evidence: [ '✓ Darf frei verwendet werden', '✓ Urheber muss genannt werden', '✓ Darf für kommerzielle Projekte genutzt werden', '✓ Wenn du es neu abmischst, muss dein Remix dieselbe Lizenz haben' ],
-                options: ['CC BY', 'CC BY-NC', 'CC BY-SA', 'CC BY-NC-SA', 'CC BY-ND'],
-                correct: 'CC BY-SA'
             },
             {
                 type: 'speedround',
