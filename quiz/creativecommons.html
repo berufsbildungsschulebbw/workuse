@@ -272,84 +272,28 @@
             font-weight: bold;
         }
 
-        /* Wheel of Licenses */
-        .wheel-container {
-            position: relative;
-            margin: 30px auto;
-            width: 400px;
-            height: 400px;
-            max-width: 100%;
+        /* NEU: Slot-Maschine-Auswahl */
+        .selector-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin: 20px 0;
         }
 
-        .wheel {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            transition: transform 4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            border: 5px solid white;
-        }
-
-        .wheel-segment {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            transform-origin: center;
-            clip-path: polygon(50% 50%, 50% 0, 86.6% 25%); /* Creates a 60-degree wedge */
-        }
-
-        .segment-text {
-            position: absolute;
-            top: 15%;
-            left: 55%;
-            transform: rotate(30deg);
-            color: white;
-            font-weight: bold;
-            font-size: 14px;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
-            white-space: nowrap;
-        }
-
-        .wheel-pointer {
-            position: absolute;
-            top: -15px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 0;
-            height: 0;
-            border-left: 20px solid transparent;
-            border-right: 20px solid transparent;
-            border-top: 40px solid #ff4444;
-            z-index: 10;
-        }
-
-        .spin-button {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            padding: 20px 40px;
-            background: white;
-            color: #0050a0;
-            border: none;
-            border-radius: 50px;
+        .selector-card {
+            padding: 20px;
+            border: 3px solid #ddd;
+            border-radius: 10px;
+            text-align: center;
             font-size: 18px;
             font-weight: bold;
-            cursor: pointer;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            transition: all 0.3s;
-            z-index: 5;
+            transition: all 0.1s ease-in-out;
         }
 
-        .spin-button:hover:not(:disabled) {
-            transform: translate(-50%, -50%) scale(1.1);
-        }
-
-        .spin-button:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
+        .selector-card.highlight {
+            border-color: #0050a0;
+            transform: scale(1.08);
+            box-shadow: 0 8px 20px rgba(0, 80, 160, 0.3);
         }
         
         /* Memory Game */
@@ -375,9 +319,6 @@
         .memory-card.flipped {
             transform: rotateY(180deg);
         }
-        
-        /* Das alte .matched Styling ist nicht mehr nötig */
-        /* .memory-card.matched { ... } */
 
         .card-front, .card-back {
             position: absolute;
@@ -388,7 +329,7 @@
             justify-content: center;
             border-radius: 10px;
             backface-visibility: hidden;
-            transition: background-color 0.5s; /* Sanfter Farbwechsel für Memory */
+            transition: background-color 0.5s;
         }
 
         .card-front {
@@ -456,12 +397,8 @@
                 padding: 20px;
             }
 
-            .wheel-container {
-                width: 300px;
-                height: 300px;
-            }
-            .segment-text {
-                font-size: 12px;
+            .selector-container {
+                grid-template-columns: repeat(2, 1fr);
             }
 
             .memory-grid {
@@ -503,7 +440,7 @@
         <div class="quiz-card">
             <div class="quiz-header">
                 <h2 class="quiz-title">🎨 Creative Commons Lizenzen spielerisch lernen</h2>
-                <p class="quiz-subtitle">Baue, drehe, puzzle - entdecke die CC-Welt!</p>
+                <p class="quiz-subtitle">Baue, wähle, puzzle - entdecke die CC-Welt!</p>
             </div>
 
             <div class="progress-container">
@@ -544,11 +481,11 @@
                 options: { base: ['CC'], attribution: ['BY'], commercial: ['NC (Nicht kommerziell)', 'Kommerziell OK'], derivatives: ['SA (Gleiche Bedingungen)', 'ND (Keine Bearbeitung)', 'Bearbeitung OK'] },
                 correct: ['CC', 'BY', 'Kommerziell OK', 'SA (Gleiche Bedingungen)'],
             },
-            // --- Wheel Questions ---
+            // --- Selector (was Wheel) Questions ---
             {
-                type: 'wheel',
-                title: 'Glücksrad der Lizenzen (1/2)',
-                intro: 'Drehe das Rad und beantworte die Frage zur getroffenen Lizenz!',
+                type: 'selector', // Geändert von 'wheel'
+                title: 'Lizenz-Auswahl (1/2)',
+                intro: 'Starte die Auswahl und beantworte die Frage zur zufälligen Lizenz!',
                 segments: [
                     { name: 'CC0', color: '#4caf50', question: 'Was bedeutet CC0?', answer: 'Public Domain - keine Rechte vorbehalten' },
                     { name: 'CC BY', color: '#2196f3', question: 'Was musst du bei CC BY immer tun?', answer: 'Den Urheber nennen' },
@@ -559,9 +496,9 @@
                 ]
             },
             {
-                type: 'wheel',
-                title: 'Glücksrad der Lizenzen (2/2)',
-                intro: 'Drehe das Rad noch einmal und teste dein Wissen!',
+                type: 'selector', // Geändert von 'wheel'
+                title: 'Lizenz-Auswahl (2/2)',
+                intro: 'Starte die Auswahl noch einmal und teste dein Wissen!',
                 segments: [ 
                     { name: 'CC0', color: '#4caf50', question: 'Ist bei CC0 eine Namensnennung erforderlich?', answer: 'Nein, aber es ist eine nette Geste' },
                     { name: 'CC BY', color: '#2196f3', question: 'Darf man ein CC BY Werk kommerziell nutzen?', answer: 'Ja, solange der Urheber genannt wird' },
@@ -646,7 +583,7 @@
             
             switch(question.type) {
                 case 'builder': loadBuilderQuestion(question, container); break;
-                case 'wheel': loadWheelQuestion(question, container); break;
+                case 'selector': loadSelectorQuestion(question, container); break; // Geändert
                 case 'memory': loadMemoryQuestion(question, container); break;
                 case 'detective': loadDetectiveQuestion(question, container); break;
                 case 'speedround': loadSpeedQuestion(question, container); break;
@@ -737,67 +674,78 @@
             });
         }
         
-        // --- ÜBERARBEITETE GLÜCKSRAD FUNKTION ---
-        function loadWheelQuestion(question, container) {
-            const segmentAngle = 360 / question.segments.length;
+        // --- NEUE SLOT-MASCHINEN-FUNKTION ---
+        function loadSelectorQuestion(question, container) {
             container.innerHTML = `
                 <div class="question-header"><div class="question-type">${question.title}</div><p>${question.intro}</p></div>
-                <div class="wheel-container">
-                    <div class="wheel-pointer"></div>
-                    <div class="wheel" id="wheel">
-                        ${question.segments.map((seg, i) => `<div class="wheel-segment" style="background: ${seg.color}; transform: rotate(${i * segmentAngle}deg);"><div class="segment-text">${seg.name}</div></div>`).join('')}
-                    </div>
-                    <button class="spin-button" id="spinBtn">DREHEN!</button>
+                <div class="selector-container" id="selectorContainer">
+                     ${question.segments.map((seg, i) => `<div class="selector-card" data-index="${i}" style="color: ${seg.color}; border-color: ${seg.color}">${seg.name}</div>`).join('')}
                 </div>
-                <div id="wheelQuestion" style="display: none; margin-top: 30px; padding: 20px; background: #f5f5f5; border-radius: 10px;"></div>`;
+                <button id="startBtn" class="nav-button" style="margin: 20px auto; display: block;">Auswahl starten!</button>
+                <div id="selectorQuestion" style="display: none; margin-top: 30px; padding: 20px; background: #f5f5f5; border-radius: 10px;"></div>
+            `;
 
-            document.getElementById('spinBtn').addEventListener('click', () => {
-                if (questionAnswered) return;
-                const wheel = document.getElementById('wheel'), button = document.getElementById('spinBtn');
-                button.disabled = true;
+            document.getElementById('startBtn').addEventListener('click', (e) => {
+                e.target.disabled = true;
+                const cards = document.querySelectorAll('.selector-card');
+                
+                let highlightIndex = 0;
+                let passes = 0;
+                const totalPasses = 3; // Wie oft die komplette Runde gedreht wird
+                const finalIndex = Math.floor(Math.random() * cards.length); // Endposition
+                let delay = 80;
 
-                const randomRotation = (Math.floor(Math.random() * 3) + 4) * 360 + Math.random() * 360;
-                wheel.style.transform = `rotate(${randomRotation}deg)`;
-
-                setTimeout(() => {
-                    const finalRotation = randomRotation % 360;
-                    // KORRIGIERTE LOGIK: Berechnet den Winkel, der oben gelandet ist.
-                    const winningAngle = (360 - finalRotation + (segmentAngle / 2)) % 360;
-                    const selectedIndex = Math.floor(winningAngle / segmentAngle);
-                    const segment = question.segments[selectedIndex];
+                function highlightNext() {
+                    // Vorheriges Highlight entfernen
+                    const prevIndex = (highlightIndex - 1 + cards.length) % cards.length;
+                    cards[prevIndex].classList.remove('highlight');
                     
-                    // Alle möglichen Antworten sammeln und mischen für die Dropdown-Liste
-                    const allAnswers = question.segments.map(s => s.answer);
-                    allAnswers.sort(() => Math.random() - 0.5);
+                    // Aktuelles Highlight setzen
+                    cards[highlightIndex].classList.add('highlight');
+                    
+                    // Nächster Schritt
+                    highlightIndex = (highlightIndex + 1) % cards.length;
+                    if (highlightIndex === 0) passes++;
 
-                    const questionDiv = document.getElementById('wheelQuestion');
-                    questionDiv.innerHTML = `
-                        <h3 style="color: ${segment.color}; margin-bottom: 15px;">Gewählt: ${segment.name}</h3>
-                        <p style="font-size: 18px; margin-bottom: 20px; font-weight: bold;">${segment.question}</p>
-                        <select id="wheelAnswer" style="width: 100%; padding: 10px; border: 2px solid #ddd; border-radius: 5px; margin-bottom: 15px; font-size: 16px;">
-                            <option value="">Bitte auswählen...</option>
-                            ${allAnswers.map(ans => `<option value="${ans}">${ans}</option>`).join('')}
-                        </select>
-                        <button id="checkWheelAnswerBtn" class="nav-button" style="margin: 0 auto; display: block;">Antwort prüfen</button>`;
-                    questionDiv.style.display = 'block';
+                    // Animation verlangsamen
+                    if (passes >= totalPasses -1) delay = Math.max(150, delay * 1.2);
+                    
+                    // Stopp-Bedingung
+                    if (passes >= totalPasses && highlightIndex === finalIndex) {
+                        showQuestionForSelection(finalIndex);
+                    } else {
+                        setTimeout(highlightNext, delay);
+                    }
+                }
 
-                    document.getElementById('checkWheelAnswerBtn').addEventListener('click', () => {
-                        if (questionAnswered) return;
-                        const userAnswer = document.getElementById('wheelAnswer').value;
-                        if (!userAnswer) {
-                            alert('Bitte wähle eine Antwort aus.');
-                            return;
-                        }
-                        const isCorrect = userAnswer === segment.answer;
-
-                        alert(isCorrect ? 'Richtig!' : `Leider nicht ganz. Die richtige Antwort war: "${segment.answer}"`);
-                        handleAnswer(isCorrect);
-                    });
-                }, 4100);
+                highlightNext();
             });
+
+            function showQuestionForSelection(selectedIndex) {
+                const segment = question.segments[selectedIndex];
+                const allAnswers = question.segments.map(s => s.answer).sort(() => Math.random() - 0.5);
+                const questionDiv = document.getElementById('selectorQuestion');
+
+                questionDiv.innerHTML = `
+                    <h3 style="color: ${segment.color}; margin-bottom: 15px;">Gewählt: ${segment.name}</h3>
+                    <p style="font-size: 18px; margin-bottom: 20px; font-weight: bold;">${segment.question}</p>
+                    <select id="selectorAnswer" style="width: 100%; padding: 10px; border: 2px solid #ddd; border-radius: 5px; margin-bottom: 15px; font-size: 16px;">
+                        <option value="">Bitte auswählen...</option>
+                        ${allAnswers.map(ans => `<option value="${ans}">${ans}</option>`).join('')}
+                    </select>
+                    <button id="checkSelectorAnswerBtn" class="nav-button" style="margin: 0 auto; display: block;">Antwort prüfen</button>`;
+                questionDiv.style.display = 'block';
+
+                document.getElementById('checkSelectorAnswerBtn').addEventListener('click', () => {
+                    if (questionAnswered) return;
+                    const userAnswer = document.getElementById('selectorAnswer').value;
+                    const isCorrect = userAnswer === segment.answer;
+                    alert(isCorrect ? 'Richtig!' : `Leider nicht ganz. Die richtige Antwort war: "${segment.answer}"`);
+                    handleAnswer(isCorrect);
+                });
+            }
         }
         
-        // --- ÜBERARBEITETE MEMORY FUNKTION ---
         function loadMemoryQuestion(question, container) {
             const cardsData = [];
             question.pairs.forEach(pair => {
@@ -821,7 +769,7 @@
             
             document.getElementById('memoryGrid').addEventListener('click', e => {
                 const cardElement = e.target.closest('.memory-card');
-                if (!cardElement || lockBoard || cardElement.classList.contains('flipped') || questionAnswered) return;
+                if (!cardElement || lockBoard || cardElement.style.pointerEvents === 'none' || questionAnswered) return;
 
                 cardElement.classList.add('flipped');
                 flippedCards.push({ data: cardsData[cardElement.dataset.index], element: cardElement });
@@ -832,7 +780,6 @@
                     
                     const [first, second] = flippedCards;
                     if (first.data.match === second.data.value) {
-                        // KORRIGIERTE LOGIK: Farbe zuweisen und Karte deaktivieren
                         const color = matchColors[matchedPairs % matchColors.length];
                         first.element.querySelector('.card-back').style.backgroundColor = color;
                         second.element.querySelector('.card-back').style.backgroundColor = color;
@@ -927,7 +874,7 @@
                     else if (speedScore === 1) points = 1;
                     score += points;
                     container.innerHTML = `<div style="text-align: center; padding: 40px;"><h2>Speed Round beendet!</h2><p style="font-size: 24px; margin: 20px 0;">${speedScore} von ${question.questions.length} richtig!</p></div>`;
-                    handleAnswer(true); // Mark as answered to enable next button
+                    handleAnswer(true);
                 }
             };
             showQuestion();
