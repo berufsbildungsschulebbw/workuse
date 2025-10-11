@@ -1,1 +1,524 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz: Veröffentlichung & Urheberrecht</title>
+    <style>
+        :root {
+            --zh-blue: #0050a0;
+            --zh-red: #dc0018;
+            --zh-green: #00994d;
+            --zh-gold: #ffd700;
+            --zh-gray-light: #f5f5f5;
+            --zh-border: #d4d4d4;
+            --zh-text: #1a1a1a;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--zh-text);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        /* Header & Navigation */
+        .header { background: rgba(255,255,255,0.95); padding: 20px 0; box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; }
+        .header-content { max-width: 1200px; margin: 0 auto; padding: 0 20px; display: flex; justify-content: space-between; align-items: center; }
+        .header-left { display: flex; align-items: center; gap: 15px; }
+        h1 { font-size: 24px; color: var(--zh-blue); margin: 0; }
+        .nav-bar { background: var(--zh-gray-light); padding: 10px 0; border-bottom: 1px solid var(--zh-border); }
+        .nav-content { max-width: 1200px; margin: 0 auto; padding: 0 20px; display: flex; align-items: center; gap: 20px; }
+        .nav-link { display: inline-flex; align-items: center; gap: 8px; color: var(--zh-blue); text-decoration: none; padding: 8px 16px; border-radius: 4px; }
+        .breadcrumb { display: flex; align-items: center; gap: 10px; color: #666; font-size: 14px; }
+        .breadcrumb a { color: var(--zh-blue); text-decoration: none; }
+
+        /* Main Quiz Card */
+        .main { max-width: 900px; margin: 40px auto; padding: 0 20px; }
+        .quiz-card { background: white; border-radius: 15px; padding: 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+        .quiz-header { text-align: center; margin-bottom: 30px; }
+        .quiz-title { color: var(--zh-blue); font-size: 28px; margin-bottom: 10px; }
+        .quiz-subtitle { color: #666; font-size: 18px; }
+        .progress-container { background: #e5e5e5; height: 30px; border-radius: 15px; overflow: hidden; margin-bottom: 30px; }
+        .progress-bar { height: 100%; background: linear-gradient(90deg, #0050a0, #0066cc); transition: width 0.5s ease; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; }
+        .question-container { margin-bottom: 30px; min-height: 420px; position: relative; }
+        
+        /* General Activity Styles */
+        .activity-header { background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); padding: 20px; border-radius: 10px; margin-bottom: 25px; }
+        .activity-title { font-size: 20px; font-weight: 600; color: #333; }
+        .activity-intro { font-size: 16px; color: #555; margin-top: 5px; }
+        .interactive-btn { padding: 12px 18px; background: white; border: 2px solid var(--zh-border); border-radius: 6px; cursor: pointer; transition: all 0.2s; font-size: 16px; width: 100%; margin-top: 10px; }
+        .interactive-btn:hover:not(:disabled) { border-color: var(--zh-blue); background: #e8f2ff; }
+        .feedback-box { margin-top: 15px; padding: 15px; border-radius: 8px; display: none; }
+        .correct { background-color: #d4edda !important; border-color: #c3e6cb !important; color: #155724 !important; }
+        .incorrect { background-color: #f8d7da !important; border-color: #f5c6cb !important; color: #721c24 !important; }
+        
+        /* Activity 1: Sorting Machine */
+        .sorting-machine { text-align: center; }
+        .conveyor-belt { background: var(--zh-gray-light); padding: 10px; border-radius: 8px; height: 80px; margin: 20px 0; overflow: hidden; position: relative; }
+        .belt-item { background: white; padding: 15px 25px; border-radius: 6px; border: 2px solid var(--zh-blue); font-weight: 600; position: absolute; left: 110%; top: 10px; white-space: nowrap; transition: background-color 0.3s, border-color 0.3s; }
+        .belt-item.running { animation: conveyor 8s linear forwards; }
+        @keyframes conveyor { from { left: 110%; } to { left: -50%; } }
+        .sorting-bins { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+        
+        /* Activity 2: Dialogue */
+        .chat-container { background: #f0f4f8; padding: 15px; border-radius: 10px; height: 300px; display: flex; flex-direction: column; overflow-y: auto; }
+        .chat-bubble { max-width: 80%; padding: 10px 15px; border-radius: 18px; margin-bottom: 10px; animation: pop-in 0.3s ease; }
+        @keyframes pop-in { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        .chat-bubble.other { background: white; border: 1px solid var(--zh-border); }
+        .chat-bubble.user { background: var(--zh-blue); color: white; align-self: flex-end; }
+        .chat-options { margin-top: 15px; display: flex; flex-direction: column; gap: 10px; }
+        
+        /* Activity 3: Connectors */
+        .connector-grid { display: grid; grid-template-columns: 1fr auto 1fr; gap: 20px; align-items: center; position: relative;}
+        .connect-column { display: flex; flex-direction: column; gap: 20px; }
+        .connect-point { background: white; border: 2px solid var(--zh-border); padding: 15px; border-radius: 8px; cursor: pointer; text-align: center; transition: all 0.2s; }
+        .connect-point.selected { border-color: var(--zh-blue); box-shadow: 0 0 10px rgba(0,80,160,0.5); transform: scale(1.05); }
+        #connector-canvas { position: absolute; top:0; left:0; width:100%; height:100%; pointer-events: none; }
+
+        /* Activity 4: Card Stack */
+        .card-stack-container { height: 350px; position: relative; margin-top: 10px; }
+        .card-stack-card { position: absolute; width: 100%; height: 90%; background: white; border: 2px solid var(--zh-border); border-radius: 15px; padding: 30px; box-sizing: border-box; text-align: center; display: flex; flex-direction: column; justify-content: center; cursor: grab; user-select: none; transition: transform 0.3s, opacity 0.3s; }
+        .card-stack-card:nth-child(2) { transform: translateY(10px) scale(0.95); z-index: -1; }
+        .card-stack-card:nth-child(3) { transform: translateY(20px) scale(0.9); z-index: -2;}
+        .swipe-feedback { position: absolute; top: 20px; left: 20px; font-size: 24px; font-weight: bold; opacity: 0; transform: rotate(-15deg); }
+        .swipe-feedback.right { left: auto; right: 20px; transform: rotate(15deg); }
+        
+        /* Navigation */
+        .quiz-navigation { display: flex; justify-content: flex-end; align-items: center; margin-top: 30px; padding-top: 30px; border-top: 2px solid #f0f0f0; }
+        .nav-button { padding: 12px 24px; background: var(--zh-blue); color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; transition: all 0.3s; text-decoration: none; }
+        .nav-button:disabled { background: #ccc; cursor: not-allowed; }
+        .score-display { padding: 8px 16px; background: #f5f5f5; border-radius: 10px; font-weight: 500; }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="header-left"><h1>Quiz: Veröffentlichung & Urheberrecht</h1></div>
+            <div class="score-display"><span id="currentScore">0</span> / 10 Punkte</div>
+        </div>
+    </header>
+
+    <nav class="nav-bar">
+        <div class="nav-content">
+            <a href="../index.html" class="nav-link"><span>←</span><span>Zurück zur Übersicht</span></a>
+            <div class="breadcrumb"><a href="../index.html">Startseite</a><span>›</span><span>Wissenstest</span><span>›</span><span>Veröffentlichung</span></div>
+        </div>
+    </nav>
+
+    <main class="main">
+        <div class="quiz-card">
+            <div class="quiz-header">
+                <h2 class="quiz-title">Rechte an eigenen Werken</h2>
+                <p class="quiz-subtitle">Ein interaktiver Test zu den Rechten von Schülern und Lehrpersonen.</p>
+            </div>
+
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar" style="width: 0%"><span>0 / 5</span></div>
+            </div>
+
+            <div class="question-container" id="questionContainer"></div>
+
+            <div class="quiz-navigation">
+                <button class="nav-button" id="nextBtn" onclick="nextActivity()" disabled>Weiter →</button>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const activities = [
+            { type: 'sorting-machine', title: 'Aktivität 1: Die Sortiermaschine', intro: 'Ein Werk erscheint auf dem Förderband. Sortieren Sie es in die richtige Box!', points: 2 },
+            { type: 'dialogue', title: 'Aktivität 2: Der Entscheidungs-Dialog', intro: 'Ein Schüler bittet um Rat. Geben Sie die korrekte Antwort.', points: 2 },
+            { type: 'connectors', title: 'Aktivität 3: Verbinde die Rechte', intro: 'Verbinden Sie die Aktionen mit dem korrekten juristischen Begriff.', points: 2 },
+            { type: 'public-private', title: 'Aktivität 4: Öffentlich oder Privat?', intro: 'Wischen Sie die Karten nach links (Privat/Erlaubt) oder rechts (Öffentlich/Heikel).', points: 2 },
+            { type: 'final-question', title: 'Aktivität 5: Wissens-Flip', intro: 'Drehen Sie die Karte um und überprüfen Sie Ihr Wissen.', points: 2 }
+        ];
+
+        let currentActivity = 0;
+        let score = 0;
+        let activityAnswered = false;
+
+        function init() { loadActivity(); }
+
+        function loadActivity() {
+            if (currentActivity >= activities.length) { showResults(); return; }
+            activityAnswered = false;
+            const activity = activities[currentActivity];
+            const container = document.getElementById('questionContainer');
+            container.innerHTML = `<div class="activity-header"><div class="activity-title">${activity.title}</div><p class="activity-intro">${activity.intro}</p></div>`;
+            
+            const activityFuncs = {
+                'sorting-machine': loadSortingMachine,
+                'dialogue': loadDialogue,
+                'connectors': loadConnectors,
+                'public-private': loadPublicPrivate,
+                'final-question': loadFinalQuestion
+            };
+            if(activityFuncs[activity.type]) activityFuncs[activity.type](container);
+            updateProgress();
+        }
+        
+        function handleActivityResult(correct) {
+            if(activityAnswered) return;
+            activityAnswered = true;
+            if(correct) score += activities[currentActivity].points;
+            document.getElementById('currentScore').textContent = score;
+            document.getElementById('nextBtn').disabled = false;
+        }
+
+        // --- Activity 1: Sorting Machine ---
+        function loadSortingMachine(container) {
+            const items = [
+                { text: "Gedicht (Hausaufgabe)", owner: "schueler" },
+                { text: "Arbeitsblatt (Freizeit)", owner: "lehrer" },
+                { text: "Offizielles Schul-Leitbild", owner: "schule" },
+            ].sort(() => 0.5 - Math.random());
+            let currentItemIndex = -1;
+
+            container.innerHTML += `<div class="sorting-machine">
+                <div class="conveyor-belt"><div class="belt-item" id="beltItem"></div></div>
+                <div class="sorting-bins">
+                    <button class="interactive-btn" data-bin="schueler">Gehört Schüler</button>
+                    <button class="interactive-btn" data-bin="lehrer">Gehört Lehrer</button>
+                    <button class="interactive-btn" data-bin="schule">Gehört Schule</button>
+                </div>
+                <button class="nav-button" id="startBtn" style="margin: 20px auto; display: block;">Start</button>
+            </div>`;
+
+            const startBtn = document.getElementById('startBtn');
+            const beltItem = document.getElementById('beltItem');
+            let correctSorts = 0;
+
+            const nextItem = () => {
+                currentItemIndex++;
+                if (currentItemIndex < items.length) {
+                    beltItem.textContent = items[currentItemIndex].text;
+                    beltItem.className = 'belt-item'; // Reset classes
+                    void beltItem.offsetWidth; // Trigger reflow to restart animation
+                    beltItem.classList.add('running');
+                } else {
+                    beltItem.style.display = 'none';
+                    handleActivityResult(correctSorts >= 2);
+                }
+            };
+
+            startBtn.onclick = () => {
+                startBtn.style.display = 'none';
+                nextItem();
+            };
+
+            container.querySelectorAll('.sorting-bins .interactive-btn').forEach(btn => {
+                btn.onclick = () => {
+                    if (currentItemIndex < 0 || currentItemIndex >= items.length || beltItem.classList.contains('correct') || beltItem.classList.contains('incorrect')) return;
+                    
+                    const item = items[currentItemIndex];
+                    const isCorrect = btn.dataset.bin === item.owner;
+                    
+                    // --- NEU: Visuelles Feedback für den geklickten Button ---
+                    btn.classList.add(isCorrect ? 'correct' : 'incorrect');
+
+                    beltItem.classList.remove('running');
+                    beltItem.classList.add(isCorrect ? 'correct' : 'incorrect');
+                    if (isCorrect) correctSorts++;
+
+                    setTimeout(() => {
+                        // --- NEU: Feedback-Farbe vom Button entfernen ---
+                        btn.classList.remove('correct', 'incorrect');
+                        nextItem();
+                    }, 1200);
+                };
+            });
+        }
+        
+        // --- Activity 2: Dialogue ---
+        function loadDialogue(container) {
+            container.innerHTML += `
+                <div class="chat-container" id="chat-container">
+                    <div class="chat-bubble other">Hallo! Ich habe für mein Geschichts-Referat ein super Plakat gemalt. Dürfen Sie das auf der Schul-Homepage posten?</div>
+                </div>
+                <div class="chat-options" id="chat-options">
+                    <button class="interactive-btn" data-correct="false">Ja klar, das ist ja für die Schule!</button>
+                    <button class="interactive-btn" data-correct="true">Nur wenn du mir als Urheber deine Erlaubnis dafür gibst.</button>
+                </div>`;
+            
+            container.querySelectorAll('.interactive-btn').forEach(btn => {
+                btn.onclick = () => {
+                    if(activityAnswered) return;
+                    const isCorrect = btn.dataset.correct === 'true';
+                    const chat = document.getElementById('chat-container');
+                    
+                    const userBubble = document.createElement('div');
+                    userBubble.className = 'chat-bubble user';
+                    userBubble.textContent = btn.textContent;
+                    chat.appendChild(userBubble);
+                    
+                    const feedbackBubble = document.createElement('div');
+                    feedbackBubble.className = `chat-bubble other ${isCorrect ? 'correct' : 'incorrect'}`;
+                    feedbackBubble.innerHTML = isCorrect ? "<strong>Perfekt!</strong> Das Erstveröffentlichungsrecht liegt immer beim Schüler." : "<strong>Leider falsch.</strong> Das Urheberrecht liegt immer beim Schüler, auch wenn das Werk im Unterricht entstanden ist.";
+                    setTimeout(() => {
+                        chat.appendChild(feedbackBubble);
+                        chat.scrollTop = chat.scrollHeight;
+                    }, 500);
+                    
+                    container.querySelector('#chat-options').style.display = 'none';
+                    handleActivityResult(isCorrect);
+                };
+            });
+        }
+
+        // --- Activity 3: Connectors ---
+        function loadConnectors(container) {
+            container.innerHTML += `<div class="connector-grid" id="connector-grid">
+                <div class="connect-column" id="col-left"></div>
+                <canvas id="connector-canvas"></canvas>
+                <div class="connect-column" id="col-right"></div>
+            </div><button class="nav-button" id="checkConnectorsBtn" style="margin:20px auto; display:block;">Prüfen</button>`;
+
+            const left = [{id: 1, text: "Buch verkaufen"}, {id: 2, text: "Film streamen"}];
+            const right = [{id: 2, text: "Recht zur Zugänglichmachung"}, {id: 1, text: "Verbreitungsrecht"}].sort(() => Math.random() - 0.5);
+            
+            left.forEach(item => document.getElementById('col-left').innerHTML += `<div class="connect-point" data-id="${item.id}">${item.text}</div>`);
+            right.forEach(item => document.getElementById('col-right').innerHTML += `<div class="connect-point" data-id="${item.id}">${item.text}</div>`);
+            
+            const canvas = document.getElementById('connector-canvas');
+            const grid = document.getElementById('connector-grid');
+            const ctx = canvas.getContext('2d');
+            let selected = null;
+            let mousePos = null;
+            const connections = [];
+            
+            function redraw() {
+                const gridRect = grid.getBoundingClientRect();
+                canvas.width = gridRect.width;
+                canvas.height = gridRect.height;
+                ctx.clearRect(0,0,canvas.width,canvas.height);
+                
+                // Draw existing connections
+                ctx.lineWidth = 3;
+                connections.forEach(c => {
+                    const fromEl = c.from, toEl = c.to;
+                    const fromRect = fromEl.getBoundingClientRect(), toRect = toEl.getBoundingClientRect();
+                    ctx.beginPath();
+                    ctx.moveTo(fromRect.right - gridRect.left, fromRect.top + fromRect.height / 2 - gridRect.top);
+                    ctx.lineTo(toRect.left - gridRect.left, toRect.top + toRect.height / 2 - gridRect.top);
+                    ctx.strokeStyle = c.color || 'var(--zh-blue)';
+                    ctx.stroke();
+                });
+
+                // --- Vorschau-Linie zum Mauszeiger zeichnen ---
+                if (selected && mousePos) {
+                    const selRect = selected.getBoundingClientRect();
+                    ctx.beginPath();
+                    ctx.moveTo(selRect.right - gridRect.left, selRect.top + selRect.height / 2 - gridRect.top);
+                    ctx.lineTo(mousePos.x, mousePos.y);
+                    ctx.strokeStyle = 'rgba(0, 80, 160, 0.5)';
+                    ctx.setLineDash([5, 5]);
+                    ctx.stroke();
+                    ctx.setLineDash([]);
+                }
+            }
+
+            grid.addEventListener('mousemove', e => {
+                if (selected) {
+                    const gridRect = grid.getBoundingClientRect();
+                    mousePos = { x: e.clientX - gridRect.left, y: e.clientY - gridRect.top };
+                    redraw();
+                }
+            });
+
+            container.querySelectorAll('.connect-point').forEach(p => {
+                p.addEventListener('click', () => {
+                    if(activityAnswered) return;
+                    if (!selected || selected.parentElement === p.parentElement) {
+                        container.querySelectorAll('.connect-point').forEach(px => px.classList.remove('selected'));
+                        selected = p;
+                        p.classList.add('selected');
+                        redraw();
+                    } else {
+                        const fromEl = selected.parentElement.id === 'col-left' ? selected : p;
+                        const toEl = selected.parentElement.id === 'col-right' ? selected : p;
+                        const existingConnection = connections.findIndex(c => c.from === fromEl);
+                        if (existingConnection > -1) connections.splice(existingConnection, 1);
+                        
+                        connections.push({ from: fromEl, to: toEl });
+                        selected.classList.remove('selected');
+                        selected = null;
+                        mousePos = null;
+                        redraw();
+                    }
+                });
+            });
+            
+            document.getElementById('checkConnectorsBtn').addEventListener('click', (e) => {
+                if(connections.length < left.length) { alert('Bitte verbinden Sie alle Paare.'); return; }
+                e.target.style.display = 'none';
+                let correctCount = 0;
+                selected = null; // Auswahl aufheben
+                mousePos = null;
+                connections.forEach(c => {
+                    const isCorrect = c.from.dataset.id === c.to.dataset.id;
+                    if(isCorrect) correctCount++;
+                    c.color = isCorrect ? 'var(--zh-green)' : 'var(--zh-red)';
+                    c.from.classList.add(isCorrect ? 'correct' : 'incorrect');
+                    c.to.classList.add(isCorrect ? 'correct' : 'incorrect');
+                });
+                redraw();
+                handleActivityResult(correctCount === left.length);
+            });
+
+            setTimeout(redraw, 100);
+            window.addEventListener('resize', redraw);
+        }
+        
+        // --- Activity 4: Card Stack ---
+        function loadPublicPrivate(container) {
+            const cards = [
+                { text: "Ein Schüler teilt sein Referat im passwortgeschützten Moodle-Kurs der Klasse.", correct: 'private' },
+                { text: "Die Schule stellt den besten Aufsatz auf ihre frei zugängliche Homepage.", correct: 'public' }
+            ].reverse();
+
+            container.innerHTML += `<div class="card-stack-container" id="card-stack"></div>
+            <div style="display: flex; justify-content: space-between; font-weight: bold; margin-top: 20px;">
+                <span style="color: var(--zh-green)">← Privat / Erlaubt</span>
+                <span style="color: var(--zh-red)">Öffentlich / Heikel →</span>
+            </div>`;
+            
+            const stack = document.getElementById('card-stack');
+            cards.forEach(card => {
+                const cardEl = document.createElement('div');
+                cardEl.className = 'card-stack-card';
+                cardEl.innerHTML = `<p>${card.text}</p><div class="swipe-feedback right" style="color:var(--zh-red)">ÖFFENTLICH</div><div class="swipe-feedback" style="color:var(--zh-green)">PRIVAT</div>`;
+                cardEl.dataset.correct = card.correct;
+                stack.appendChild(cardEl);
+            });
+            
+            let correctSwipes = 0;
+            let cardsRemaining = cards.length;
+
+            const onCardResult = (isCorrect) => { if(isCorrect) correctSwipes++; };
+            const onSwipeEnd = () => {
+                cardsRemaining--;
+                if (cardsRemaining === 0) handleActivityResult(correctSwipes >= 1);
+            };
+
+            stack.querySelectorAll('.card-stack-card').forEach(card => makeSwipeable(card, onSwipeEnd, onCardResult));
+        }
+
+        function makeSwipeable(el, onEnd, onResult) {
+            let startX = 0, offsetX = 0;
+            
+            const handleMove = e => {
+                if(startX === 0) return;
+                e.preventDefault();
+                const currentX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+                offsetX = currentX - startX;
+                el.style.transform = `translate(${offsetX}px, 10px) rotate(${offsetX * 0.1}deg)`;
+                el.querySelector('.swipe-feedback.right').style.opacity = offsetX / 100;
+                el.querySelector('.swipe-feedback:not(.right)').style.opacity = -offsetX / 100;
+            };
+
+            const handleEnd = () => {
+                if(startX === 0) return;
+                document.removeEventListener('mousemove', handleMove);
+                document.removeEventListener('touchmove', handleMove);
+                document.removeEventListener('mouseup', handleEnd);
+                document.removeEventListener('touchend', handleEnd);
+                
+                el.style.transition = 'transform 0.3s, opacity 0.3s';
+                if (Math.abs(offsetX) > 80) {
+                    const swipeDir = offsetX > 0 ? 'public' : 'private';
+                    onResult(swipeDir === el.dataset.correct);
+                    el.style.transform = `translateX(${offsetX > 0 ? 500 : -500}px)`;
+                    el.style.opacity = 0;
+                    setTimeout(() => { el.remove(); onEnd(); }, 300);
+                } else {
+                    el.style.transform = '';
+                    el.querySelectorAll('.swipe-feedback').forEach(f => f.style.opacity = 0);
+                }
+                startX = 0; offsetX = 0;
+            };
+
+            const handleStart = e => {
+                if(activityAnswered) return;
+                startX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+                el.style.transition = 'none';
+                document.addEventListener('mousemove', handleMove);
+                document.addEventListener('touchmove', handleMove, {passive: false});
+                document.addEventListener('mouseup', handleEnd);
+                document.addEventListener('touchend', handleEnd);
+            };
+
+            el.addEventListener('mousedown', handleStart);
+            el.addEventListener('touchstart', handleStart, {passive: true});
+        }
+        
+        // --- Activity 5: Final Question ---
+        function loadFinalQuestion(container){
+             container.innerHTML += `<div style="perspective: 1000px; height: 250px;">
+                <div id="flip-card-inner" style="position: relative; width: 100%; height: 100%; transition: transform 0.6s; transform-style: preserve-3d;">
+                    <div id="flip-card-front" style="cursor:pointer; position: absolute; width: 100%; height: 100%; -webkit-backface-visibility: hidden; backface-visibility: hidden; background: #e8f2ff; padding: 20px; border-radius: 8px; text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center; box-sizing: border-box;">
+                        <p><strong>Wer entscheidet, ob ein privates Foto einer Lehrperson veröffentlicht werden darf?</strong></p>
+                        <p style="margin-top:20px; font-size:14px; color: #555;">(Zum Umdrehen tippen)</p>
+                    </div>
+                    <div id="flip-card-back" style="position: absolute; width: 100%; height: 100%; -webkit-backface-visibility: hidden; backface-visibility: hidden; background: #d4edda; padding: 20px; border-radius: 8px; transform: rotateY(180deg); text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center; box-sizing: border-box;">
+                        <p><strong>Antwort:</strong> Immer die abgebildete Person selbst (Recht am eigenen Bild).</p>
+                        <p>Wussten Sie das?</p>
+                        <div style="margin-top:10px; display:flex; gap:10px; width: 80%;"><button class="interactive-btn" id="final-yes">Ja</button><button class="interactive-btn" id="final-no">Nein</button></div>
+                    </div>
+                </div>
+            </div>`;
+
+            const cardInner = document.getElementById('flip-card-inner');
+            const cardFront = document.getElementById('flip-card-front');
+            const yesBtn = document.getElementById('final-yes');
+            const noBtn = document.getElementById('final-no');
+
+            cardFront.addEventListener('click', () => {
+                if (!activityAnswered) cardInner.style.transform = 'rotateY(180deg)';
+            });
+
+            const onAnswer = (knewIt) => {
+                if(activityAnswered) return;
+                handleActivityResult(knewIt);
+                yesBtn.disabled = true;
+                noBtn.disabled = true;
+            };
+
+            yesBtn.addEventListener('click', () => onAnswer(true));
+            noBtn.addEventListener('click', () => onAnswer(false));
+        }
+
+        // --- Core Quiz Logic ---
+        function nextActivity() {
+            currentActivity++;
+            loadActivity();
+        }
+        function updateProgress() {
+            const progress = (currentActivity / activities.length) * 100;
+            const progressBarEl = document.getElementById('progressBar');
+            progressBarEl.style.width = progress + '%';
+            progressBarEl.querySelector('span').textContent = `${currentActivity} / ${activities.length}`;
+            document.getElementById('nextBtn').disabled = true;
+        }
+
+        function showResults() {
+            const maxScore = activities.reduce((sum, act) => sum + act.points, 0);
+            const percentage = maxScore > 0 ? Math.round((score / maxScore) * 100) : 0;
+            localStorage.setItem('quiz_veroeffentlichung_progress', percentage);
+            document.querySelector('.quiz-card').innerHTML = `<div style="text-align: center; padding: 40px;">
+                <h2 style="color: var(--zh-blue); font-size: 36px;">Quiz abgeschlossen! 🎉</h2>
+                <div style="font-size: 48px; margin: 20px 0; color: var(--zh-blue);">${score} / ${maxScore} Punkte</div>
+                <p style="font-size: 24px; margin: 20px 0;">${percentage}% richtig!</p>
+                <div style="display: flex; gap: 20px; justify-content: center; margin-top: 30px;">
+                    <button class="nav-button" onclick="location.reload()">Wiederholen</button>
+                    <a href="../index.html" class="nav-button">Zur Übersicht</a>
+                </div></div>`;
+        }
+        window.onload = init;
+    </script>
+</body>
+</html>
+
 
