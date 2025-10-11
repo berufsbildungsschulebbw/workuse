@@ -1,1 +1,718 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interaktives Urheberrecht-Quiz</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --zh-blue: #0050a0;
+            --zh-red: #dc0018;
+            --zh-green: #00994d;
+            --zh-gold: #ffd700;
+            --zh-gray-light: #f5f5f5;
+            --zh-border: #d4d4d4;
+            --zh-text: #1a1a1a;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--zh-text);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        /* Header & Navigation */
+        .header {
+            background: rgba(255,255,255,0.95);
+            padding: 20px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        h1 {
+            font-size: 24px;
+            color: var(--zh-blue);
+        }
+
+        .nav-bar {
+            background: var(--zh-gray-light);
+            padding: 10px 0;
+            border-bottom: 1px solid var(--zh-border);
+        }
+
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .nav-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--zh-blue);
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            transition: background 0.3s;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .breadcrumb a {
+            color: var(--zh-blue);
+            text-decoration: none;
+        }
+
+        /* Main Quiz Card */
+        .main {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .quiz-card {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .quiz-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .quiz-title {
+            color: var(--zh-blue);
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .quiz-subtitle {
+            color: #666;
+            font-size: 18px;
+        }
+
+        .progress-container {
+            background: #e5e5e5;
+            height: 30px;
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #0050a0, #0066cc);
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .question-container {
+            margin-bottom: 30px;
+            min-height: 400px;
+        }
+
+        .activity-header {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+        }
+        
+        .activity-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .activity-intro {
+            font-size: 16px;
+            color: #555;
+            margin-top: 5px;
+        }
+
+        /* Drag & Drop Styles */
+        .drag-drop-area {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+        }
+        .drag-items-pool {
+            grid-column: span 3;
+            background: var(--zh-gray-light);
+            padding: 15px;
+            border-radius: 8px;
+            min-height: 80px;
+        }
+        .drag-items-pool h4 { margin-bottom: 10px; color: #555; }
+        .drag-item {
+            background: white;
+            padding: 10px 15px;
+            border-radius: 6px;
+            cursor: grab;
+            transition: all 0.2s;
+            border: 2px solid var(--zh-border);
+            margin: 5px;
+            display: inline-block;
+        }
+        .drag-item.selected { /* For touch */
+            border-color: var(--zh-blue);
+            box-shadow: 0 0 10px rgba(0, 80, 160, 0.5);
+            transform: scale(1.05);
+        }
+        .drop-zone {
+            background: white;
+            border: 2px dashed var(--zh-blue);
+            padding: 15px;
+            border-radius: 8px;
+            min-height: 200px;
+            cursor: pointer;
+        }
+        .drop-zone.drag-over { background: #e8f2ff; }
+        .drop-zone h4 { color: var(--zh-blue); margin-bottom: 10px; }
+
+        /* Scenario Slider Styles */
+        .scenario-card {
+            background: #fff9e6;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #ffc107;
+        }
+        
+        /* General Interactive Button Styles */
+        .interactive-btn {
+            padding: 12px 18px;
+            background: white;
+            border: 2px solid var(--zh-border);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 16px;
+            width: 100%;
+        }
+        .interactive-btn:hover:not(:disabled) {
+            border-color: var(--zh-blue);
+            background: #e8f2ff;
+        }
+        .interactive-btn.selected { /* For quick quiz */
+             border-color: var(--zh-blue);
+             background: #e8f2ff;
+        }
+        .interactive-btn.correct, .drag-item.correct { background: #d4edda !important; border-color: #c3e6cb !important; color: #155724 !important;}
+        .interactive-btn.incorrect, .drag-item.incorrect { background: #f8d7da !important; border-color: #f5c6cb !important; color: #721c24 !important;}
+        .feedback-box { margin-top: 15px; padding: 15px; border-radius: 8px; display: none; }
+        .feedback-box.show { display: block; }
+        
+        /* Calculator Styles */
+        .calc-input { width: 100%; padding: 12px; font-size: 16px; border-radius: 6px; border: 2px solid var(--zh-border); }
+        #calcResult { text-align: center; font-weight: bold; font-size: 18px; }
+
+        /* Navigation */
+        .quiz-navigation {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 2px solid #f0f0f0;
+        }
+
+        .nav-button {
+            padding: 12px 24px;
+            background: var(--zh-blue);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+
+        .nav-button:disabled { background: #ccc; cursor: not-allowed; }
+        .score-display { padding: 8px 16px; background: #f5f5f5; border-radius: 10px; font-weight: 500; }
+        
+        @media (max-width: 768px) {
+            .drag-drop-area { grid-template-columns: 1fr; }
+            .drag-items-pool { grid-column: auto; }
+        }
+
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="header-left"><h1>Das grosse Urheberrecht-Quiz</h1></div>
+            <div class="score-display"><span id="currentScore">0</span> / 10 Punkte</div>
+        </div>
+    </header>
+
+    <nav class="nav-bar">
+        <div class="nav-content">
+            <a href="../index.html" class="nav-link"><span>←</span><span>Zurück zur Übersicht</span></a>
+            <div class="breadcrumb"><a href="../index.html">Startseite</a><span>›</span><span>Wissenstest</span><span>›</span><span>Urheberrecht Interaktiv</span></div>
+        </div>
+    </nav>
+
+    <main class="main">
+        <div class="quiz-card">
+            <div class="quiz-header">
+                <h2 class="quiz-title">🎓 Interaktiver Wissens-Check</h2>
+                <p class="quiz-subtitle">Testen Sie Ihr Wissen mit verschiedenen Aufgabenformaten.</p>
+            </div>
+
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar" style="width: 0%"><span>0 / 5</span></div>
+            </div>
+
+            <div class="question-container" id="questionContainer"></div>
+
+            <div class="quiz-navigation">
+                <button class="nav-button" id="nextBtn" onclick="nextActivity()" disabled>Weiter →</button>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const activities = [
+            { type: 'drag-drop', title: 'Aktivität 1: Geschützt oder nicht?', intro: 'Ordnen Sie die Begriffe der richtigen Kategorie zu.', points: 2 },
+            { type: 'scenario-check', title: 'Aktivität 2: Rechtssystem-Check', intro: 'Welches Rechtssystem passt besser zur Beschreibung?', points: 2 },
+            { type: 'sorter', title: 'Aktivität 3: Die 3 Säulen des Zitats', intro: 'Sortieren Sie die Regeln unter die richtige Säule.', points: 2 },
+            { type: 'calculator', title: 'Aktivität 4: Gemeinfreiheit-Rechner', intro: 'Berechnen Sie, wann ein Werk gemeinfrei wird.', points: 2 },
+            { type: 'quick-quiz', title: 'Aktivität 5: Wissens-Blitz', intro: 'Beantworten Sie die schnellen Wissensfragen.', points: 2 }
+        ];
+
+        let currentActivity = 0;
+        let score = 0;
+        let activityAnswered = false;
+
+        function init() {
+            loadActivity();
+        }
+
+        function loadActivity() {
+            if (currentActivity >= activities.length) {
+                showResults();
+                return;
+            }
+            activityAnswered = false;
+            const activity = activities[currentActivity];
+            const container = document.getElementById('questionContainer');
+            container.innerHTML = '';
+
+            const header = `<div class="activity-header"><div class="activity-title">${activity.title}</div><p class="activity-intro">${activity.intro}</p></div>`;
+            container.innerHTML += header;
+
+            const activityFuncs = {
+                'drag-drop': loadDragDrop,
+                'scenario-check': loadScenarioCheck,
+                'sorter': loadSorter,
+                'calculator': loadCalculator,
+                'quick-quiz': loadQuickQuiz
+            };
+
+            if(activityFuncs[activity.type]) {
+                activityFuncs[activity.type](container);
+            }
+
+            updateProgress();
+        }
+        
+        function handleActivityResult(isCorrect) {
+            if(activityAnswered) return;
+            activityAnswered = true;
+            if(isCorrect) {
+                score += activities[currentActivity].points;
+            }
+            document.getElementById('currentScore').textContent = score;
+            document.getElementById('nextBtn').disabled = false;
+        }
+
+        // --- Touch-enabled Drag & Drop Logic ---
+        function enableTouchDragDrop(container) {
+            let selectedItem = null;
+
+            container.querySelectorAll('.drag-item').forEach(item => {
+                const handleSelect = (e) => {
+                    e.preventDefault();
+                    if (activityAnswered) return;
+                    if (item.classList.contains('selected')) {
+                        item.classList.remove('selected');
+                        selectedItem = null;
+                    } else {
+                        container.querySelectorAll('.drag-item').forEach(i => i.classList.remove('selected'));
+                        item.classList.add('selected');
+                        selectedItem = item;
+                    }
+                };
+                item.addEventListener('click', handleSelect);
+                item.addEventListener('touchstart', handleSelect, { passive: false });
+            });
+
+            container.querySelectorAll('.drop-zone, .drag-items-pool').forEach(zone => {
+                 const handleDrop = (e) => {
+                    e.preventDefault();
+                    if (activityAnswered) return;
+                    if (selectedItem) {
+                        zone.appendChild(selectedItem);
+                        selectedItem.classList.remove('selected');
+                        selectedItem = null;
+                    }
+                };
+                zone.addEventListener('click', handleDrop);
+                zone.addEventListener('touchend', handleDrop, { passive: false });
+            });
+
+             container.querySelectorAll('.drag-item').forEach(item => {
+                item.addEventListener('dragstart', e => e.dataTransfer.setData('text/plain', item.textContent));
+            });
+            container.querySelectorAll('.drop-zone, .drag-items-pool').forEach(zone => {
+                zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('drag-over'); });
+                zone.addEventListener('dragleave', () => zone.classList.remove('drag-over'));
+                zone.addEventListener('drop', e => {
+                    e.preventDefault();
+                    zone.classList.remove('drag-over');
+                    const text = e.dataTransfer.getData('text/plain');
+                    const el = Array.from(container.querySelectorAll('.drag-item')).find(i => i.textContent === text);
+                    if (el) zone.appendChild(el);
+                });
+            });
+        }
+
+
+        // --- Activity Loaders ---
+
+        function loadDragDrop(container) {
+            container.innerHTML += `
+                <div class="drag-drop-area">
+                    <div class="drag-items-pool"><h4>Ziehen Sie von hier (oder tippen):</h4></div>
+                    <div class="drop-zone" data-correct="true"><h4>✅ Geschützt</h4></div>
+                    <div class="drop-zone" data-correct="false"><h4>❌ Nicht geschützt</h4></div>
+                </div>
+                <button class="nav-button" onclick="checkDragDrop()" style="margin-top:20px;">Prüfen</button>`;
+            
+            const items = [
+                { text: "Roman", correct: true }, { text: "Blosse Idee", correct: false },
+                { text: "KI-Bild", correct: false }, { text: "Handy-Schnappschuss", correct: true },
+                { text: "Gesetzestext", correct: false }, { text: "Kinderzeichnung", correct: true },
+                { text: "Computerprogramm", correct: true }, { text: "Mathematische Formel", correct: false }
+            ];
+            const pool = container.querySelector('.drag-items-pool');
+            items.sort(() => Math.random() - 0.5).forEach(item => {
+                const el = document.createElement('div');
+                el.className = 'drag-item';
+                el.textContent = item.text;
+                el.draggable = true;
+                el.dataset.correct = item.correct;
+                pool.appendChild(el);
+            });
+
+            enableTouchDragDrop(container);
+        }
+        
+        function loadScenarioCheck(container) {
+            container.innerHTML += `
+                <div id="scenario1">
+                    <div class="scenario-card">Ein Richter wägt vier flexible Faktoren ab, um zu entscheiden, ob die Nutzung eines Werks in einem neuen Kontext "fair" ist.</div>
+                    <button class="interactive-btn" data-correct="true">Eher USA (Fair Use)</button>
+                    <button class="interactive-btn" data-correct="false" style="margin-top:10px;">Eher Schweiz (Schranken)</button>
+                    <div class="feedback-box" id="feedback-scenario1"></div>
+                </div>
+                <div id="scenario2" style="margin-top: 20px; display: none;">
+                    <div class="scenario-card">Eine Schule nutzt einen kurzen Zeitungsartikel für eine Klassen-Diskussion, was durch einen spezifischen Paragraphen im Gesetz (Art. 19 URG) erlaubt ist.</div>
+                    <button class="interactive-btn" data-correct="false">Eher USA (Fair Use)</button>
+                    <button class="interactive-btn" data-correct="true" style="margin-top:10px;">Eher Schweiz (Schranken)</button>
+                    <div class="feedback-box" id="feedback-scenario2"></div>
+                </div>`;
+            
+            let answered = 0;
+            let correctAnswers = 0;
+
+            document.querySelectorAll('#scenario1 .interactive-btn').forEach(btn => {
+                btn.onclick = () => {
+                    if (btn.parentElement.dataset.answered) return;
+                    btn.parentElement.dataset.answered = true;
+                    const isCorrect = btn.dataset.correct === 'true';
+                    if(isCorrect) correctAnswers++;
+                    
+                    document.querySelectorAll('#scenario1 .interactive-btn').forEach(b => {
+                        b.disabled = true;
+                        if(b.dataset.correct === 'true') b.classList.add('correct');
+                    });
+                    if(!isCorrect) btn.classList.add('incorrect');
+                    
+                    document.getElementById('feedback-scenario1').textContent = "Richtig! Der 4-Faktoren-Test ist das Kernstück des flexiblen US-Fair-Use-Systems.";
+                    document.getElementById('feedback-scenario1').classList.add('show');
+                    
+                    answered++;
+                    document.getElementById('scenario2').style.display = 'block';
+                };
+            });
+            
+            document.querySelectorAll('#scenario2 .interactive-btn').forEach(btn => {
+                btn.onclick = () => {
+                    if (btn.parentElement.dataset.answered) return;
+                    btn.parentElement.dataset.answered = true;
+                    const isCorrect = btn.dataset.correct === 'true';
+                    if(isCorrect) correctAnswers++;
+
+                    document.querySelectorAll('#scenario2 .interactive-btn').forEach(b => {
+                        b.disabled = true;
+                        if(b.dataset.correct === 'true') b.classList.add('correct');
+                    });
+                    if(!isCorrect) btn.classList.add('incorrect');
+                    
+                    document.getElementById('feedback-scenario2').textContent = "Richtig! Die Schweiz hat einen festen Katalog von Ausnahmen (Schranken), wie z.B. die Nutzung im Unterricht.";
+                    document.getElementById('feedback-scenario2').classList.add('show');
+                    
+                    answered++;
+                    if (answered === 2) handleActivityResult(correctAnswers === 2);
+                };
+            });
+        }
+        
+        function loadSorter(container) {
+            container.innerHTML += `
+                <div class="drag-drop-area">
+                    <div class="drag-items-pool"><h4>Regeln:</h4></div>
+                    <div class="drop-zone" data-category="Zweck"><h4>Zweck</h4></div>
+                    <div class="drop-zone" data-category="Umfang"><h4>Umfang</h4></div>
+                    <div class="drop-zone" data-category="Quelle"><h4>Quelle</h4></div>
+                </div>
+                <button class="nav-button" onclick="checkSorter()" style="margin-top:20px;">Prüfen</button>`;
+
+            const items = [
+                { text: "Nur zur Erläuterung", category: "Zweck" }, { text: "Nicht als reine Deko", category: "Zweck" },
+                { text: "Nur so viel wie nötig", category: "Umfang" }, { text: "Nicht das 'Herz' des Werks", category: "Umfang" },
+                { text: "Urheber nennen", category: "Quelle" }, { text: "Fundstelle angeben", category: "Quelle" },
+                { text: "Kritische Auseinandersetzung", category: "Zweck" }, { text: "Ganzes Bild bei Bildanalyse", category: "Umfang" }, { text: "Keine Veränderung am Zitat", category: "Quelle" }
+            ];
+            const pool = container.querySelector('.drag-items-pool');
+            items.sort(() => Math.random() - 0.5).forEach(item => {
+                const el = document.createElement('div');
+                el.className = 'drag-item';
+                el.textContent = item.text;
+                el.draggable = true;
+                el.dataset.category = item.category;
+                pool.appendChild(el);
+            });
+            
+            enableTouchDragDrop(container);
+        }
+        
+        function loadCalculator(container) {
+            const people = [
+                { name: "Hermann Hesse", death: 1962 },
+                { name: "Albert Einstein", death: 1955 }
+            ];
+            const person = people[Math.floor(Math.random() * people.length)];
+
+            container.innerHTML += `
+                <div class="scenario-card" style="text-align:center;">${person.name} starb ${person.death}. Wann werden seine Werke gemeinfrei?</div>
+                <input type="number" class="calc-input" id="deathYearInput" placeholder="Geben Sie das Todesjahr ein...">
+                <button class="nav-button" onclick="checkCalculator(${person.death})" style="margin-top:15px;">Berechnen & Prüfen</button>
+                <div id="calcResult" class="feedback-box"></div>`;
+        }
+
+        function loadQuickQuiz(container) {
+             container.innerHTML += `
+                <div class="quiz-question" id="qq1">
+                    <p><strong>1. Welche Regel gilt für einfache Schnappschüsse (ohne Kunstanspruch)?</strong></p>
+                    <div class="quiz-options">
+                        <button class="interactive-btn" data-correct="false">70 Jahre nach Tod</button>
+                        <button class="interactive-btn" data-correct="true">50 Jahre ab Herstellung</button>
+                    </div>
+                </div>
+                <div class="quiz-question" id="qq2" style="margin-top:20px;">
+                    <p><strong>2. Warum ist eine reine Idee nicht geschützt?</strong></p>
+                    <div class="quiz-options">
+                        <button class="interactive-btn" data-correct="true">Es fehlt die konkrete, individuelle Form</button>
+                        <button class="interactive-btn" data-correct="false">Weil sie nicht originell genug ist</button>
+                    </div>
+                </div>
+                 <div class="quiz-question" id="qq3" style="margin-top:20px;">
+                    <p><strong>3. Gilt die "30-Sekunden-Regel" für Musik als legale Zitatlänge?</strong></p>
+                    <div class="quiz-options">
+                        <button class="interactive-btn" data-correct="true">Nein, das ist ein Mythos. Der Zweck entscheidet.</button>
+                        <button class="interactive-btn" data-correct="false">Ja, das ist gesetzlich so festgelegt.</button>
+                    </div>
+                </div>
+                <button class="nav-button" onclick="checkQuickQuiz()" style="margin-top:20px;">Antworten prüfen</button>`;
+            
+            document.querySelectorAll('.quiz-question').forEach(q => {
+                 q.querySelectorAll('.interactive-btn').forEach(btn => {
+                     btn.addEventListener('click', () => {
+                        if(activityAnswered) return;
+                         q.querySelectorAll('.interactive-btn').forEach(b => b.classList.remove('selected'));
+                         btn.classList.add('selected');
+                     });
+                 });
+            });
+        }
+
+
+        // --- Checker Functions ---
+        
+        function checkDragDrop() {
+            if(activityAnswered) return;
+            let correctCount = 0;
+            const dropZones = document.querySelectorAll('.drop-zone');
+            const totalItems = document.querySelectorAll('.drag-item').length;
+            const totalItemsInZones = Array.from(dropZones).reduce((acc, zone) => acc + zone.querySelectorAll('.drag-item').length, 0);
+
+            dropZones.forEach(zone => {
+                zone.querySelectorAll('.drag-item').forEach(item => {
+                    const isCorrect = item.dataset.correct === zone.dataset.correct;
+                    item.classList.add(isCorrect ? 'correct' : 'incorrect');
+                    if (isCorrect) correctCount++;
+                });
+            });
+            handleActivityResult(correctCount === totalItems && totalItemsInZones === totalItems);
+        }
+        
+        function checkSorter() {
+            if(activityAnswered) return;
+            let correctCount = 0;
+            const dropZones = document.querySelectorAll('.drop-zone');
+             const totalItems = document.querySelectorAll('.drag-item').length;
+            const totalItemsInZones = Array.from(dropZones).reduce((acc, zone) => acc + zone.querySelectorAll('.drag-item').length, 0);
+
+            dropZones.forEach(zone => {
+                zone.querySelectorAll('.drag-item').forEach(item => {
+                    const isCorrect = item.dataset.category === zone.dataset.category;
+                    item.classList.add(isCorrect ? 'correct' : 'incorrect');
+                    if (isCorrect) correctCount++;
+                });
+            });
+            handleActivityResult(correctCount === totalItems && totalItemsInZones === totalItems);
+        }
+
+        function checkCalculator(correctYear) {
+            if(activityAnswered) return;
+            const input = document.getElementById('deathYearInput');
+            const resultDiv = document.getElementById('calcResult');
+            const year = parseInt(input.value);
+            const isCorrect = year === correctYear;
+            
+            resultDiv.classList.add('show');
+            const publicDomainYear = correctYear + 71;
+            
+            if(isCorrect) {
+                resultDiv.classList.add('correct');
+                resultDiv.innerHTML = `<strong>Richtig!</strong> ${correctYear} + 70 Jahre = Ende ${correctYear + 70}. Die Werke werden am 1. Januar ${publicDomainYear} gemeinfrei.`;
+            } else {
+                 resultDiv.classList.add('incorrect');
+                 resultDiv.innerHTML = `<strong>Falsch.</strong> Das korrekte Todesjahr war ${correctYear}. Die Werke werden am 1. Januar ${publicDomainYear} gemeinfrei.`;
+            }
+            handleActivityResult(isCorrect);
+        }
+        
+        function checkQuickQuiz() {
+            if(activityAnswered) return;
+            if (document.querySelectorAll('.interactive-btn.selected').length < 3) {
+                alert("Bitte beantworten Sie alle drei Fragen.");
+                return;
+            }
+            
+            let correctChecks = 0;
+            document.querySelectorAll('.quiz-question').forEach(q => {
+                const selected = q.querySelector('.selected');
+                if (selected) {
+                    const isCorrect = selected.dataset.correct === 'true';
+                    if (isCorrect) {
+                        correctChecks++;
+                    }
+                }
+                q.querySelectorAll('.interactive-btn').forEach(btn => {
+                   btn.disabled = true;
+                   const isCorrectChoice = btn.dataset.correct === 'true';
+                   if (isCorrectChoice) {
+                       btn.classList.add('correct');
+                   } else if (btn.classList.contains('selected')) {
+                       btn.classList.add('incorrect');
+                   }
+                });
+            });
+            
+            handleActivityResult(correctChecks === 3);
+        }
+
+        // --- Core Quiz Logic ---
+
+        function nextActivity() {
+            currentActivity++;
+            loadActivity();
+        }
+
+        function updateProgress() {
+            const progress = (currentActivity / activities.length) * 100;
+            const progressBarEl = document.getElementById('progressBar');
+            progressBarEl.style.width = progress + '%';
+            progressBarEl.querySelector('span').textContent = `${currentActivity} / ${activities.length}`;
+            document.getElementById('nextBtn').disabled = true;
+        }
+
+        function showResults() {
+            const maxScore = 10;
+            const percentage = Math.round((score / maxScore) * 100);
+            localStorage.setItem('quiz_urheberrecht_progress', percentage);
+            
+            document.querySelector('.quiz-card').innerHTML = `
+                <div style="text-align: center; padding: 40px;">
+                    <h2 style="color: #0050a0; font-size: 36px;">Quiz abgeschlossen! 🎉</h2>
+                    <div style="font-size: 48px; margin: 20px 0; color: #0050a0;">${score} / ${maxScore} Punkte</div>
+                    <p style="font-size: 24px; margin: 20px 0;">${percentage}% richtig!</p>
+                    <p style="font-size: 18px; margin: 20px 0;">
+                        ${percentage >= 80 ? 'Ausgezeichnet! Sie sind ein Urheberrechts-Profi!' : 'Gut gemacht! Wiederholen Sie die Lernmodule zur Festigung.'}
+                    </p>
+                    <div style="display: flex; gap: 20px; justify-content: center; margin-top: 30px;">
+                        <button class="nav-button" onclick="location.reload()">Quiz wiederholen</button>
+                        <a href="../index.html" class="nav-button">Zur Übersicht</a>
+                    </div>
+                </div>`;
+        }
+
+        window.onload = init;
+    </script>
+</body>
+</html>
+
 
